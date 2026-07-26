@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atha Arka Web</title>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+        /* Custom Font */
+        @font-face {
+            font-family: 'LemonMilk';
+            src: url('./Fonts/LEMONMILK-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'AltaHaas';
+            src: url('./Fonts/AlteHaasGroteskRegular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'BebasNeue';
+            src: url('./Fonts/BebasNeue-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'CaviarDreams';
+            src: url('./Fonts/CaviarDreams.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Cocogoose';
+            src: url('./Fonts/Cocogoose-Pro-Light-trial.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Nexa';
+            src: url('./Fonts/Nexa-ExtraLight.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Roboto-Regular';
+            src: url('./Fonts/Roboto-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Roboto-Thin';
+            src: url('./Fonts/Roboto-Thin.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Color Root & References*/
+        :root {
+            /* Warna Background Utama (Sekarang: Dark Slate/Charcoal) */
+            --bg-main: #09090b; 
+            /* Warna Kotak/Card */
+            --bg-card: rgba(255, 255, 255, 0.05); 
+            /* Warna Teks Utama (Putih Terang) */
+            --text-main: #f4f4f5; 
+            /* Warna Teks Sekunder (Abu-abu) */
+            --text-muted: #a1a1aa; 
+            /* Warna Aksen Utama (Sekarang: Cyber Lime) */
+            --accent: #d4ff00; 
+            --accent-hover: #b8e600;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            scroll-behavior: smooth; 
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Header Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(9, 9, 11, 0.8);
+
+            backdrop-filter: blur(10px); 
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        header span {
+            font-size: 18px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: 'Cocogoose';
+        }
+
+        nav a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+        }
+
+        .hero h2 {
+            color: var(--accent);
+            font-size: 20px;
+            letter-spacing: 2px;
+            margin-bottom: 180px;
+            position: absolute;
+            font-family: 'Nexa';
+        }
+
+        .hero span {
+            font-size: 42px;
+            line-height: 1.1;
+            margin-bottom: 100px;
+            font-family: 'LemonMilk';
+            position: absolute;
+            display: inline-block;
+        }
+        
+        .hero span::after {
+            content: '|'; 
+            margin-left: 1px; 
+            color: var(--accent);
+            animation: blink 0.8s infinite;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            max-width: 600px;
+            font-size: 18px;
+            margin-top: 45px;
+            position: absolute;
+            display: flex;
+            font-family: 'Roboto-Regular';
+        }
+
+        /* Hero Button */
+        .btn {
+            display: inline-block;
+            position: absolute;
+            margin-top: 200px;
+            padding: 12px 30px;
+            background-color: var(--accent);
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-3px);
+        }
+
+        .person-image {
+            display: flex;
+            width: 0px;
+            height: 50%;
+            justify-content: end;
+            position: absolute;
+            margin-left: 80%;
+            margin-bottom: 60px;
+            background-color: #b8e600;
+            animation: image 5s ease-in-out infinite;
+        }
+
+        .photo-shape {
+            display: flex;
+            width: 0px;
+            height: 50%;
+            justify-content: end;
+            position: absolute;
+            margin-top: 200px;
+            margin-left: 80%;
+        }
+
+        /* Programming Language Section */
+        .programming-language {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 150vh;
+        }
+        
+        .programming-language-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            grid-template-rows: repeat(3, 180px); 
+            gap: 10px;
+
+            padding-top: 50px;
+            justify-content: center;
+        }
+
+        .grid-container {
+            display: flex;
+            justify-content: start;
+            align-items: start;
+            background-color: rgb(61, 61, 61);
+            border: 1px rgb(207, 207, 207) solid;
+            border-radius: 10px;
+            width: 400px;
+            height: 180px;
+            padding-left: 10px;
+            padding-top: 10px;
+            gap: 10px;
+        }
+
+        .grid-container h3 {
+            font-size: 14px;
+            color: var(--text-muted);
+            position: absolute;
+            width: 380px;
+            margin-top: 10vh;
+            font-family: 'Nexa';
+        }
+
+        .programming-language-grid-icon {
+            width: 50px;
+            height: 50px;
+        }
+
+        .programming-language-progress-bar {
+            display: flex;
+            background-color: rgb(29, 29, 29);
+            width: 300px;
+            height: 2px;
+            position: absolute;
+            margin-top: 150px;
+        }
+        
+        .progress-fill {
+            display: flex;
+            background-color: var(--accent);
+            height: 2px;
+        }
+        
+        .progress-text {
+            display: flex;
+            position: absolute;
+            margin-top: 138px;
+            margin-left: 330px;
+            font-family: 'LemonMilk';
+        }
+
+        /* Project Section */
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            color: var(--accent);
+        }
+
+        .projects {
+            width: 100%;
+            height: 40vh;
+            display: flex;
+            justify-content: center;
+            align-items: start;
+        }
+
+        .projects-title {
+            text-align: center;
+            font-size: 36px;
+            color: var(--accent);
+            top: 0;
+        }
+
+        .projects-empty {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #a1a1aa;
+            font-family: 'LemonMilk';
+            letter-spacing: 10px;
+            margin-top: 20vh;
+            position: absolute;
+        }
+        
+        .grid {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px); 
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .card-tags span {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        
+        /* Education Timeline */
+        .education-history-timeline {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: fit-content;
+            padding-bottom: 200px;
+        }
+
+        .education-history-timeline h2 {
+            text-align: center;
+            font-size: 36px;
+            color: var(--accent);
+        }
+
+        .education-history-timeline-container {
+            display: flex;
+        }
+
+        .timeline {
+            display: flex;
+            width: 2px;
+            height: 500px;
+            background-color: var(--text-muted);
+            margin: 100px;
+        }
+        
+        .sd {
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            position: absolute;
+            width: 200px;
+            height: 2px;
+            background-color: var(--text-muted);
+            margin-top: 100px;
+            margin-left: -100px;
+        }
+
+        .sd img {
+            display: flex;
+            width: 50px;
+            height: 50px;
+            margin-left: -120px;
+            margin-top: -25px;
+        }
+
+        .sd h2 {
+            color: white;
+            font-size: 15px;
+            font-family: 'Nexa';
+            margin-top: 30px;
+            transform: translateX(-110px);
+        }
+
+        .sd-years {
+            position: absolute;
+            display: flex;
+            text-align: center;
+            color: var(--accent);
+            font-family: 'Nexa';
+        }
+
+        .mts {
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            position: absolute;
+            width: 200px;
+            height: 2px;
+            background-color: var(--text-muted);
+            transform: translateX(100px) translateY(320px);
+        }
+
+        .mts img {
+            display: flex;
+            width: 50px;
+            height: 50px;
+            transform: translateX(150px) translateY(-23px);
+        }
+
+        .mts h2 {
+            position: absolute;
+            color: white;
+            font-size: 15px;
+            font-family: 'Nexa';
+            width: 300px;
+            transform: translateX(150px) translateY(32px);
+        }
+
+        .mts-years {
+            position: absolute;
+            display: flex;
+            text-align: center;
+            color: var(--accent);
+            font-family: 'Nexa';
+        }
+
+        .smk {
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            position: absolute;
+            width: 200px;
+            height: 2px;
+            background-color: var(--text-muted);
+            margin-top: 598px;
+            margin-left: -100px;
+        }
+
+        .smk img {
+            display: flex;
+            width: 50px;
+            height: 50px;
+            margin-left: -300px;
+            margin-top: -25px;
+            position: absolute;
+        }
+
+        .smk h2 {
+            position: absolute;
+            color: white;
+            font-size: 15px;
+            font-family: 'Nexa';
+            margin-top: 30px;
+            transform: translateX(-145px) translateY(2px);
+        }
+
+        .smk h3 {
+            display: flex;
+            position: absolute;
+            color: white;
+            font-size: 15px;
+            font-family: 'Nexa';
+            transform: translateX(-145px) translateY(70px);
+            width: 300px;
+            height: auto;
+            text-align: center;
+        }
+
+        .smk-years {
+            position: absolute;
+            display: flex;
+            text-align: center;
+            color: var(--accent);
+            font-family: 'Nexa';
+        }
+
+        /* Certificates Section */
+        .certificates {
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            width: 100%;
+            height: 100vh;
+        }
+
+        .certificates-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30%;
+            height: 30%;
+            position: absolute;
+            margin-top: 200px;
+            gap: 0px;
+            transition: gap 0.3s ease;
+        }
+
+        .certificates h1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            font-family: 'Nexa';
+            font-size: 20px;
+            border: 2px white solid;
+            border-radius: 5px;
+            background-color: var(--text-muted);
+        }
+
+        .certificates h2 {
+            text-align: center;
+            font-size: 36px;
+            color: var(--accent);
+        }
+
+        .certificate-title img {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Contacts */
+        .contacts {
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            background-color: rgb(53, 53, 53);
+            height: 30vh;
+        }
+
+        .contacts h2 {
+            text-align: center;
+            font-size: 25px;
+            color: var(--text-muted);
+            font-family: 'Nexa';
+        }
+
+        .contacts-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            margin-top: 50px;
+            gap: 20px;
+        }
+        
+        .contacts-image-link {
+            display: inline-block;
+            overflow: hidden;
+            border-radius: 50%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contacts-image-link:hover {
+            transform: scale(1.05); 
+            border-radius: 50%;
+            box-shadow: 0 10px 25px var(--accent); 
+        }
+
+        .contacts-image-link img {
+            display: block;
+            width: 100px;
+            height: auto;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            border-top: 1px solid rgb(255, 251, 251);
+        }
+        
+        footer div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .footer-note h1 {
+            font-size: 15px;
+            font-family: 'Nexa';
+        }
+
+        /* Mobile Display */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .hero h1 { font-size: 40px; }
+            nav { display: none; }
+        }
+        
+        /* Animation */
+        @keyframes image {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }    
+        }
+
+        /* Cursor Blinking Animation */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        #projects {
+            scroll-margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header (Navigation) -->
+    <header>
+        <!-- NAMA -->
+        <span>Atha Arkananta Shaquille</span>
+        
+        <!-- NAVIGASI -->
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <!-- HELLO TEXT -->
+        <h2 data-aos="fade-right" data-aos-duration="1000">Hello, i'am an</h2>
+        
+        <!-- SKILLS -->
+        <span class="typing-text"></span>
+        
+        <!-- DESCRIPTION -->
+        <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">Saya adalah seorang siswa SMK kelas X di jurusan TKJ, memiliki ketertarikan dibidang Coding, Network dan Hardware, selengkapnya bisa lihat biodata dibawah ini</p>
+        
+        <!-- PERSON IMAGE -->
+        <div class="photo-shape" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="900">
+            <img src="Images/shape.png" alt="Error Image">
+        </div>
+        <div class="person-image" data-aos="fade-up" data-aos-duration="1000">
+            <img src="Images/MyPhoto.png" alt="Error Image">
+        </div>
+
+        <!-- LINK TO MY PORTFOLIO -->
+        <a href="#contact" class="btn" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="600">Contact</a>
+    </section>
+
+    <!-- Programming Language -->
+    <section class="programming-language">
+        <h2 class="section-title" data-aos="fade-up" data-aos-duration="1000">PROGRAMMING SKILLS</h2>
+        
+        <div class="programming-language-grid">
+            <!-- HTML -->
+            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000">
+                <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/HTMLLogo.png">
+                <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">HTML</h2>
+                <h3>Bahasa markup yang digunakan untuk menyusun struktur dan isi halaman web, seperti judul, paragraf, gambar, tabel, dan tautan.</h3>
+                <div class="programming-language-progress-bar">
+                    <div class="progress-fill" style="width: 80%;">
+
+                    </div>
+                </div>
+                <span class="progress-text">80%</span>
+            </div>
+            <!-- CSS -->
+            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/CSSLogo.png">
+                <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">CSS</h2>
+                <h3>Bahasa yang digunakan untuk mengatur tampilan halaman web, seperti warna, font, ukuran, tata letak, dan animasi agar lebih menarik.</h3>
+                <div class="programming-language-progress-bar">
+                    <div class="progress-fill" style="width: 72%;">
+
+                    </div>
+                </div>
+                <span class="progress-text">72%</span>
+            </div>
+            <!-- JavaScript -->
+            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/JavascriptLogo.png">
+                <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">JavaScript</h2>
+                <h3>Bahasa pemrograman yang digunakan untuk membuat halaman web menjadi interaktif, misalnya validasi formulir, animasi dan menu dinamis.</h3>
+                <div class="programming-language-progress-bar">
+                    <div class="progress-fill" style="width: 45%;">
+
+                    </div>
+                </div>
+                <span class="progress-text">45%</span>
+            </div>
+            <!-- Python -->
+            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+                <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/PythonLogo.png">
+                <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="600">Python</h2>
+                <h3>Bahasa pemrograman tingkat tinggi yang memiliki sintaks sederhana dan mudah dipelajari. Python banyak digunakan dalam analisis data, kecerdasan buatan (AI) dan otomatisasi</h3>
+                <div class="programming-language-progress-bar">
+                    <div class="progress-fill" style="width: 44%;">
+
+                    </div>
+                </div>
+                <span class="progress-text">44%</span>
+            </div>
+            <!-- C# -->
+            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000">
+                <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/CSLogo.png">
+                <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">C#</h2>
+                <h3>Bahasa pemrograman berorientasi objek yang dikembangkan oleh Microsoft. C# banyak digunakan untuk membuat aplikasi desktop, web (ASP.NET), game (Unity), dan aplikasi mobile.</h3>
+                <div class="programming-language-progress-bar">
+                    <div class="progress-fill" style="width: 86%;">
+
+                    </div>
+                </div>
+                <span class="progress-text">86%</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects (Portfolio) -->
+    <section class="projects" id="projects">
+        <h2 class="projects-title" data-aos="fade-up" data-aos-duration="1000">PROJECTS</h2> 
+        
+        <!-- If the projects is none -->
+        <h2 class="projects-empty" data-aos="fade-up" data-aos-duration="1000">Incoming Projects</h2>
+        
+        <div class="grid">
+            <!-- KOTAK PROJECT 1 -->
+            <a href="https://devconvert-universal-media-tool-589900092202.asia-southeast1.run.app" target="_blank" style="text-decoration: none; color: inherit;">
+                <div class="card">
+                    <!-- PROJECT TITLE -->
+                    <h3>MediaAssetConverter</h3>
+                    <!-- PROJECT DESCRIPTION -->
+                    <p>Aplikasi web universal untuk mengonversi media menggunakan teknologi WebAssembly multi-threading. 100% diproses di browser tanpa mengunggah ke server sehingga privasi terjamin</p>
+                    
+                    <!-- TAG -->
+                    <div class="card-tags">
+                        <span>WebAssembly</span>
+                        <span>FFmpeg</span>
+                        <span>Bento UI</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- KOTAK PROJECT 2 -->
+            <div class="card">
+                <!-- PROJECT TITLE -->
+                <h3>Smart Form Analytics</h3>
+                <!-- PROJECT DESCRIPTION -->
+                <p>Sistem pelaporan otomatis yang terintegrasi langsung dengan EmailJS untuk memonitor feedback dan laporan sistem secara real-time tanpa membutuhkan server backend</p>
+
+                <div class="card-tags">
+                    <span>HTML/CSS</span>
+                    <span>JavaScript</span>
+                    <span>EmailJS</span>
+                </div>
+            </div>
+
+            <!-- KOTAK PROJECT 3 -->
+            <div class="card">
+                <!-- PROJECT TITLE -->
+                <h3>Sertifikasi Profesional</h3>
+                <!-- PROJECT DESCRIPTION -->
+                <p>Kumpulan studi kasus dan proyek yang diselesaikan untuk memenuhi kualifikasi standar industri dalam pengembangan frontend modern</p>
+                <div class="card-tags">
+                    <span>Google Cloud</span>
+                    <span>Frontend</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="education-history-timeline">
+        <h2 data-aos="fade-up" data-aos-duration="1000">EDUCATION TIMELINE</h2>
+        <div class="education-history-timeline-container" data-aos="fade-left" data-aos-duration="1000">
+            <div class="sd">
+                <img src="Images/SDNLOGO.png">
+                <h2>SD Negeri 2 Mulyoharjo</h2><span class="sd-years">[2017 - 2023]</span>
+            </div>
+            <div class="mts">
+                <img src="Images/MTSLOGO.png">
+                <h2>MTs Babussalam Mulyoharjo</h2><span class="mts-years">[2023 - 2026]</span>
+            </div>
+            <div class="timeline"></div>
+            <div class="smk">
+                <img src="Images/SMEALOGO.png">
+                <h2>SMK Negeri 3 Jepara</h2><span class="smk-years">2026</span>
+                <h3>Belajar di jurusan TJKT/Teknik Jaringan Komputer dan Telekomunikasi dan mengikuti ekstrakurikuler KTI dan ECOS</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificates -->
+    <section class="certificates">
+        <h2 data-aos="fade-up" data-aos-duration="1000">CERTIFICATES</h2>
+        <div class="certificates-container" data-aos="fade-up" data-aos-duration="1000">
+            <div class="certificate-title">
+                <img src="Images/JuaraVibeCoding.jpeg" data-zoomable width="250">
+                <h1>JuaraVibeCoding - GoogleCloudEvent</h1>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contacts -->
+    <section class="contacts" id="contact">
+        <h2>LET'S CONNECT</h2>
+        <div class="contacts-container">
+            <div class="email" data-aos="fade-up" data-aos-duration="1000">
+                <a href="athaarkananta1111@gmail.com" target="_blank" class="contacts-image-link">
+                    <img src="Images/email icon.png">   
+                </a>
+            </div>
+            <div class="github" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+                <a href="https://github.com/NantaArka" target="_blank" class="contacts-image-link">
+                    <img src="Images/Github.png">
+                </a>
+            </div>
+            <div class="instagram" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+                <a href="https://www.instagram.com/arknntashqul?igsh=MWNhOHo5djJiZG1pbw==" target="_blank" class="contacts-image-link">
+                    <img src="Images/Instagram icon.png">
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER & CONTACT -->
+    <footer id="footer">
+        <!-- FOOTER -->
+        <p>&copy; 2026 Atha. All Rights Reserved</p>
+        <div class="footer-note">
+            <h1>[This website was created without using AI]</h1>
+        </div>
+    </footer>
+
+    <!-- Script (JavaScript) -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script>
+    <script>
+        mediumZoom('[data-zoomable]');
+        // Shadow Effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.5)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+        });
+        
+        // Typing Text Logic
+        const words = ["Atha Arkananta Shaquille", "Informatics Student"];
+
+        function jalankanEfekKetik(elemen) {
+            let wordIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function type() {
+                const currentWord = words[wordIndex];
+                
+                if (isDeleting) {
+                elemen.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+                } else {
+                elemen.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+                }
+
+                let typingSpeed = isDeleting ? 50 : 100;
+
+                if (!isDeleting && charIndex === currentWord.length) {
+                typingSpeed = 3000; 
+                isDeleting = true;
+                } 
+                else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typingSpeed = 500; 
+                }
+
+                setTimeout(type, typingSpeed);
+            }
+
+            type();
+        }
+
+            document.addEventListener("DOMContentLoaded", () => {
+            const semuaKomponenTeks = document.querySelectorAll('.typing-text');
+            
+            semuaKomponenTeks.forEach((elemen) => {
+                jalankanEfekKetik(elemen);
+            });
+        });
+
+        AOS.init({
+            // Opsional Settings:
+            once: false, // set 'true' jika animasi hanya ingin diputar 1x
+            mirror: false // set 'true' agar animasi muncul lagi saat di-scroll balik ke atas
+        });
+    </script>
+
+</body>
+</html>
