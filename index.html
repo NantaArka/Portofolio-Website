@@ -605,24 +605,11 @@
             font-family: 'Nexa';
         }
 
-        /* Mobile Display */
-        @media (max-width: 768px) {
-            header { padding: 15px 20px; }
-            .hero h1 { font-size: 40px; }
-            nav { display: none; }
-        }
-        
         /* Animation */
         @keyframes image {
-            0% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0px);
-            }    
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }    
         }
 
         /* Cursor Blinking Animation */
@@ -633,6 +620,122 @@
 
         #projects {
             scroll-margin-top: 100px;
+        }
+
+        /* ========================================================================= */
+        /* MOBILE DISPLAY OVERRIDES (Desktop dibiarkan aman 100% sesuai instruksi)   */
+        /* ========================================================================= */
+        @media (max-width: 768px) {
+            /* General Reset & Layout */
+            body { overflow-x: hidden; }
+            section { height: auto !important; min-height: auto !important; padding: 100px 20px 40px 20px !important; overflow: hidden; }
+
+            /* Header - Stack items automatically */
+            header { padding: 15px; flex-direction: column; gap: 15px; }
+            header span { font-size: 16px; text-align: center; }
+            nav { display: flex !important; justify-content: center; flex-wrap: wrap; gap: 15px; width: 100%; margin: 0; padding: 0; }
+            nav a { margin-left: 0; font-size: 14px; }
+
+            /* Hero Section - Fix overlap & position conflicts */
+            .hero { justify-content: center; padding-top: 160px !important; align-items: center; text-align: center; flex-direction: column; }
+            .hero h2, .hero span, .hero p, .btn, .photo-shape, .person-image {
+                position: relative !important;
+                margin: 0 !important;
+                transform: none !important;
+                left: auto; right: auto; top: auto; bottom: auto;
+                width: auto; height: auto;
+            }
+            .hero h2 { margin-bottom: 10px !important; font-size: 16px; }
+            .hero span { font-size: 26px; margin-bottom: 15px !important; display: block; }
+            .hero p { display: block; margin-top: 20px !important; font-size: 14px; max-width: 100%; text-align: center; }
+            .btn { margin-top: 30px !important; margin-bottom: 40px !important; }
+            /* Images in Hero */
+            .photo-shape { display: none; } /* Disembunyikan khusus di HP agar rapi dan tidak bocor ke samping */
+            .person-image { display: none; width: 180px; height: 180px; margin: 0 auto !important; justify-content: center; background-color: #a1a1aa00; }
+            .person-image img { width: 100%; height: auto; object-fit: contain; }
+
+            /* Programming Language Section - Force 1 Column */
+            .programming-language-grid {
+                grid-template-columns: 1fr; 
+                grid-template-rows: auto;
+                gap: 20px;
+                padding-top: 30px;
+                width: 100%;
+            }
+            .grid-container {
+                width: 100%;
+                height: auto;
+                min-height: 180px;
+                position: relative;
+                padding: 15px;
+                padding-bottom: 60px; /* Space for the progress bar at the bottom */
+                display: flex;
+                flex-direction: column;
+            }
+            .grid-container h3 { position: relative; width: 100%; margin-top: 15px; font-size: 13px; transform: none; }
+            .programming-language-progress-bar { position: absolute; bottom: 25px; margin-top: 0; width: calc(100% - 70px); left: 15px; }
+            .progress-text { position: absolute; bottom: 13px; margin-top: 0; margin-left: 0; right: 15px; }
+
+            /* Projects Section */
+            .projects-empty { position: absolute; margin-top: 110px; font-size: 18px; letter-spacing: 5px; text-align: center; }
+
+            /* Education Timeline - Restructure to simple Vertical Line */
+            .education-history-timeline-container { 
+                flex-direction: column; 
+                width: 100%; 
+                position: relative; 
+                margin-top: 40px; 
+                margin-left: 0; 
+                padding-left: 20px; 
+            }
+            .timeline { 
+                position: absolute; 
+                left: 20px; 
+                top: 0; 
+                width: 2px; 
+                height: 100%; 
+                margin: 0; 
+                background: linear-gradient(to bottom, var(--accent), var(--text-muted)); 
+            }
+            .sd, .mts, .smk { 
+                position: relative; 
+                width: 100%; 
+                height: auto; 
+                margin: 0 0 40px 0 !important; 
+                background: transparent; 
+                transform: none !important; 
+                flex-direction: column; 
+                padding-left: 40px; 
+                align-items: flex-start; 
+                justify-content: flex-start; 
+            }
+            /* Bulatan/Icon di garis vertikal */
+            .sd img, .mts img, .smk img { 
+                position: absolute; 
+                left: -14px; 
+                top: 0; 
+                width: 30px; 
+                height: 30px; 
+                margin: 0 !important; 
+                transform: none !important; 
+                background: var(--bg-main); 
+                border-radius: 50%; 
+                z-index: 2; 
+                border: 2px solid var(--accent); 
+            }
+            .sd h2, .mts h2, .smk h2 { position: relative; transform: none !important; margin: 0 !important; width: 100% !important; font-size: 16px; text-align: left; }
+            .smk h3 { position: relative; transform: none !important; margin: 10px 0 0 0 !important; width: 100% !important; font-size: 13px; text-align: left; }
+            .sd-years, .mts-years, .smk-years { position: relative; margin-top: 5px; transform: none !important; text-align: left; font-size: 14px; }
+
+            /* Certificates Section */
+            .certificates-container { position: relative; width: 100%; height: 40vh; margin-top: 40px; flex-direction: column; }
+            .certificate-title { width: 100%; }
+            .certificate-title h1 { position: absolute; font-size: 12px; text-align: center; margin-top: 15px; padding: 10px; }
+            .certificates h2 { position: absolute;}
+
+            /* Contacts Section */
+            .contacts-container { position: relative; margin-top: 40px; flex-wrap: wrap; gap: 20px; }
+            .contacts-image-link img { width: 60px; }
         }
     </style>
 </head>
@@ -664,7 +767,7 @@
         
         <!-- PERSON IMAGE -->
         <div class="photo-shape" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="900">
-            <img src="Images/shape.png" alt="Error Image">
+            <img src="Images/Shape.png" alt="Error Image">
         </div>
         <div class="person-image" data-aos="fade-up" data-aos-duration="1000">
             <img src="Images/MyPhoto.png" alt="Error Image">
