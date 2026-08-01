@@ -286,7 +286,7 @@
 
         .projects {
             width: 100%;
-            height: 40vh;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: start;
@@ -300,7 +300,7 @@
         }
 
         .projects-empty {
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
             color: #a1a1aa;
@@ -311,15 +311,19 @@
         }
         
         .grid {
-            display: none;
+            display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
+            position: absolute;
+            margin-top: 100px;
         }
 
         .card {
             background: var(--bg-card);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
+            width: 450px;
+            height: fit-content;
             padding: 30px;
             transition: transform 0.3s, border-color 0.3s;
         }
@@ -347,6 +351,17 @@
             border-radius: 20px;
             font-size: 12px;
             margin-right: 8px;
+        }
+
+        .card-status span {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 8px;
+            margin-top: 10px;
         }
         
         /* Education Timeline */
@@ -622,9 +637,7 @@
             scroll-margin-top: 100px;
         }
 
-        /* ========================================================================= */
-        /* MOBILE DISPLAY OVERRIDES (Desktop dibiarkan aman 100% sesuai instruksi)   */
-        /* ========================================================================= */
+        /* Mobile Display [IMPORTANT] */
         @media (max-width: 768px) {
             /* General Reset & Layout */
             body { overflow-x: hidden; }
@@ -833,7 +846,7 @@
             <!-- C# -->
             <div class="grid-container" data-aos="fade-up" data-aos-duration="1000">
                 <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/CSLogo.png">
-                <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">C#</h2>
+                <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">C# Unity</h2>
                 <h3>Bahasa pemrograman berorientasi objek yang dikembangkan oleh Microsoft. C# banyak digunakan untuk membuat aplikasi desktop, web (ASP.NET), game (Unity), dan aplikasi mobile.</h3>
                 <div class="programming-language-progress-bar">
                     <div class="progress-fill" style="width: 86%;">
@@ -854,45 +867,22 @@
         
         <div class="grid">
             <!-- KOTAK PROJECT 1 -->
-            <a href="https://devconvert-universal-media-tool-589900092202.asia-southeast1.run.app" target="_blank" style="text-decoration: none; color: inherit;">
-                <div class="card">
-                    <!-- PROJECT TITLE -->
-                    <h3>MediaAssetConverter</h3>
-                    <!-- PROJECT DESCRIPTION -->
-                    <p>Aplikasi web universal untuk mengonversi media menggunakan teknologi WebAssembly multi-threading. 100% diproses di browser tanpa mengunggah ke server sehingga privasi terjamin</p>
-                    
-                    <!-- TAG -->
-                    <div class="card-tags">
-                        <span>WebAssembly</span>
-                        <span>FFmpeg</span>
-                        <span>Bento UI</span>
-                    </div>
-                </div>
-            </a>
-
-            <!-- KOTAK PROJECT 2 -->
             <div class="card">
                 <!-- PROJECT TITLE -->
-                <h3>Smart Form Analytics</h3>
+                <h3>Class Website X TJKT 1</h3>
                 <!-- PROJECT DESCRIPTION -->
-                <p>Sistem pelaporan otomatis yang terintegrasi langsung dengan EmailJS untuk memonitor feedback dan laporan sistem secara real-time tanpa membutuhkan server backend</p>
-
+                <p>Website profil kelas untuk mendeskripsikan apa saja isi dari kelas X TJKT 1</p>
+                
+                <!-- TAG -->
                 <div class="card-tags">
-                    <span>HTML/CSS</span>
-                    <span>JavaScript</span>
-                    <span>EmailJS</span>
+                    <span>HTML</span>
+                    <span>CSS</span>
+                    <span>JS</span>
                 </div>
-            </div>
 
-            <!-- KOTAK PROJECT 3 -->
-            <div class="card">
-                <!-- PROJECT TITLE -->
-                <h3>Sertifikasi Profesional</h3>
-                <!-- PROJECT DESCRIPTION -->
-                <p>Kumpulan studi kasus dan proyek yang diselesaikan untuk memenuhi kualifikasi standar industri dalam pengembangan frontend modern</p>
-                <div class="card-tags">
-                    <span>Google Cloud</span>
-                    <span>Frontend</span>
+                <!-- STATUS -->
+                <div class="card-status">
+                    <span>Under development</span>
                 </div>
             </div>
         </div>
