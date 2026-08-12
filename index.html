@@ -220,68 +220,100 @@
             justify-content: center;
             align-items: center;
             width: 100%;
-            height: 150vh;
+            min-height: 100vh; /* Gunakan min-height agar fleksibel jika konten banyak */
+            padding: 60px 20px;
+            box-sizing: border-box;
         }
-        
+
+        /* GRID CONTAINER */
         .programming-language-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr; 
-            grid-template-rows: repeat(3, 180px); 
-            gap: 10px;
-
-            padding-top: 50px;
-            justify-content: center;
+            /* Otomatis 2 kolom di desktop, 1 kolom di HP tanpa media query */
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); 
+            gap: 20px;
+            width: 100%;
+            max-width: 900px; /* Batas lebar maksimal seluruh grid */
+            margin-top: 30px;
         }
 
+        /* KARTU INDIVIDUAL */
         .grid-container {
+            background-color: rgb(45, 45, 45);
+            border: 1px solid rgba(207, 207, 207, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            box-sizing: border-box;
+            
+            /* FLEKSIBEL: Menyusun isi kartu secara vertikal */
             display: flex;
-            justify-content: start;
-            align-items: start;
-            background-color: rgb(61, 61, 61);
-            border: 1px rgb(207, 207, 207) solid;
-            border-radius: 10px;
-            width: 400px;
-            height: 180px;
-            padding-left: 10px;
-            padding-top: 10px;
-            gap: 10px;
+            flex-direction: column;
+            gap: 15px;
+            
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
 
-        .grid-container h3 {
-            font-size: 14px;
-            color: var(--text-muted);
-            position: absolute;
-            width: 380px;
-            margin-top: 10vh;
-            font-family: 'Nexa';
+        .grid-container:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        /* 1. HEADER (IKON + JUDUL) */
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .programming-language-grid-icon {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+        }
+
+        .card-header h2 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: #ffffff;
+        }
+
+        /* 2. DESKRIPSI TEKS */
+        .card-desc {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            font-family: 'Nexa', sans-serif;
+            line-height: 1.5;
+            margin: 0;
+            flex-grow: 1; /* Mendorong progress bar agar selalu berada di paling bawah kartu */
+        }
+
+        /* 3. PROGRESS BAR & PERSEN */
+        .progress-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: auto; /* Kunci agar bagian ini selalu menempel di dasar kartu */
         }
 
         .programming-language-progress-bar {
-            display: flex;
-            background-color: rgb(29, 29, 29);
-            width: 300px;
-            height: 2px;
-            position: absolute;
-            margin-top: 150px;
+            flex: 1; /* Mengisi sisa ruang horizontal secara otomatis */
+            background-color: rgb(25, 25, 25);
+            height: 6px;
+            border-radius: 10px;
+            overflow: hidden;
         }
-        
+
         .progress-fill {
-            display: flex;
             background-color: var(--accent);
-            height: 2px;
+            height: 100%;
+            border-radius: 10px;
         }
-        
+
         .progress-text {
-            display: flex;
-            position: absolute;
-            margin-top: 138px;
-            margin-left: 330px;
-            font-family: 'LemonMilk';
+            font-size: 13px;
+            font-weight: bold;
+            font-family: 'LemonMilk', sans-serif;
+            color: #ffffff;
+            white-space: nowrap; /* Mencegah persen turun baris */
         }
 
         /* ========================================== */
@@ -296,7 +328,7 @@
         /* 1. CONTAINER UTAMA SECTION PROJECTS */
         .projects {
             display: flex;
-            flex-direction: column; /* Memaksa Judul, Subtitle, dan Grid tersusun ke BISA/BAWAH */
+            flex-direction: column;  /* Memaksa Judul, Subtitle, dan Grid tersusun ke BISA/BAWAH */
             align-items: center;     /* Membuat seluruh konten berada di tengah secara horizontal */
             width: 100%;
             padding: 60px 20px;
@@ -848,63 +880,98 @@
         <div class="programming-language-grid">
             <!-- HTML -->
             <div class="grid-container" data-aos="fade-up" data-aos-duration="1000">
-                <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/HTMLLogo.png">
-                <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">HTML</h2>
-                <h3>Bahasa markup yang digunakan untuk menyusun struktur dan isi halaman web, seperti judul, paragraf, gambar, tabel, dan tautan.</h3>
-                <div class="programming-language-progress-bar">
-                    <div class="progress-fill" style="width: 80%;">
-
-                    </div>
+                <!-- HEADER (IKON + JUDUL) -->
+                <div class="card-header">
+                    <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/HTMLLogo.png" alt="HTML Logo">
+                    <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">HTML</h2>
                 </div>
-                <span class="progress-text">80%</span>
+                
+                <!-- DESKRIPSI -->
+                <p class="card-desc">Bahasa markup yang digunakan untuk menyusun struktur dan isi halaman web, seperti judul, paragraf, gambar, tabel, dan tautan.</p>
+                
+                <!-- PROGRESS BAR & PERSEN -->
+                <div class="progress-wrapper">
+                    <div class="programming-language-progress-bar">
+                        <div class="progress-fill" style="width: 70%;"></div>
+                    </div>
+                    <span class="progress-text">70%</span>
+                </div>
             </div>
             <!-- CSS -->
-            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
-                <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/CSSLogo.png">
-                <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">CSS</h2>
-                <h3>Bahasa yang digunakan untuk mengatur tampilan halaman web, seperti warna, font, ukuran, tata letak, dan animasi agar lebih menarik.</h3>
-                <div class="programming-language-progress-bar">
-                    <div class="progress-fill" style="width: 72%;">
-
-                    </div>
+            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000">
+                <!-- HEADER (IKON + JUDUL) -->
+                <div class="card-header">
+                    <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/CSSLogo.png" alt="HTML Logo">
+                    <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">CSS</h2>
                 </div>
-                <span class="progress-text">72%</span>
+                
+                <!-- DESKRIPSI -->
+                <p class="card-desc">Bahasa yang digunakan untuk mengatur tampilan halaman web, seperti warna, font, ukuran, tata letak, dan animasi agar lebih menarik.</p>
+                
+                <!-- PROGRESS BAR & PERSEN -->
+                <div class="progress-wrapper">
+                    <div class="programming-language-progress-bar">
+                        <div class="progress-fill" style="width: 45%;"></div>
+                    </div>
+                    <span class="progress-text">45%</span>
+                </div>
             </div>
             <!-- JavaScript -->
-            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
-                <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/JavascriptLogo.png">
-                <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">JavaScript</h2>
-                <h3>Bahasa pemrograman yang digunakan untuk membuat halaman web menjadi interaktif, misalnya validasi formulir, animasi dan menu dinamis.</h3>
-                <div class="programming-language-progress-bar">
-                    <div class="progress-fill" style="width: 45%;">
-
-                    </div>
+            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000">
+                <!-- HEADER (IKON + JUDUL) -->
+                <div class="card-header">
+                    <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/JavascriptLogo.png" alt="HTML Logo">
+                    <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">JavaScript</h2>
                 </div>
-                <span class="progress-text">45%</span>
+                
+                <!-- DESKRIPSI -->
+                <p class="card-desc">Bahasa pemrograman yang digunakan untuk membuat halaman web menjadi interaktif, misalnya validasi formulir, animasi dan menu dinamis.</p>
+                
+                <!-- PROGRESS BAR & PERSEN -->
+                <div class="progress-wrapper">
+                    <div class="programming-language-progress-bar">
+                        <div class="progress-fill" style="width: 30%;"></div>
+                    </div>
+                    <span class="progress-text">30%</span>
+                </div>
             </div>
             <!-- Python -->
-            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
-                <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/PythonLogo.png">
-                <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="600">Python</h2>
-                <h3>Bahasa pemrograman tingkat tinggi yang memiliki sintaks sederhana dan mudah dipelajari. Python banyak digunakan dalam analisis data, kecerdasan buatan (AI) dan otomatisasi</h3>
-                <div class="programming-language-progress-bar">
-                    <div class="progress-fill" style="width: 44%;">
-
-                    </div>
+            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000">
+                <!-- HEADER (IKON + JUDUL) -->
+                <div class="card-header">
+                    <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/PythonLogo.png" alt="HTML Logo">
+                    <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">Python</h2>
                 </div>
-                <span class="progress-text">44%</span>
+                
+                <!-- DESKRIPSI -->
+                <p class="card-desc">Bahasa pemrograman tingkat tinggi yang memiliki sintaks sederhana dan mudah dipelajari. Python banyak digunakan dalam analisis data, kecerdasan buatan (AI) dan otomatisasi</p>
+                
+                <!-- PROGRESS BAR & PERSEN -->
+                <div class="progress-wrapper">
+                    <div class="programming-language-progress-bar">
+                        <div class="progress-fill" style="width: 35%;"></div>
+                    </div>
+                    <span class="progress-text">35%</span>
+                </div>
             </div>
             <!-- C# -->
             <div class="grid-container" data-aos="fade-up" data-aos-duration="1000">
-                <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/CSLogo.png">
-                <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">C# Unity</h2>
-                <h3>Bahasa pemrograman berorientasi objek yang dikembangkan oleh Microsoft. C# banyak digunakan untuk membuat aplikasi desktop, web (ASP.NET), game (Unity), dan aplikasi mobile.</h3>
-                <div class="programming-language-progress-bar">
-                    <div class="progress-fill" style="width: 86%;">
-
-                    </div>
+                <!-- HEADER (IKON + JUDUL) -->
+                <div class="card-header">
+                    <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/CSLogo.png" alt="HTML Logo">
+                    <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">C#</h2>
                 </div>
-                <span class="progress-text">86%</span>
+                
+                <!-- DESKRIPSI -->
+                <p class="card-desc">Bahasa pemrograman berorientasi objek yang dikembangkan oleh Microsoft. C# banyak digunakan untuk membuat aplikasi desktop, web (ASP.NET), game (Unity), dan aplikasi mobile.</p>
+                
+                <!-- PROGRESS BAR & PERSEN -->
+                <div class="progress-wrapper">
+                    <div class="programming-language-progress-bar">
+                        <div class="progress-fill" style="width: 80%;"></div>
+                    </div>
+                    <span class="progress-text">80%</span>
+                </div>
             </div>
         </div>
     </section>
@@ -941,6 +1008,9 @@
         </div>
     </section>
 
+    <!-- ========================================== -->
+    <!-- EDUCATION HISTORY                          -->
+    <!-- ========================================== -->
     <section class="education-history-timeline">
         <h2 data-aos="fade-up" data-aos-duration="1000">EDUCATION TIMELINE</h2>
         <div class="education-history-timeline-container" data-aos="fade-left" data-aos-duration="1000">
@@ -1004,9 +1074,6 @@
     <footer id="footer">
         <!-- FOOTER -->
         <p>&copy; 2026 Atha. All Rights Reserved</p>
-        <div class="footer-note">
-            <h1>[This website was created without using AI]</h1>
-        </div>
     </footer>
 
     <!-- ========================================== -->
