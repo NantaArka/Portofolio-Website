@@ -1,1149 +1,1549 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atha Arka Web</title>
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-    <style>
-        /* Custom Font */
-        @font-face {
-            font-family: 'LemonMilk';
-            src: url('./Fonts/LEMONMILK-Regular.otf') format('opentype');
-            font-weight: normal;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: 'AltaHaas';
-            src: url('./Fonts/AlteHaasGroteskRegular.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: 'BebasNeue';
-            src: url('./Fonts/BebasNeue-Regular.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: 'CaviarDreams';
-            src: url('./Fonts/CaviarDreams.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: 'Cocogoose';
-            src: url('./Fonts/Cocogoose-Pro-Light-trial.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: 'Nexa';
-            src: url('./Fonts/Nexa-ExtraLight.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: 'Roboto-Regular';
-            src: url('./Fonts/Roboto-Regular.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-        @font-face {
-            font-family: 'Roboto-Thin';
-            src: url('./Fonts/Roboto-Thin.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        /* ========================================== */
-        /* ROOT COLOR                                 */ 
-        /* ========================================== */
-        :root {
-            /* Warna Background Utama (Sekarang: Dark Slate/Charcoal) */
-            --bg-main: #09090b; 
-            /* Warna Kotak/Card */
-            --bg-card: rgba(255, 255, 255, 0.05); 
-            /* Warna Teks Utama (Putih Terang) */
-            --text-main: #f4f4f5; 
-            /* Warna Teks Sekunder (Abu-abu) */
-            --text-muted: #a1a1aa; 
-            /* Warna Aksen Utama (Sekarang: Cyber Lime) */
-            --accent: #d4ff00; 
-            --accent-hover: #b8e600;
-            --completed-project: rgb(76, 76, 255);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            scroll-behavior: smooth; 
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-
-        /* Header Navigation */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(9, 9, 11, 0.8);
-
-            backdrop-filter: blur(10px); 
-            z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        header span {
-            font-size: 18px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-family: 'Cocogoose';
-        }
-
-        nav a {
-            color: var(--text-main);
-            text-decoration: none;
-            margin-left: 30px;
-            font-size: 16px;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--accent);
-        }
-
-        /* ========================================== */
-        /* HERO SECTION CSS                           */ 
-        /* ========================================== */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 10%;
-        }
-
-        .hero h2 {
-            color: var(--accent);
-            font-size: 20px;
-            letter-spacing: 2px;
-            margin-bottom: 180px;
-            position: absolute;
-            font-family: 'Nexa';
-        }
-
-        .hero span {
-            font-size: 42px;
-            line-height: 1.1;
-            margin-bottom: 100px;
-            font-family: 'LemonMilk';
-            position: absolute;
-            display: inline-block;
-        }
-        
-        .hero span::after {
-            content: '|'; 
-            margin-left: 1px; 
-            color: var(--accent);
-            animation: blink 0.8s infinite;
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            max-width: 600px;
-            font-size: 18px;
-            margin-top: 45px;
-            position: absolute;
-            display: flex;
-            font-family: 'Roboto-Regular';
-        }
-
-        /* Hero Button */
-        .btn {
-            display: inline-block;
-            position: absolute;
-            margin-top: 200px;
-            padding: 12px 30px;
-            background-color: var(--accent);
-            color: #000;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 8px;
-            transition: transform 0.3s, background-color 0.3s;
-        }
-
-        .btn:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-3px);
-        }
-
-        .person-image {
-            display: flex;
-            width: 0px;
-            height: 50%;
-            justify-content: end;
-            position: absolute;
-            margin-left: 80%;
-            margin-bottom: 60px;
-            background-color: #b8e600;
-            animation: image 5s ease-in-out infinite;
-        }
-
-        .photo-shape {
-            display: flex;
-            width: 0px;
-            height: 50%;
-            justify-content: end;
-            position: absolute;
-            margin-top: 200px;
-            margin-left: 80%;
-        }
-
-        /* ========================================== */
-        /* PROGRAMMING LANGUAGE SECTION CSS           */ 
-        /* ========================================== */
-        .programming-language {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            min-height: 100vh; /* Gunakan min-height agar fleksibel jika konten banyak */
-            padding: 60px 20px;
-            box-sizing: border-box;
-        }
-
-        /* GRID CONTAINER */
-        .programming-language-grid {
-            display: grid;
-            /* Otomatis 2 kolom di desktop, 1 kolom di HP tanpa media query */
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); 
-            gap: 20px;
-            width: 100%;
-            max-width: 900px; /* Batas lebar maksimal seluruh grid */
-            margin-top: 30px;
-        }
-
-        /* KARTU INDIVIDUAL */
-        .grid-container {
-            background-color: rgb(45, 45, 45);
-            border: 1px solid rgba(207, 207, 207, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            box-sizing: border-box;
-            
-            /* FLEKSIBEL: Menyusun isi kartu secara vertikal */
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .grid-container:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-
-        /* 1. HEADER (IKON + JUDUL) */
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .programming-language-grid-icon {
-            width: 45px;
-            height: 45px;
-            object-fit: contain;
-        }
-
-        .card-header h2 {
-            font-size: 1.5rem;
-            margin: 0;
-            color: #ffffff;
-        }
-
-        /* 2. DESKRIPSI TEKS */
-        .card-desc {
-            font-size: 13.5px;
-            color: var(--text-muted);
-            font-family: 'Nexa', sans-serif;
-            line-height: 1.5;
-            margin: 0;
-            flex-grow: 1; /* Mendorong progress bar agar selalu berada di paling bawah kartu */
-        }
-
-        /* 3. PROGRESS BAR & PERSEN */
-        .progress-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: auto; /* Kunci agar bagian ini selalu menempel di dasar kartu */
-        }
-
-        .programming-language-progress-bar {
-            flex: 1; /* Mengisi sisa ruang horizontal secara otomatis */
-            background-color: rgb(25, 25, 25);
-            height: 6px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            background-color: var(--accent);
-            height: 100%;
-            border-radius: 10px;
-        }
-
-        .progress-text {
-            font-size: 13px;
-            font-weight: bold;
-            font-family: 'LemonMilk', sans-serif;
-            color: #ffffff;
-            white-space: nowrap; /* Mencegah persen turun baris */
-        }
-
-        /* ========================================== */
-        /* PROJECTS SECTION CSS                       */ 
-        /* ========================================== */
-        .section-title {
-            text-align: center;
-            font-size: 36px;
-            color: var(--accent);
-        }
-
-        /* 1. CONTAINER UTAMA SECTION PROJECTS */
-        .projects {
-            display: flex;
-            flex-direction: column;  /* Memaksa Judul, Subtitle, dan Grid tersusun ke BISA/BAWAH */
-            align-items: center;     /* Membuat seluruh konten berada di tengah secara horizontal */
-            width: 100%;
-            padding: 60px 20px;
-            box-sizing: border-box;
-        }
-
-        /* 2. JUDUL PROJECTS */
-        .projects-title {
-            font-size: 36px;
-            color: var(--accent);
-            text-align: center;
-            margin: 0 0 10px 0;
-        }
-
-        .projects-empty {
-            display: none;
-            color: var(--text-muted);
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        /* 3. GRID CONTAINER */
-        .grid {
-            display: grid;
-            /* Setiap kolom berukuran maksimal 450px, kalau di HP menyesuaikan lebar layar */
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 450px));
-            justify-content: center; /* Menjaga kartu tetap di tengah jika project baru ada 1 */
-            gap: 25px;
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 20px;
-        }
-
-        /* 4. KARTU PROJECT */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--completed-project);
-            border-radius: 16px;
-            
-            /* KUNCI UKURAN: Maksimal 450px (seperti awal), tapi di HP 100% responsif */
-            width: 100%;
-            max-width: 450px;
-            
-            padding: 25px;
-            box-sizing: border-border-box;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .card:hover {
-            transform: translateY(-8px); 
-            border-color: var(--accent);
-        }
-
-        .card h3 {
-            font-size: 22px;
-            margin: 0;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            margin: 0;
-            line-height: 1.5;
-        }
-
-        /* TAGS & STATUS */
-        .card-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: auto;
-        }
-
-        .card-tags span,
-        .card-status span {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--accent);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-
-        .card-status {
-            display: flex;
-        }
-
-        .card-status a {
-            display: flex;
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--accent);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-        
-        /* ========================================== */
-        /* EDUCATION HISTORY CSS                      */ 
-        /* ========================================== */
-        .education-history-timeline {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: fit-content;
-            padding-bottom: 200px;
-        }
-
-        .education-history-timeline h2 {
-            text-align: center;
-            font-size: 36px;
-            color: var(--accent);
-        }
-
-        .education-history-timeline-container {
-            display: flex;
-        }
-
-        .timeline {
-            display: flex;
-            width: 2px;
-            height: 500px;
-            background-color: var(--text-muted);
-            margin: 100px;
-        }
-        
-        .sd {
-            display: flex;
-            justify-content: center;
-            align-items: start;
-            position: absolute;
-            width: 200px;
-            height: 2px;
-            background-color: var(--text-muted);
-            margin-top: 100px;
-            margin-left: -100px;
-        }
-
-        .sd img {
-            display: flex;
-            width: 50px;
-            height: 50px;
-            margin-left: -120px;
-            margin-top: -25px;
-        }
-
-        .sd h2 {
-            color: white;
-            font-size: 15px;
-            font-family: 'Nexa';
-            margin-top: 30px;
-            transform: translateX(-110px);
-        }
-
-        .sd-years {
-            position: absolute;
-            display: flex;
-            text-align: center;
-            color: var(--accent);
-            font-family: 'Nexa';
-        }
-
-        .mts {
-            display: flex;
-            justify-content: center;
-            align-items: start;
-            position: absolute;
-            width: 200px;
-            height: 2px;
-            background-color: var(--text-muted);
-            transform: translateX(100px) translateY(320px);
-        }
-
-        .mts img {
-            display: flex;
-            width: 50px;
-            height: 50px;
-            transform: translateX(150px) translateY(-23px);
-        }
-
-        .mts h2 {
-            position: absolute;
-            color: white;
-            font-size: 15px;
-            font-family: 'Nexa';
-            width: 300px;
-            transform: translateX(150px) translateY(32px);
-        }
-
-        .mts-years {
-            position: absolute;
-            display: flex;
-            text-align: center;
-            color: var(--accent);
-            font-family: 'Nexa';
-        }
-
-        .smk {
-            display: flex;
-            justify-content: center;
-            align-items: start;
-            position: absolute;
-            width: 200px;
-            height: 2px;
-            background-color: var(--text-muted);
-            margin-top: 598px;
-            margin-left: -100px;
-        }
-
-        .smk img {
-            display: flex;
-            width: 50px;
-            height: 50px;
-            margin-left: -300px;
-            margin-top: -25px;
-            position: absolute;
-        }
-
-        .smk h2 {
-            position: absolute;
-            color: white;
-            font-size: 15px;
-            font-family: 'Nexa';
-            margin-top: 30px;
-            transform: translateX(-145px) translateY(2px);
-        }
-
-        .smk h3 {
-            display: flex;
-            position: absolute;
-            color: white;
-            font-size: 15px;
-            font-family: 'Nexa';
-            transform: translateX(-145px) translateY(70px);
-            width: 300px;
-            height: auto;
-            text-align: center;
-        }
-
-        .smk-years {
-            position: absolute;
-            display: flex;
-            text-align: center;
-            color: var(--accent);
-            font-family: 'Nexa';
-        }
-
-        /* ========================================== */
-        /* CERTIFICATE CSS                            */ 
-        /* ========================================== */
-        .certificates {
-            display: flex;
-            justify-content: center;
-            align-items: start;
-            width: 100%;
-            height: 100vh;
-        }
-
-        .certificates-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 30%;
-            height: 30%;
-            position: absolute;
-            margin-top: 200px;
-            gap: 0px;
-            transition: gap 0.3s ease;
-        }
-
-        .certificates h1 {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            font-family: 'Nexa';
-            font-size: 20px;
-            border: 2px white solid;
-            border-radius: 5px;
-            background-color: var(--text-muted);
-        }
-
-        .certificates h2 {
-            text-align: center;
-            font-size: 36px;
-            color: var(--accent);
-        }
-
-        .certificate-title img {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* ========================================== */
-        /* CONTACTS                                   */ 
-        /* ========================================== */
-        .contacts {
-            display: flex;
-            justify-content: center;
-            align-items: start;
-            background-color: rgb(53, 53, 53);
-            height: 30vh;
-        }
-
-        .contacts h2 {
-            text-align: center;
-            font-size: 25px;
-            color: var(--text-muted);
-            font-family: 'Nexa';
-        }
-
-        .contacts-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            margin-top: 50px;
-            gap: 20px;
-        }
-        
-        .contacts-image-link {
-            display: inline-block;
-            overflow: hidden;
-            border-radius: 50%;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .contacts-image-link:hover {
-            transform: scale(1.05); 
-            border-radius: 50%;
-            box-shadow: 0 10px 25px var(--accent); 
-        }
-
-        .contacts-image-link img {
-            display: block;
-            width: 100px;
-            height: auto;
-        }
-
-        /* ========================================== */
-        /* FOOTER                                     */ 
-        /* ========================================== */
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-muted);
-            border-top: 1px solid rgb(255, 251, 251);
-        }
-        
-        footer div {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .footer-note h1 {
-            font-size: 15px;
-            font-family: 'Nexa';
-        }
-
-        /* ========================================== */
-        /* ANIMATIONS                                 */ 
-        /* ========================================== */
-        @keyframes image {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }    
-        }
-
-        /* Cursor Blinking Animation */
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        #projects {
-            scroll-margin-top: 100px;
-        }
-
-        /* ========================================== */
-        /* MOBILE DISPLAY                             */ 
-        /* ========================================== */
-        @media (max-width: 768px) {
-            /* General Reset & Layout */
-            body { overflow-x: hidden; }
-            section { height: auto !important; min-height: auto !important; padding: 100px 20px 40px 20px !important; overflow: hidden; }
-
-            /* Header - Stack items automatically */
-            header { padding: 15px; flex-direction: column; gap: 15px; }
-            header span { font-size: 16px; text-align: center; }
-            nav { display: flex !important; justify-content: center; flex-wrap: wrap; gap: 15px; width: 100%; margin: 0; padding: 0; }
-            nav a { margin-left: 0; font-size: 14px; }
-
-            /* Hero Section - Fix overlap & position conflicts */
-            .hero { justify-content: center; padding-top: 160px !important; align-items: center; text-align: center; flex-direction: column; }
-            .hero h2, .hero span, .hero p, .btn, .photo-shape, .person-image {
-                position: relative !important;
-                margin: 0 !important;
-                transform: none !important;
-                left: auto; right: auto; top: auto; bottom: auto;
-                width: auto; height: auto;
+  <!-- ====================================================================== -->
+  <!-- 01. META TAGS & DOCUMENT TITLE                                          -->
+  <!-- ====================================================================== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atha Arka Portfolio</title>
+  <meta name="description" content="A modern, minimalist, and responsive school portfolio website built with semantic HTML5, vanilla JavaScript, and Tailwind CSS." />
+  <meta property="og:title" content="Atha Arkanant Web Portfolio" />
+  <meta property="og:description" content="A modern, minimalist, and responsive school portfolio website built with semantic HTML5, vanilla JavaScript, and Tailwind CSS." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Google Fonts: Bold, high-contrast typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+  <!-- ====================================================================== -->
+  <!-- 02. TAILWIND PLAY CDN & CONFIGURATION SCRIPT                           -->
+  <!-- ====================================================================== -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Custom Tailwind CSS Theme Configuration: Bold Typography Theme
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#fafafa',
+              100: '#f4f4f5',
+              200: '#e4e4e7',
+              500: '#27272a',
+              600: '#18181b',
+              700: '#09090b',
+              900: '#000000',
+            },
+            accent: {
+              DEFAULT: '#18181b',
+              hover: '#000000',
+              light: '#f4f4f5',
             }
-            .hero h2 { margin-bottom: 10px !important; font-size: 16px; }
-            .hero span { font-size: 26px; margin-bottom: 15px !important; display: block; }
-            .hero p { display: block; margin-top: 20px !important; font-size: 14px; max-width: 100%; text-align: center; }
-            .btn { margin-top: 30px !important; margin-bottom: 40px !important; }
-            /* Images in Hero */
-            .photo-shape { display: none; } /* Disembunyikan khusus di HP agar rapi dan tidak bocor ke samping */
-            .person-image { display: none; width: 180px; height: 180px; margin: 0 auto !important; justify-content: center; background-color: #a1a1aa00; }
-            .person-image img { width: 100%; height: auto; object-fit: contain; }
-
-            /* Programming Language Section - Force 1 Column */
-            .programming-language-grid {
-                grid-template-columns: 1fr; 
-                grid-template-rows: auto;
-                gap: 20px;
-                padding-top: 30px;
-                width: 100%;
-            }
-            .grid-container {
-                width: 100%;
-                height: auto;
-                min-height: 180px;
-                position: relative;
-                padding: 15px;
-                padding-bottom: 60px; /* Space for the progress bar at the bottom */
-                display: flex;
-                flex-direction: column;
-            }
-            .grid-container h3 { position: relative; width: 100%; margin-top: 15px; font-size: 13px; transform: none; }
-            .programming-language-progress-bar { position: absolute; bottom: 25px; margin-top: 0; width: calc(100% - 70px); left: 15px; }
-            .progress-text { position: absolute; bottom: 13px; margin-top: 0; margin-left: 0; right: 15px; }
-
-            /* Projects Section */
-            .projects-empty { position: absolute; margin-top: 110px; font-size: 18px; letter-spacing: 5px; text-align: center; }
-
-            /* Education Timeline - Restructure to simple Vertical Line */
-            .education-history-timeline-container { 
-                flex-direction: column; 
-                width: 100%; 
-                position: relative; 
-                margin-top: 40px; 
-                margin-left: 0; 
-                padding-left: 20px; 
-            }
-            .timeline { 
-                position: absolute; 
-                left: 20px; 
-                top: 0; 
-                width: 2px; 
-                height: 100%; 
-                margin: 0; 
-                background: linear-gradient(to bottom, var(--accent), var(--text-muted)); 
-            }
-            .sd, .mts, .smk { 
-                position: relative; 
-                width: 100%; 
-                height: auto; 
-                margin: 0 0 40px 0 !important; 
-                background: transparent; 
-                transform: none !important; 
-                flex-direction: column; 
-                padding-left: 40px; 
-                align-items: flex-start; 
-                justify-content: flex-start; 
-            }
-            /* Bulatan/Icon di garis vertikal */
-            .sd img, .mts img, .smk img { 
-                position: absolute; 
-                left: -14px; 
-                top: 0; 
-                width: 30px; 
-                height: 30px; 
-                margin: 0 !important; 
-                transform: none !important; 
-                background: var(--bg-main); 
-                border-radius: 50%; 
-                z-index: 2; 
-                border: 2px solid var(--accent); 
-            }
-            .sd h2, .mts h2, .smk h2 { position: relative; transform: none !important; margin: 0 !important; width: 100% !important; font-size: 16px; text-align: left; }
-            .smk h3 { position: relative; transform: none !important; margin: 10px 0 0 0 !important; width: 100% !important; font-size: 13px; text-align: left; }
-            .sd-years, .mts-years, .smk-years { position: relative; margin-top: 5px; transform: none !important; text-align: left; font-size: 14px; }
-
-            /* Certificates Section */
-            .certificates-container { position: relative; width: 100%; height: 40vh; margin-top: 40px; flex-direction: column; }
-            .certificate-title { width: 100%; }
-            .certificate-title h1 { position: absolute; font-size: 12px; text-align: center; margin-top: 15px; padding: 10px; }
-            .certificates h2 { position: absolute;}
-
-            /* Contacts Section */
-            .contacts-container { position: relative; margin-top: 40px; flex-wrap: wrap; gap: 20px; }
-            .contacts-image-link img { width: 60px; }
+          }
         }
-    </style>
+      }
+    };
+    // Ensure alias fallback compatibility
+    window.tailwid = window.tailwind;
+  </script>
+
+  <!-- Immediate Theme Initialization Script (prevents theme flicker) -->
+  <script>
+    (function() {
+      try {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else if (savedTheme === 'light') {
+          document.documentElement.classList.remove('dark');
+        } else {
+          // Default to light mode so the site starts in clean white mode
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- ====================================================================== -->
+  <!-- 03. CUSTOM EMBEDDED CSS & ANIMATIONS                                   -->
+  <!-- ====================================================================== -->
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FAFAFA;
+    }
+    .dark ::-webkit-scrollbar-track {
+      background: #09090B;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #D4D4D8;
+      border-radius: 2px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #3F3F46;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #71717A;
+    }
+
+    /* Scroll Reveal Initial & Active States */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(100px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hamburger Animation to 'X' */
+    .hamburger-line {
+      transition: transform 0.3s ease, opacity 0.2s ease, width 0.3s ease;
+      transform-origin: center;
+    }
+    .menu-open #line-top {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .menu-open #line-middle {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    .menu-open #line-bottom {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Active Link Accent - Bold Typography High Contrast */
+    .nav-link.active {
+      color: #18181B;
+      font-weight: 800;
+    }
+    .dark .nav-link.active {
+      color: #FFFFFF;
+      font-weight: 800;
+    }
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #18181B;
+    }
+    .dark .nav-link.active::after {
+      background-color: #FFFFFF;
+    }
+
+    /* Override active state for project filter buttons */
+    .filter-btn.active {
+      background-color: #18181B !important;
+      color: #FFFFFF !important;
+      border-color: #18181B !important;
+    }
+    .dark .filter-btn.active {
+      background-color: #FAFAFA !important;
+      color: #09090B !important;
+      border-color: #FAFAFA !important;
+    }
+
+    /* Timeline vertical track */
+    .timeline-track::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      bottom: 12px;
+      left: 19px;
+      width: 2px;
+      background: #E5E5E5;
+    }
+    .dark .timeline-track::before {
+      background: #27272A;
+    }
+    @media (min-width: 768px) {
+      .timeline-track-centered::before {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ====================================================================== */
+    /* Interactive Cursor Glow: Fade Black Radial Circle Follower             */
+    /* ====================================================================== */
+    #cursor-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 280px;
+      margin-left: -140px;
+      margin-top: -140px;
+      border-radius: 9999px;
+      pointer-events: none;
+      z-index: 9998;
+      /* Circle glow fade black gradient */
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.16) 0%, rgba(0, 0, 0, 0.08) 30%, rgba(0, 0, 0, 0.02) 55%, transparent 70%);
+      opacity: 0;
+      filter: blur(1px);
+      transition: opacity 0.25s ease, width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), margin 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+      will-change: transform;
+    }
+    .dark #cursor-glow {
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 30%, rgba(255, 255, 255, 0.07) 55%, transparent 70%);
+      box-shadow: 0 0 35px rgba(0, 0, 0, 0.9);
+    }
+
+    #cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 22px;
+      height: 22px;
+      margin-left: -11px;
+      margin-top: -11px;
+      border-radius: 9999px;
+      pointer-events: none;
+      z-index: 9999;
+      border: 1.5px solid rgba(0, 0, 0, 0.35);
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.14) 0%, transparent 80%);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transition: opacity 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+    .dark #cursor-dot {
+      border-color: rgba(255, 255, 255, 0.45);
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.65) 0%, transparent 80%);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Interactive state when hovering over buttons, links, inputs */
+    body.cursor-hover #cursor-glow {
+      width: 360px;
+      height: 360px;
+      margin-left: -180px;
+      margin-top: -180px;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.11) 32%, rgba(0, 0, 0, 0.03) 58%, transparent 72%);
+    }
+    .dark body.cursor-hover #cursor-glow {
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 32%, rgba(255, 255, 255, 0.1) 58%, transparent 72%);
+    }
+    body.cursor-hover #cursor-dot {
+      border-color: rgba(0, 0, 0, 0.7);
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.25) 0%, transparent 80%);
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
+    }
+    .dark body.cursor-hover #cursor-dot {
+      border-color: rgba(255, 255, 255, 0.85);
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.85) 0%, transparent 80%);
+      box-shadow: 0 0 16px rgba(255, 255, 255, 0.25);
+    }
+
+    /* Disable custom cursor effect on touch or pointer-coarse screens */
+    @media (hover: none) or (pointer: coarse) {
+      #cursor-glow, #cursor-dot {
+        display: none !important;
+      }
+    }
+  </style>
 </head>
-<body>
 
-    <!-- ========================================== -->
-    <!-- NAVBAR / MENU UTAMA                        -->
-    <!-- ========================================== -->
-    <header>
-        <!-- NAMA -->
-        <span>Atha Arkananta Shaquille</span>
-        
-        <!-- NAVIGASI -->
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
+<body class="bg-[#FAFAFA] text-[#18181B] dark:bg-[#09090B] dark:text-[#F4F4F5] font-sans antialiased selection:bg-[#18181B] selection:text-white dark:selection:bg-white dark:selection:text-black min-h-screen flex flex-col transition-colors duration-200">
+  <!-- ====================================================================== -->
+  <!-- 03.5. INTERACTIVE CURSOR GLOW (Fade Black Circle Following Cursor)     -->
+  <!-- ====================================================================== -->
+  <div id="cursor-glow" aria-hidden="true"></div>
+  <div id="cursor-dot" aria-hidden="true"></div>
 
-    <!-- ========================================== -->
-    <!-- HERO SECTION                               -->
-    <!-- ========================================== -->
-    <section class="hero" id="home">
-        <!-- HELLO TEXT -->
-        <h2 data-aos="fade-right" data-aos-duration="1000">Hello, i'am an</h2>
-        
-        <!-- SKILLS -->
-        <span class="typing-text"></span>
-        
-        <!-- DESCRIPTION -->
-        <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">Saya adalah seorang siswa SMK kelas X di jurusan TKJ, memiliki ketertarikan dibidang Coding, Network dan Hardware, selengkapnya bisa lihat biodata dibawah ini</p>
-        
-        <!-- PERSON IMAGE -->
-        <div class="photo-shape" data-aos="fade-down" data-aos-duration="1000" data-aos-delay="900">
-            <img src="Images/Shape.png" alt="Error Image">
+  <!-- ====================================================================== -->
+  <!-- 04. SECTION 1: GLOBAL NAVIGATION (HEADER)                              -->
+  <!-- ====================================================================== -->
+  <header id="site-header" class="sticky top-0 z-50 w-full bg-[#FAFAFA]/95 dark:bg-[#09090B]/95 backdrop-blur-md border-b border-[#E5E5E5] dark:border-neutral-800 transition-colors duration-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo / Name -->
+      <a href="#hero" id="brand-logo" class="flex items-center gap-3.5 group" aria-label="Go to homepage">
+        <div class="w-10 h-10 rounded-lg bg-transparent text-white dark:bg-black dark:text-[#18181B] flex items-center justify-center font-black text-lg tracking-tight group-hover:bg-neutral-800 dark:group-hover:bg-neutral-200 transition-colors shadow-sm">
+          <img class="border rounded-full border-gray-950" src="Images/MyPP.png">
         </div>
-        <div class="person-image" data-aos="fade-up" data-aos-duration="1000">
-            <img src="Images/MyPhoto.png" alt="Error Image">
+        <div class="flex flex-col">
+          <span class="font-black text-[#18181B] dark:text-white text-base uppercase tracking-tight leading-none group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">ATHA ARKANANTA S</span>
+          <span class="text-[10px] text-neutral-500 dark:text-neutral-400 font-bold uppercase tracking-[0.2em] mt-1">INFORMATICS STUDENT</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav id="desktop-nav" class="hidden md:flex items-center gap-7" aria-label="Main Navigation">
+        <a href="#hero" class="nav-link relative text-xs font-bold uppercase tracking-[0.15em] text-neutral-600 dark:text-neutral-400 hover:text-[#18181B] dark:hover:text-white transition-colors py-1">Home</a>
+        <a href="#projects" class="nav-link relative text-xs font-bold uppercase tracking-[0.15em] text-neutral-600 dark:text-neutral-400 hover:text-[#18181B] dark:hover:text-white transition-colors py-1">Projects</a>
+        <a href="#skills" class="nav-link relative text-xs font-bold uppercase tracking-[0.15em] text-neutral-600 dark:text-neutral-400 hover:text-[#18181B] dark:hover:text-white transition-colors py-1">Skills</a>
+        <a href="#education" class="nav-link relative text-xs font-bold uppercase tracking-[0.15em] text-neutral-600 dark:text-neutral-400 hover:text-[#18181B] dark:hover:text-white transition-colors py-1">Education</a>
+        <a href="#certificates" class="nav-link relative text-xs font-bold uppercase tracking-[0.15em] text-neutral-600 dark:text-neutral-400 hover:text-[#18181B] dark:hover:text-white transition-colors py-1">Certificates</a>
+        <a href="#contact" class="nav-link relative text-xs font-bold uppercase tracking-[0.15em] text-neutral-600 dark:text-neutral-400 hover:text-[#18181B] dark:hover:text-white transition-colors py-1">Contact</a>
+      </nav>
+
+      <!-- Desktop Action CTA & Theme Toggle Button -->
+      <div class="hidden md:flex items-center gap-3">
+        <!-- Theme Toggle Button in Global Navigation -->
+        <button 
+          type="button" 
+          id="theme-toggle-btn"
+          class="p-2.5 rounded-lg border border-[#E5E5E5] dark:border-neutral-800 bg-white dark:bg-neutral-900 text-[#18181B] dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-700 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white flex items-center justify-center cursor-pointer"
+          aria-label="Toggle theme mode"
+          title="Toggle High-Contrast Dark Mode"
+        >
+          <!-- Moon Icon (displayed in Light Mode) -->
+          <svg id="theme-icon-moon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+          <!-- Sun Icon (displayed in Dark Mode) -->
+          <svg id="theme-icon-sun" class="w-4 h-4 hidden transition-transform duration-200 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+          </svg>
+        </button>
+
+        <a href="#contact" id="desktop-cta-btn" class="inline-flex items-center justify-center px-5 py-2.5 text-xs font-black uppercase tracking-[0.15em] rounded-lg bg-[#18181B] text-white hover:bg-neutral-800 dark:bg-white dark:text-[#18181B] dark:hover:bg-neutral-200 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:ring-offset-2 hover:-translate-y-2">
+          Contact Me
+        </a>
+      </div>
+
+      <!-- Mobile Right Action Controls -->
+      <div class="flex items-center gap-2">
+        <!-- Mobile Header Theme Toggle Button -->
+        <button 
+          type="button" 
+          id="mobile-theme-toggle-top-btn"
+          class="md:hidden p-2.5 rounded-lg border border-[#E5E5E5] dark:border-neutral-800 bg-white dark:bg-neutral-900 text-[#18181B] dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-800 dark:focus:ring-white flex items-center justify-center cursor-pointer" 
+          aria-label="Toggle theme mode"
+          title="Toggle High-Contrast Dark Mode"
+        >
+          <svg id="mobile-theme-icon-moon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+          <svg id="mobile-theme-icon-sun" class="w-4 h-4 hidden text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+          </svg>
+        </button>
+
+        <!-- Mobile Hamburger Button -->
+        <button 
+          type="button"
+          id="hamburger-btn" 
+          class="p-2.5 rounded-lg text-neutral-800 dark:text-neutral-200 hover:text-black dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-800 dark:focus:ring-white" 
+          aria-label="Toggle Navigation Menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <div class="w-6 h-5 flex flex-col justify-between items-center relative">
+            <span id="line-top" class="hamburger-line w-6 h-0.5 bg-[#18181B] dark:bg-white rounded-full"></span>
+            <span id="line-middle" class="hamburger-line w-6 h-0.5 bg-[#18181B] dark:bg-white rounded-full"></span>
+            <span id="line-bottom" class="hamburger-line w-6 h-0.5 bg-[#18181B] dark:bg-white rounded-full"></span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation Menu -->
+    <div 
+      id="mobile-menu" 
+      class="hidden border-b border-[#E5E5E5] dark:border-neutral-800 bg-[#FAFAFA]/98 dark:bg-[#09090B]/98 backdrop-blur-md px-4 pt-3 pb-6 transition-all duration-300 shadow-lg"
+      aria-hidden="true"
+    >
+      <nav class="flex flex-col space-y-2" aria-label="Mobile Navigation">
+        <div class="md:hidden">
+          <a href="#hero" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
+            <span>Home</span>
+            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </a>
+          <a href="#projects" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
+            <span>Projects</span>
+            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </a>
+          <a href="#skills" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
+            <span>Skills</span>
+            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </a>
+          <a href="#education" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
+            <span>Education</span>
+            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </a>
+          <a href="#certificates" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
+            <span>Certificates</span>
+            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </a>
+          <a href="#contact" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
+            <span>Contact</span>
+            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </a>
         </div>
 
-        <!-- LINK TO MY PORTFOLIO -->
-        <a href="#contact" class="btn" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="600">Contact</a>
-    </section>
+        <div class="flex justify-center items-center">
+          <p>School Task</p>
+        </div>
 
-    <!-- ========================================== -->
-    <!-- PROGRAMMING LANGUAGE SECTION               -->
-    <!-- ========================================== -->
-    <section class="programming-language">
-        <h2 class="section-title" data-aos="fade-up" data-aos-duration="1000">PROGRAMMING SKILLS</h2>
+        <div class="flex flex-wrap">
+          <a href="sejarah.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
+            <span>Sejarah</span>
+            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </a>
+        </div>
+
+        <div class="pt-3 flex flex-col gap-2.5">
+          <!-- Mobile Menu Theme Toggle Row -->
+          <button 
+            type="button" 
+            id="mobile-menu-theme-btn" 
+            class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] dark:border-neutral-800 bg-[#F4F4F5] dark:bg-neutral-900 text-xs font-bold uppercase tracking-[0.15em] text-neutral-800 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors cursor-pointer"
+          >
+            <span class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-neutral-500 dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+              <span>Theme</span>
+            </span>
+            <span id="mobile-menu-theme-label" class="px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-widest bg-[#18181B] text-white dark:bg-white dark:text-[#18181B]">Light Mode</span>
+          </button>
+
+          <a href="#contact" class="mobile-nav-link w-full inline-flex items-center justify-center px-4 py-3 rounded-lg bg-[#18181B] text-white dark:bg-white dark:text-[#18181B] font-black text-xs uppercase tracking-[0.2em] hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors">
+            Contact Me
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <!-- END SECTION 1: GLOBAL NAVIGATION -->
+
+
+  <!-- ====================================================================== -->
+  <!-- 05. SECTION 2: HERO SECTION                                            -->
+  <!-- ====================================================================== -->
+  <section id="hero" class="relative pt-16 pb-20 md:pt-24 md:pb-32 overflow-hidden bg-[#FAFAFA] dark:bg-[#09090B] border-b border-[#E5E5E5] dark:border-neutral-800 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         
-        <div class="programming-language-grid">
-            <!-- HTML -->
-            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000">
-                <!-- HEADER (IKON + JUDUL) -->
-                <div class="card-header">
-                    <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/HTMLLogo.png" alt="HTML Logo">
-                    <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">HTML</h2>
-                </div>
-                
-                <!-- DESKRIPSI -->
-                <p class="card-desc">Bahasa markup yang digunakan untuk menyusun struktur dan isi halaman web, seperti judul, paragraf, gambar, tabel, dan tautan.</p>
-                
-                <!-- PROGRESS BAR & PERSEN -->
-                <div class="progress-wrapper">
-                    <div class="programming-language-progress-bar">
-                        <div class="progress-fill" style="width: 70%;"></div>
-                    </div>
-                    <span class="progress-text">70%</span>
-                </div>
-            </div>
-            <!-- CSS -->
-            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000">
-                <!-- HEADER (IKON + JUDUL) -->
-                <div class="card-header">
-                    <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/CSSLogo.png" alt="HTML Logo">
-                    <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">CSS</h2>
-                </div>
-                
-                <!-- DESKRIPSI -->
-                <p class="card-desc">Bahasa yang digunakan untuk mengatur tampilan halaman web, seperti warna, font, ukuran, tata letak, dan animasi agar lebih menarik.</p>
-                
-                <!-- PROGRESS BAR & PERSEN -->
-                <div class="progress-wrapper">
-                    <div class="programming-language-progress-bar">
-                        <div class="progress-fill" style="width: 45%;"></div>
-                    </div>
-                    <span class="progress-text">45%</span>
-                </div>
-            </div>
-            <!-- JavaScript -->
-            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000">
-                <!-- HEADER (IKON + JUDUL) -->
-                <div class="card-header">
-                    <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/JavascriptLogo.png" alt="HTML Logo">
-                    <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">JavaScript</h2>
-                </div>
-                
-                <!-- DESKRIPSI -->
-                <p class="card-desc">Bahasa pemrograman yang digunakan untuk membuat halaman web menjadi interaktif, misalnya validasi formulir, animasi dan menu dinamis.</p>
-                
-                <!-- PROGRESS BAR & PERSEN -->
-                <div class="progress-wrapper">
-                    <div class="programming-language-progress-bar">
-                        <div class="progress-fill" style="width: 30%;"></div>
-                    </div>
-                    <span class="progress-text">30%</span>
-                </div>
-            </div>
-            <!-- Python -->
-            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000">
-                <!-- HEADER (IKON + JUDUL) -->
-                <div class="card-header">
-                    <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/PythonLogo.png" alt="HTML Logo">
-                    <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">Python</h2>
-                </div>
-                
-                <!-- DESKRIPSI -->
-                <p class="card-desc">Bahasa pemrograman tingkat tinggi yang memiliki sintaks sederhana dan mudah dipelajari. Python banyak digunakan dalam analisis data, kecerdasan buatan (AI) dan otomatisasi</p>
-                
-                <!-- PROGRESS BAR & PERSEN -->
-                <div class="progress-wrapper">
-                    <div class="programming-language-progress-bar">
-                        <div class="progress-fill" style="width: 35%;"></div>
-                    </div>
-                    <span class="progress-text">35%</span>
-                </div>
-            </div>
-            <!-- C# -->
-            <div class="grid-container" data-aos="fade-up" data-aos-duration="1000">
-                <!-- HEADER (IKON + JUDUL) -->
-                <div class="card-header">
-                    <img class="programming-language-grid-icon" data-aos="fade-left" data-aos-duration="1000" src="Images/CSLogo.png" alt="HTML Logo">
-                    <h2 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">C#</h2>
-                </div>
-                
-                <!-- DESKRIPSI -->
-                <p class="card-desc">Bahasa pemrograman berorientasi objek yang dikembangkan oleh Microsoft. C# banyak digunakan untuk membuat aplikasi desktop, web (ASP.NET), game (Unity), dan aplikasi mobile.</p>
-                
-                <!-- PROGRESS BAR & PERSEN -->
-                <div class="progress-wrapper">
-                    <div class="programming-language-progress-bar">
-                        <div class="progress-fill" style="width: 80%;"></div>
-                    </div>
-                    <span class="progress-text">80%</span>
-                </div>
-            </div>
-        </div>
-    </section>
+        <!-- Hero Text Content -->
+        <div class="lg:col-span-7 space-y-7 text-left reveal-on-scroll">
+          
+          <!-- Status Tag -->
+          <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-md bg-white dark:bg-neutral-900 border border-[#E5E5E5] dark:border-neutral-800 text-[#18181B] dark:text-neutral-200 text-xs font-black uppercase tracking-[0.25em]">
+            <span class="w-2 h-2 rounded-full bg-[#18181B] dark:bg-white"></span>
+            Informatics Student • SMK Negeri 3 Jepara
+          </div>
 
-    <!-- ========================================== -->
-    <!-- PROJECTS                                   -->
-    <!-- ========================================== -->
-    <section class="projects" id="projects">
-        <h2 class="projects-title" data-aos="fade-up" data-aos-duration="1000">PROJECTS</h2> 
+          <!-- Main Typography Headline -->
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black text-[#18181B] dark:text-white tracking-tighter uppercase leading-[1.02]">
+            Atha <br class="hidden sm:inline" />
+            <span class="underline decoration-4 underline-offset-8 decoration-[#18181B] dark:decoration-white">Arkananta</span> <br class="hidden sm:inline" />
+          </h1>
+
+          <!-- Impactful Subheadline -->
+          <p class="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 font-medium leading-relaxed max-w-xl">
+            Vocational school student. Vibecoder enthusiast & computer enthusiast. Great at coding, vibecoding, code analysis and database management.
+          </p>
+
+          <!-- CTAs and Key Badges -->
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a 
+              href="#projects" 
+              id="hero-cta-projects"
+              class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-[#18181B] text-white hover:bg-neutral-800 dark:bg-white dark:text-[#18181B] dark:hover:bg-neutral-200 font-black text-xs uppercase tracking-[0.2em] transition-all duration-200 shadow-sm hover:shadow focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:ring-offset-2 hover:-translate-y-2"
+            >
+              <span>View My Projects</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+            </a>
+
+            <a 
+              href="#contact" 
+              id="hero-cta-contact"
+              class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-white dark:bg-neutral-900 text-[#18181B] dark:text-white font-black text-xs uppercase tracking-[0.2em] border-2 border-[#18181B] dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-200 focus:ring-2 focus:ring-neutral-400 hover:-translate-y-2"
+            >
+              <span>Contact Me</span>
+            </a>
+          </div>
+
+          <!-- Academic Quick Highlights -->
+          <div class="grid grid-cols-3 gap-6 pt-8 border-t-2 border-[#18181B] dark:border-neutral-800 max-w-lg">
+            <div>
+              <div class="text-3xl sm:text-4xl font-black text-[#18181B] dark:text-white font-mono tracking-tight">6+</div>
+              <div class="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400 mt-1">Code and Stack Learned</div>
+            </div>
+            <div>
+              <div class="text-3xl sm:text-4xl font-black text-[#18181B] dark:text-white font-mono tracking-tight">2</div>
+              <div class="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400 mt-1">Projects Done</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual / Profile Placeholder Graphic -->
+        <div class="lg:col-span-5 flex justify-center lg:justify-end reveal-on-scroll">
+          <div class="relative w-full max-w-sm">
+            
+            <!-- Profile Card Container: Bold Graphic Frame -->
+            <div id="card" class="relative bg-white dark:bg-neutral-900 rounded-xl border-2 border-[#18181B] dark:border-neutral-700 shadow-[6px_6px_0px_0px_#18181B] dark:shadow-[6px_6px_0px_0px_#FAFAFA] p-6 space-y-6">
+              
+              <!-- Avatar Placeholder Area -->
+              <div class="relative aspect-square w-full rounded-lg bg-[#F4F4F5] dark:bg-neutral-950 border border-[#E5E5E5] dark:border-neutral-800 flex flex-col items-center justify-center overflow-hidden group">
+                <!-- Clean Modern Student Illustration Silhouette -->
+                <img src="Images/AthaArkananta.jpeg">
+                <svg class="w-32 h-32 text-neutral-400 transition-transform duration-300 group-hover:scale-105" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                  <circle cx="50" cy="35" r="20" stroke-width="2.5" fill="#FAFAFA" class="dark:fill-neutral-900" />
+                  <path d="M18 85c0-18 14-30 32-30s32 12 32 30" stroke-width="2.5" stroke-linecap="round" fill="#FAFAFA" class="dark:fill-neutral-900" />
+                  <path d="M42 22l8-6 8 6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M50 16v10" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                
+                <div class="absolute bottom-3 left-3 right-3 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm px-3 py-1.5 rounded border border-[#E5E5E5] dark:border-neutral-800 text-center">
+                  <span class="text-xs font-black uppercase tracking-[0.15em] text-[#18181B] dark:text-white">Atha Arkananta • 10th grade</span>
+                </div>
+              </div>
+
+              <!-- Quick Info / Status Pill -->
+              <div class="space-y-3">
+                <div class="flex items-center justify-between text-xs font-bold uppercase tracking-[0.15em]">
+                  <span class="text-neutral-500 dark:text-neutral-400">Current Focus</span>
+                  <span class="text-[#18181B] dark:text-white font-black">Web & Networking</span>
+                </div>
+                
+                <!-- Progress bar aesthetic item -->
+                <div class="w-full bg-[#E5E5E5] dark:bg-neutral-800 rounded-full h-2 overflow-hidden">
+                  <div class="bg-[#18181B] dark:bg-white h-2 rounded-full w-4/5"></div>
+                </div>
+
+                <!-- Open for Research / Collabs Status -->
+                <div class="flex items-center gap-2.5 text-xs font-bold text-neutral-700 dark:text-neutral-300 bg-[#FAFAFA] dark:bg-neutral-950 p-3 rounded-lg border border-[#E5E5E5] dark:border-neutral-800">
+                  <span class="flex h-2 w-2 relative shrink-0">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neutral-900 dark:bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-neutral-900 dark:bg-emerald-400"></span>
+                  </span>
+                  <span class="uppercase tracking-wider text-[11px]">Available for study togethers & engineering projects</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+  <!-- END SECTION 2: HERO SECTION -->
+
+
+  <!-- ====================================================================== -->
+  <!-- 06. SECTION 3: PROJECTS SECTION                                        -->
+  <!-- ====================================================================== -->
+  <section id="projects" class="py-24 bg-white dark:bg-[#09090B] border-b border-[#E5E5E5] dark:border-neutral-800 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 reveal-on-scroll">
+        <div>
+          <div class="text-xs font-black text-[#18181B] dark:text-neutral-400 tracking-[0.3em] uppercase mb-2">Portfolio</div>
+          <h2 class="text-3xl sm:text-5xl font-black text-[#18181B] dark:text-white tracking-tighter uppercase">Featured Projects</h2>
+          <p class="text-neutral-600 dark:text-neutral-400 mt-2 text-base font-medium max-w-xl">
+            Selected engineering, software, and school initiatives demonstrating technical problem solving and clean interface design.
+          </p>
+        </div>
+
+        <!-- Project Filter Buttons (Vanilla JS) -->
+        <div id="project-filters" class="flex flex-wrap gap-2">
+          <button type="button" data-filter="all" class="filter-btn active px-4 py-2 rounded-lg text-xs font-black uppercase tracking-[0.15em] bg-[#18181B] text-white border border-[#18181B] dark:bg-white dark:text-[#18181B] dark:border-white transition-colors">All (6)</button>
+          <button type="button" data-filter="web" class="filter-btn px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-[0.15em] bg-[#F4F4F5] dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border border-[#E5E5E5] dark:border-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors">Web Apps</button>
+        </div>
+      </div>
+
+      <!-- Projects Grid: 1 col on mobile, 2 cols on tablet, 3 cols on desktop -->
+      <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         
-        <!-- If the projects is none -->
-        <h2 class="projects-empty" data-aos="fade-up" data-aos-duration="1000">Incoming Projects</h2>
-        
-        <div class="grid">
-            <!-- KOTAK PROJECT 1 -->
-            <div class="card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
-                <!-- PROJECT TITLE -->
-                <h3>Class Website X TJKT 1</h3>
-                <!-- PROJECT DESCRIPTION -->
-                <p>Website profil kelas untuk mendeskripsikan apa saja isi dari kelas X TJKT 1</p>
-                
-                <!-- TAG -->
-                <div class="card-tags">
-                    <span>HTML</span>
-                    <span>CSS</span>
-                    <span>JS</span>
-                </div>
+        <!-- Project Card 1 -->
+        <article class="project-item group bg-[#FAFAFA] dark:bg-neutral-900/90 rounded-xl border border-[#E5E5E5] dark:border-neutral-800 overflow-hidden flex flex-col hover:border-[#18181B] dark:hover:border-neutral-500 hover:shadow-[4px_4px_0px_0px_#18181B] dark:hover:shadow-[4px_4px_0px_0px_#FAFAFA] transition-all duration-200 reveal-on-scroll" data-category="web">
+          <!-- Placeholder Thumbnail / Graphic -->
+          <div class="aspect-video w-full bg-neutral-950 relative overflow-hidden flex items-center justify-center p-6 border-b border-[#E5E5E5] dark:border-neutral-800">
+            <!-- Tech Diagram SVG Placeholder -->
+            <svg class="relative w-16 h-16 text-neutral-200 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <div class="absolute inset-0 bg-neutral-900/60">
+              <img src="Images/X TJKT 1 Web Scrennshot.png">
+            </div>
+            <span class="absolute top-3 right-3 text-[11px] font-mono font-bold px-2.5 py-0.5 rounded bg-white/10 text-white border border-white/20 uppercase tracking-wider">2026</span>
+          </div>
 
-                <!-- STATUS -->
-                <div class="card-status">
-                    <a href="https://x-tjkt-1-class.github.io/X-TJKT-1-Profile-Web/">Visit the project</a>
-                </div>
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div class="space-y-2.5">
+              <span class="text-[11px] font-black uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">Web Profile</span>
+              <h3 class="text-xl font-black uppercase tracking-tight text-[#18181B] dark:text-white group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">X TJKT 1 Web Profile</h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+                A web profile that showing about X TJKT 1 class, description, class schedule and class memories.
+              </p>
             </div>
-        </div>
-    </section>
 
-    <!-- ========================================== -->
-    <!-- EDUCATION HISTORY                          -->
-    <!-- ========================================== -->
-    <section class="education-history-timeline">
-        <h2 data-aos="fade-up" data-aos-duration="1000">EDUCATION TIMELINE</h2>
-        <div class="education-history-timeline-container" data-aos="fade-left" data-aos-duration="1000">
-            <div class="sd">
-                <img src="Images/SDNLOGO.png">
-                <h2>SD Negeri 2 Mulyoharjo</h2><span class="sd-years">[2017 - 2023]</span>
-            </div>
-            <div class="mts">
-                <img src="Images/MTSLOGO.png">
-                <h2>MTs Babussalam Mulyoharjo</h2><span class="mts-years">[2023 - 2026]</span>
-            </div>
-            <div class="timeline"></div>
-            <div class="smk">
-                <img src="Images/SMEALOGO.png">
-                <h2>SMK Negeri 3 Jepara</h2><span class="smk-years">2026</span>
-                <h3>Belajar di jurusan TJKT/Teknik Jaringan Komputer dan Telekomunikasi dan mengikuti ekstrakurikuler KTI dan ECOS</h3>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========================================== -->
-    <!-- CERTIFICATES                               -->
-    <!-- ========================================== -->
-    <section class="certificates">
-        <h2 data-aos="fade-up" data-aos-duration="1000">CERTIFICATES</h2>
-        <div class="certificates-container" data-aos="fade-up" data-aos-duration="1000">
-            <div class="certificate-title">
-                <img src="Images/JuaraVibeCoding.jpeg" data-zoomable width="250">
-                <h1>JuaraVibeCoding - GoogleCloudEvent</h1>
-            </div>
-        </div>
-    </section>
-    
-    <!-- ========================================== -->
-    <!-- CONTACTS                                   -->
-    <!-- ========================================== -->
-    <section class="contacts" id="contact">
-        <h2>LET'S CONNECT</h2>
-        <div class="contacts-container">
-            <div class="email" data-aos="fade-up" data-aos-duration="1000">
-                <a href="athaarkananta1111@gmail.com" target="_blank" class="contacts-image-link">
-                    <img src="Images/email icon.png">   
+            <div class="mt-6 pt-4 border-t border-[#E5E5E5] dark:border-neutral-800">
+              <!-- Tech Badges -->
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-[#E5E5E5] dark:border-neutral-700">HTML5</span>
+                <span class="px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-[#E5E5E5] dark:border-neutral-700">CSS3</span>
+                <span class="px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-[#E5E5E5] dark:border-neutral-700">JavaScript</span>
+              </div>
+              <div class="flex items-center gap-4 text-xs font-black uppercase tracking-[0.15em]">
+                <a href="https://x-tjkt-1-class.github.io/X-TJKT-1-Profile-Web/" target="_blank" class="text-[#18181B] dark:text-white hover:underline inline-flex items-center gap-1">
+                  <span>Visit</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
-            </div>
-            <div class="github" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
-                <a href="https://github.com/NantaArka" target="_blank" class="contacts-image-link">
-                    <img src="Images/Github.png">
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white inline-flex items-center gap-1">
+                  <span></span>
                 </a>
+              </div>
             </div>
-            <div class="instagram" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
-                <a href="https://www.instagram.com/arknntashqul?igsh=MWNhOHo5djJiZG1pbw==" target="_blank" class="contacts-image-link">
-                    <img src="Images/Instagram icon.png">
-                </a>
+          </div>
+        </article>
+      </div>
+
+    </div>
+  </section>
+  <!-- END SECTION 3: PROJECTS SECTION -->
+
+
+  <!-- ====================================================================== -->
+  <!-- 07. SECTION 4: MY SKILLS SECTION                                       -->
+  <!-- ====================================================================== -->
+  <section id="skills" class="py-24 bg-[#FAFAFA] dark:bg-[#121215] border-b border-[#E5E5E5] dark:border-neutral-800 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-2xl mx-auto mb-16 reveal-on-scroll">
+        <div class="text-xs font-black text-[#18181B] dark:text-neutral-400 tracking-[0.3em] uppercase mb-2">Capabilities</div>
+        <h2 class="text-3xl sm:text-5xl font-black text-[#18181B] dark:text-white tracking-tighter uppercase">Skills & Proficiencies</h2>
+        <p class="text-neutral-600 dark:text-neutral-400 mt-3 text-base font-medium">
+          A balanced foundation spanning software development, algorithmic thinking, design collaboration, and student leadership.
+        </p>
+      </div>
+
+      <!-- Skills Categories Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Category 1: Technical & Programming -->
+        <div class="bg-white dark:bg-neutral-900 rounded-xl p-6 sm:p-8 border border-[#E5E5E5] dark:border-neutral-800 hover:border-[#18181B] dark:hover:border-neutral-500 hover:shadow-[4px_4px_0px_0px_#18181B] dark:hover:shadow-[4px_4px_0px_0px_#FAFAFA] transition-all reveal-on-scroll">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-lg bg-[#18181B] text-white dark:bg-white dark:text-[#18181B] flex items-center justify-center font-black">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
             </div>
+            <div>
+              <h3 class="text-lg font-black uppercase tracking-tight text-[#18181B] dark:text-white">Technical & Programming</h3>
+              <p class="text-[11px] text-neutral-500 dark:text-neutral-400 font-bold uppercase tracking-wider">Core languages and development technologies</p>
+            </div>
+          </div>
+
+          <!-- Flex Tags -->
+          <div class="flex flex-wrap gap-2">
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> HTML5 Semantic Web
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> Modern CSS3 & Tailwind
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> Vanilla JavaScript (ES6+)
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> Python (Data & Automation)
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> Git & GitHub
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> API Calling & Database Management
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> Algorithms & Complexity
+            </span>
+          </div>
         </div>
-    </section>
 
-    <!-- ========================================== -->
-    <!-- FOOTER                                     -->
-    <!-- ========================================== -->
-    <footer id="footer">
-        <!-- FOOTER -->
-        <p>&copy; 2026 Atha. All Rights Reserved</p>
-    </footer>
+        <!-- Category 2: AI For Efficiency -->
+        <div class="bg-white dark:bg-neutral-900 rounded-xl p-6 sm:p-8 border border-[#E5E5E5] dark:border-neutral-800 hover:border-[#18181B] dark:hover:border-neutral-500 hover:shadow-[4px_4px_0px_0px_#18181B] dark:hover:shadow-[4px_4px_0px_0px_#FAFAFA] transition-all reveal-on-scroll">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-lg bg-[#18181B] text-white dark:bg-white dark:text-[#18181B] flex items-center justify-center font-black">
+              <iconify-icon icon="simple-icons:openai" class="text-white text-2xl dark:text-black"></iconify-icon>
+            </div>
+            <div>
+              <h3 class="text-lg font-black uppercase tracking-tight text-[#18181B] dark:text-white">AI for efficiency</h3>
+              <p class="text-[11px] text-neutral-500 dark:text-neutral-400 font-bold uppercase tracking-wider">The use of AI in daily life</p>
+            </div>
+          </div>
 
-    <!-- ========================================== -->
-    <!-- JAVASCRIPT                                 -->
-    <!-- ========================================== -->
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script>
-    <script>
-        mediumZoom('[data-zoomable]');
-        // Shadow Effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.5)';
-            } else {
-                header.style.boxShadow = 'none';
-            }
+          <div class="flex flex-wrap gap-2">
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> Google AI Studio for web coding
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> AI Agent for software management
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> ChatGPT for motivation
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> Gemini for Planning
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> Claude for Complex Coding
+            </span>
+          </div>
+        </div>
+
+        <!-- Category 3: Tools & Software -->
+        <div class="bg-white dark:bg-neutral-900 rounded-xl p-6 sm:p-8 border border-[#E5E5E5] dark:border-neutral-800 hover:border-[#18181B] dark:hover:border-neutral-500 hover:shadow-[4px_4px_0px_0px_#18181B] dark:hover:shadow-[4px_4px_0px_0px_#FAFAFA] transition-all reveal-on-scroll">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-lg bg-[#18181B] text-white dark:bg-white dark:text-[#18181B] flex items-center justify-center font-black">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <g fill="none">
+                  <g fill="currentColor" clip-path="url(#SVGXv8lpc2Y)">
+                    <path d="M.228 8.37s-.584-.427.117-.995L1.98 5.897s.467-.497.962-.064l15.081 11.542v5.534s-.007.87-1.11.774z" />
+                    <path d="M4.116 11.937L.228 15.509s-.4.3 0 .837l1.805 1.66s.429.465 1.062-.065l4.121-3.158zm6.824.029l7.13-5.502l-.047-5.505s-.305-1.202-1.32-.576L7.216 9.11z" />
+                    <path d="M16.912 23.69c.414.428.916.288.916.288l5.556-2.767c.711-.49.611-1.098.611-1.098V3.588c0-.726-.735-.977-.735-.977L18.444.264c-1.052-.657-1.741.119-1.741.119s.886-.645 1.32.576v21.85c0 .15-.032.297-.095.43c-.127.259-.402.5-1.062.4z" />
+                  </g>
+                  <defs>
+                    <clipPath id="SVGXv8lpc2Y">
+                      <path fill="#fff" d="M0 0h24v24H0z" />
+                    </clipPath>
+                  </defs>
+                </g>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-black uppercase tracking-tight text-[#18181B] dark:text-white">Tools & Software</h3>
+              <p class="text-[11px] text-neutral-500 dark:text-neutral-400 font-bold uppercase tracking-wider">Tools that i use</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> Visual Studio Code
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> Google AI Studio
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> UnityEngine Editor
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> VMware Workstation
+            </span>
+            <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-[#FAFAFA] dark:bg-neutral-800/80 border border-[#E5E5E5] dark:border-neutral-700 text-[#18181B] dark:text-neutral-200 text-xs font-bold uppercase tracking-wider hover:border-[#18181B] dark:hover:border-white transition-colors">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#18181B] dark:bg-neutral-300"></span> Zed
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- END SECTION 4: MY SKILLS SECTION -->
+
+
+  <!-- ====================================================================== -->
+  <!-- 08. SECTION 5: EDUCATION TIMELINE SECTION                              -->
+  <!-- ====================================================================== -->
+  <section id="education" class="py-24 bg-white dark:bg-[#09090B] border-b border-[#E5E5E5] dark:border-neutral-800 transition-colors">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-2xl mx-auto mb-16 reveal-on-scroll">
+        <div class="text-xs font-black text-[#18181B] dark:text-neutral-400 tracking-[0.3em] uppercase mb-2">Academic Path</div>
+        <h2 class="text-3xl sm:text-5xl font-black text-[#18181B] dark:text-white tracking-tighter uppercase">Education Timeline</h2>
+        <p class="text-neutral-600 dark:text-neutral-400 mt-3 text-base font-medium">
+          My education history, academic journey and my major.
+        </p>
+      </div>
+
+      <!-- Vertical Sleek Timeline Container -->
+      <div class="relative timeline-track space-y-10 pl-10 md:pl-12">
+        
+        <!-- Timeline Item 1 -->
+        <div class="relative group reveal-on-scroll">
+          <!-- Timeline Marker Circle -->
+          <div class="absolute -left-10 md:-left-12 top-1.5 w-6 h-6 rounded-full bg-[#18181B] dark:bg-white border-4 border-white dark:border-[#09090B] shadow-sm flex items-center justify-center transition-transform group-hover:scale-110">
+          </div>
+
+          <div class="bg-[#FAFAFA] dark:bg-neutral-900 rounded-xl p-6 sm:p-7 border border-[#E5E5E5] dark:border-neutral-800 hover:border-[#18181B] dark:hover:border-neutral-500 hover:shadow-[4px_4px_0px_0px_#18181B] dark:hover:shadow-[4px_4px_0px_0px_#FAFAFA] transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider bg-[#18181B] text-white dark:bg-white dark:text-[#18181B]">
+                2026 — Present
+              </span>
+              <span class="text-xs font-mono font-bold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider">SMK Negeri 3 Jepara</span>
+            </div>
+
+            <h3 class="text-xl font-black uppercase tracking-tight text-[#18181B] dark:text-white">SMK Negeri 3 jepara</h3>
+            <p class="text-xs font-bold uppercase tracking-widest text-neutral-600 dark:text-neutral-400 mt-1">Vocational High School • Computer Networking and Telecommunications </p>
+
+            <div class="mt-4 space-y-3 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+              <p>                
+                Learning about the Computer Network and Telecommunications Engineering major and the fundamentals of programming.
+              </p>
+              
+              <div class="pt-2 border-t border-[#E5E5E5] dark:border-neutral-800">
+                <span class="text-xs font-black text-[#18181B] dark:text-white uppercase tracking-wider">My extracurricular:</span>
+                <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1 font-medium">
+                  Informatics engineering community & English community of skagara.
+                </p>
+              </div>
+
+              <div class="pt-2 border-t border-[#E5E5E5] dark:border-neutral-800">
+                <span class="text-xs font-black text-[#18181B] dark:text-white uppercase tracking-wider">Achievements:</span>
+                <ul class="list-disc list-inside text-xs text-neutral-600 dark:text-neutral-400 mt-1 space-y-1 font-medium">
+                  <li></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline Item 2 -->
+        <div class="relative group reveal-on-scroll">
+          <div class="absolute -left-10 md:-left-12 top-1.5 w-6 h-6 rounded-full bg-[#18181B] dark:bg-white border-4 border-white dark:border-[#09090B] shadow-sm flex items-center justify-center transition-transform group-hover:scale-110">
+          </div>
+
+          <div class="bg-[#FAFAFA] dark:bg-neutral-900 rounded-xl p-6 sm:p-7 border border-[#E5E5E5] dark:border-neutral-800 hover:border-[#18181B] dark:hover:border-neutral-500 hover:shadow-[4px_4px_0px_0px_#18181B] dark:hover:shadow-[4px_4px_0px_0px_#FAFAFA] transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider bg-[#F4F4F5] dark:bg-neutral-800 text-[#18181B] dark:text-white border border-[#E5E5E5] dark:border-neutral-700">
+                2023 - 2026
+              </span>
+              <span class="text-xs font-mono font-bold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider">MTs Babussalam Mulyoharjo</span>
+            </div>
+
+            <h3 class="text-xl font-black uppercase tracking-tight text-[#18181B] dark:text-white">MTs Babussalam Mulyoharjo</h3>
+            <p class="text-xs font-bold uppercase tracking-widest text-neutral-600 dark:text-neutral-400 mt-1">Islamic Junior High School</p>
+
+            <div class="mt-4 space-y-3 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+              <p>
+                Successfully identified and developed my skills and talents in programming, computer science, and game development.
+              </p>
+              <div class="pt-2 border-t border-[#E5E5E5] dark:border-neutral-800">
+                <span class="text-xs font-black text-[#18181B] dark:text-white uppercase tracking-wider">Achievements:</span>
+                <ul class="list-disc list-inside text-xs text-neutral-600 dark:text-neutral-400 mt-1 font-medium">
+                  <li>Successfully obtained the Google's #JuaraVibeCoding participation certification</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline Item 3 -->
+        <div class="relative group reveal-on-scroll">
+          <div class="absolute -left-10 md:-left-12 top-1.5 w-6 h-6 rounded-full bg-neutral-400 dark:bg-neutral-600 border-4 border-white dark:border-[#09090B] shadow-sm flex items-center justify-center transition-transform group-hover:scale-110">
+          </div>
+
+          <div class="bg-[#FAFAFA] dark:bg-neutral-900 rounded-xl p-6 sm:p-7 border border-[#E5E5E5] dark:border-neutral-800 hover:border-[#18181B] dark:hover:border-neutral-500 hover:shadow-[4px_4px_0px_0px_#18181B] dark:hover:shadow-[4px_4px_0px_0px_#FAFAFA] transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <span class="inline-flex items-center px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider bg-[#F4F4F5] dark:bg-neutral-800 text-[#18181B] dark:text-white border border-[#E5E5E5] dark:border-neutral-700">
+                2017 — 2023
+              </span>
+              <span class="text-xs font-mono font-bold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider">SD Negeri 2 Mulyoharjo</span>
+            </div>
+
+            <h3 class="text-xl font-black uppercase tracking-tight text-[#18181B] dark:text-white">SD Negeri 2 Mulyoharjo</h3>
+            <p class="text-xs font-bold uppercase tracking-widest text-neutral-600 dark:text-neutral-400 mt-1">Elementary School</p>
+
+            <div class="mt-4 space-y-3 text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+              <p>
+                Starting to take an interest in things related to computers.
+              </p>
+              <div class="pt-2 border-t border-[#E5E5E5] dark:border-neutral-800">
+                <span class="text-xs font-black text-[#18181B] dark:text-white uppercase tracking-wider">Achievements:</span>
+                <ul class="list-disc list-inside text-xs text-neutral-600 dark:text-neutral-400 mt-1 space-y-1 font-medium">
+                  <li></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+  <!-- END SECTION 5: EDUCATION TIMELINE -->
+
+
+  <!-- ====================================================================== -->
+  <!-- 09. SECTION 6: CERTIFICATES SECTION                                    -->
+  <!-- ====================================================================== -->
+  <section id="certificates" class="py-24 bg-[#FAFAFA] dark:bg-[#121215] border-b border-[#E5E5E5] dark:border-neutral-800 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-2xl mx-auto mb-16 reveal-on-scroll">
+        <div class="text-xs font-black text-[#18181B] dark:text-neutral-400 tracking-[0.3em] uppercase mb-2">Credentials</div>
+        <h2 class="text-3xl sm:text-5xl font-black text-[#18181B] dark:text-white tracking-tighter uppercase">Certificates & Licenses</h2>
+        <p class="text-neutral-600 dark:text-neutral-400 mt-3 text-base font-medium">
+          Verified industry credentials, independent coursework, and specialized technical certifications.
+        </p>
+      </div>
+
+      <!-- Certificates Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Certificate 1 -->
+        <article class="project-item group bg-[#FAFAFA] dark:bg-neutral-900/90 rounded-xl border border-[#E5E5E5] dark:border-neutral-800 overflow-hidden flex flex-col hover:border-[#18181B] dark:hover:border-neutral-500 hover:shadow-[4px_4px_0px_0px_#18181B] dark:hover:shadow-[4px_4px_0px_0px_#FAFAFA] transition-all duration-200 reveal-on-scroll" data-category="web">
+          <!-- Placeholder Thumbnail / Graphic -->
+          <div class="aspect-video w-full bg-neutral-950 relative overflow-hidden flex items-center justify-center p-6 border-b border-[#E5E5E5] dark:border-neutral-800">
+            <!-- Tech Diagram SVG Placeholder -->
+            <svg class="relative w-16 h-16 text-neutral-200 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <div class="absolute inset-0 bg-neutral-900/60">
+              <img src="Images/Certificates/JuaraVibeCoding.jpeg">
+            </div>
+            <span class="absolute top-3 right-3 text-[11px] font-mono font-bold px-2.5 py-0.5 rounded bg-white/10 text-white border border-white/20 uppercase tracking-wider">2026</span>
+          </div>
+
+          <div class="p-6 flex-1 flex flex-col justify-between">
+            <div class="space-y-2.5">
+              <span class="text-[11px] font-black uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">Google's Certification</span>
+              <h3 class="text-xl font-black tracking-tight text-[#18181B] dark:text-white group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">#JuaraVibeCoding</h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+                Certification from the Google's cloud event that we should make a functional application, web or web game.
+              </p>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-[#E5E5E5] dark:border-neutral-800">
+              <!-- Tech Badges -->
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-[#E5E5E5] dark:border-neutral-700">Google AI Studio</span>
+                <span class="px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-[#E5E5E5] dark:border-neutral-700">React</span>
+                <span class="px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-[#E5E5E5] dark:border-neutral-700">Application</span>
+              </div>
+              <div class="flex items-center gap-4 text-xs font-black uppercase tracking-[0.15em]">
+                <a href="PDFfile/JuaraVibeCoding.pdf" target="_blank" class="text-[#18181B] dark:text-white hover:underline inline-flex items-center gap-1">
+                  <span>Certificate</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white inline-flex items-center gap-1">
+                  <span></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+    </div>
+  </section>
+  <!-- END SECTION 6: CERTIFICATES SECTION -->
+
+
+  <!-- ====================================================================== -->
+  <!-- 10. SECTION 7: FOOTER & CONTACT SECTION                                -->
+  <!-- ====================================================================== -->
+  <footer id="contact" class="bg-[#18181B] dark:bg-black text-white pt-24 pb-14 mt-auto border-t-2 border-black dark:border-neutral-800 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-neutral-800">
+        
+        <!-- Contact Prompt & Info (7 Cols) -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-white/10 border border-white/20 text-white text-xs font-black uppercase tracking-[0.25em]">
+            Contact Me
+          </div>
+          
+          <h2 class="text-4xl sm:text-6xl font-black tracking-tighter uppercase text-white leading-tight">
+            Let's Collaborate <br class="hidden sm:inline" />or Connect.
+          </h2>
+          
+          <p class="text-neutral-400 text-base leading-relaxed max-w-lg font-normal">
+            I am always open to discussing about computer science, collaborative student software projects, programming, or computer network system.
+          </p>
+
+          <!-- Email Copy Card Component (Vanilla JS) -->
+          <div class="bg-neutral-900 dark:bg-neutral-950 border border-neutral-800 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 max-w-md">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-lg bg-white/10 text-white flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+              </div>
+              <div>
+                <div class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Direct Email</div>
+                <div id="email-address" class="text-sm font-mono font-bold text-white select-all">athaarkananta1111@gmail.com</div>
+              </div>
+            </div>
+
+            <button 
+              type="button" 
+              id="copy-email-btn"
+              class="px-3.5 py-2 rounded-lg bg-white text-[#18181B] hover:bg-neutral-200 text-xs font-black uppercase tracking-wider transition-color flex items-center gap-1.5 shrink-0 focus:outline-none focus:ring-2 focus:ring-white"
+              aria-label="Copy email address to clipboard"
+            >
+              <svg id="copy-icon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" /></svg>
+              <span id="copy-btn-text">Copy Email</span>
+            </button>
+          </div>
+
+          <!-- Social Links -->
+          <div class="flex items-center gap-3 pt-2">
+            <!-- GitHub -->
+            <a 
+              href="https://github.com/NantaArka" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="w-10 h-10 rounded-lg bg-neutral-900 dark:bg-neutral-950 hover:bg-white text-neutral-300 hover:text-black flex items-center justify-center transition-colors border border-neutral-800"
+              aria-label="GitHub Profile"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            </a>
+
+            <!-- LinkedIn -->
+            <a 
+              href="https://linkedin.com" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="w-10 h-10 rounded-lg bg-neutral-900 dark:bg-neutral-950 hover:bg-white text-neutral-300 hover:text-black flex items-center justify-center transition-colors border border-neutral-800"
+              aria-label="LinkedIn Profile"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+
+            <!-- Instagram -->
+            <a 
+              href="https://www.instagram.com/arknntashqul" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="w-10 h-10 rounded-lg bg-neutral-900 dark:bg-neutral-950 hover:bg-white text-neutral-300 hover:text-black flex items-center justify-center transition-colors border border-neutral-800"
+              aria-label="Instagram Profile"
+            >
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Interactive Contact Note Form (5 Cols) -->
+        <div class="lg:col-span-5 bg-neutral-900 dark:bg-neutral-950 p-6 sm:p-8 rounded-xl border border-neutral-800">
+          <h3 class="text-base font-black uppercase tracking-tight text-white mb-1.5">Send a Quick Note</h3>
+          <p class="text-xs text-neutral-400 mb-5 leading-relaxed font-normal">Leave a message and I'll get back to you within 24 hours.</p>
+
+          <form id="contact-form" class="space-y-4">
+            <div>
+              <label for="form-name" class="block text-xs font-black uppercase tracking-wider text-neutral-300 mb-1.5">Your Name</label>
+              <input 
+                type="text" 
+                id="form-name" 
+                required 
+                placeholder="Dr. Eleanor Vance" 
+                class="w-full px-3.5 py-2.5 rounded-lg bg-neutral-950 border border-neutral-700 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-white transition-colors"
+              />
+            </div>
+
+            <div>
+              <label for="form-email" class="block text-xs font-black uppercase tracking-wider text-neutral-300 mb-1.5">Your Email</label>
+              <input 
+                type="email" 
+                id="form-email" 
+                required 
+                placeholder="eleanor@university.edu" 
+                class="w-full px-3.5 py-2.5 rounded-lg bg-neutral-950 border border-neutral-700 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-white transition-colors"
+              />
+            </div>
+
+            <div>
+              <label for="form-message" class="block text-xs font-black uppercase tracking-wider text-neutral-300 mb-1.5">Message</label>
+              <textarea 
+                id="form-message" 
+                required 
+                rows="3" 
+                placeholder="Hi Alex, I reviewed your EcoTrack project..." 
+                class="w-full px-3.5 py-2.5 rounded-lg bg-neutral-950 border border-neutral-700 text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-white transition-colors resize-none"
+              ></textarea>
+            </div>
+
+            <button 
+              type="submit" 
+              id="form-submit-btn"
+              class="w-full py-3 px-4 rounded-lg bg-white hover:bg-neutral-200 text-[#18181B] font-black text-xs uppercase tracking-[0.2em] transition-colors flex items-center justify-center gap-2 focus:ring-2 focus:ring-white focus:outline-none shadow-md"
+            >
+              <span>Send Message</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+            </button>
+
+            <!-- Success notification text -->
+            <div id="form-feedback" class="hidden text-xs text-center py-2.5 px-3 rounded-lg bg-white/10 border border-white/20 text-white font-bold uppercase tracking-wider">
+              Thank you! Your message has been sent successfully.
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar with Copyright & Back to Top -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-neutral-500">
+        <p>© 2025 Atha Arkananta S. Designed with native HTML5 & Tailwind CSS. All rights reserved.</p>
+        
+        <div class="flex items-center gap-6">
+          <a href="#hero" id="back-to-top-btn" class="inline-flex items-center gap-1.5 text-neutral-400 hover:text-white font-bold uppercase tracking-widest transition-colors">
+            <span>Back to top</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+  <!-- END SECTION 7: FOOTER SECTION -->
+
+
+  <!-- ====================================================================== -->
+  <!-- 11. VANILLA JAVASCRIPT: INTERACTION & FUNCTIONALITY                    -->
+  <!-- ====================================================================== -->
+  <script>
+    // Execute all script operations once DOM is fully parsed
+    document.addEventListener('DOMContentLoaded', () => {
+      /* ---------------------------------------------------------------------- */
+      /* A. MOBILE NAVIGATION MENU TOGGLE & HAMBURGER MORPH                     */
+      /* ---------------------------------------------------------------------- */
+      const hamburgerBtn = document.getElementById('hamburger-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+      function toggleMobileMenu() {
+        const isExpanded = hamburgerBtn.getAttribute('aria-expanded') === 'true';
+        hamburgerBtn.setAttribute('aria-expanded', !isExpanded);
+        hamburgerBtn.classList.toggle('menu-open');
+        
+        if (mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.remove('hidden');
+          mobileMenu.setAttribute('aria-hidden', 'false');
+        } else {
+          mobileMenu.classList.add('hidden');
+          mobileMenu.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      if (hamburgerBtn && mobileMenu) {
+        hamburgerBtn.addEventListener('click', toggleMobileMenu);
+
+        // Close mobile menu when any nav item is clicked
+        mobileNavLinks.forEach(link => {
+          link.addEventListener('click', () => {
+            hamburgerBtn.setAttribute('aria-expanded', 'false');
+            hamburgerBtn.classList.remove('menu-open');
+            mobileMenu.classList.add('hidden');
+            mobileMenu.setAttribute('aria-hidden', 'true');
+          });
         });
-        
-        // Typing Text Logic
-        const words = ["Atha Arkananta Shaquille", "Informatics Student"];
+      }
 
-        function jalankanEfekKetik(elemen) {
-            let wordIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
 
-            function type() {
-                const currentWord = words[wordIndex];
-                
-                if (isDeleting) {
-                elemen.textContent = currentWord.substring(0, charIndex - 1);
-                charIndex--;
-                } else {
-                elemen.textContent = currentWord.substring(0, charIndex + 1);
-                charIndex++;
-                }
+      /* ---------------------------------------------------------------------- */
+      /* B. SCROLL REVEAL ANIMATIONS (Intersection Observer)                   */
+      /* ---------------------------------------------------------------------- */
+      const revealElements = document.querySelectorAll('.reveal-on-scroll');
 
-                let typingSpeed = isDeleting ? 50 : 100;
+      if ('IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target); // Trigger only once for performance
+            }
+          });
+        }, {
+          root: null,
+          threshold: 0.12,
+          rootMargin: '0px 0px -40px 0px'
+        });
 
-                if (!isDeleting && charIndex === currentWord.length) {
-                typingSpeed = 3000; 
-                isDeleting = true;
-                } 
-                else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                wordIndex = (wordIndex + 1) % words.length;
-                typingSpeed = 500; 
-                }
+        revealElements.forEach(el => revealObserver.observe(el));
+      } else {
+        // Fallback for browsers without IntersectionObserver
+        revealElements.forEach(el => el.classList.add('is-visible'));
+      }
 
-                setTimeout(type, typingSpeed);
+
+      /* ---------------------------------------------------------------------- */
+      /* C. ACTIVE NAVIGATION LINK SPY ON SCROLL                                */
+      /* ---------------------------------------------------------------------- */
+      const sections = document.querySelectorAll('section[id], footer[id]');
+      const navLinks = document.querySelectorAll('#desktop-nav .nav-link');
+
+      function highlightActiveNavLink() {
+        const scrollPosition = window.scrollY + 120;
+
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          const sectionId = section.getAttribute('id');
+
+          if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === `#${sectionId}`) {
+                link.classList.add('active');
+              }
+            });
+          }
+        });
+      }
+
+      window.addEventListener('scroll', highlightActiveNavLink, { passive: true });
+      highlightActiveNavLink(); // Initial execution
+
+
+      /* ---------------------------------------------------------------------- */
+      /* D. PROJECTS CATEGORY FILTERING                                         */
+      /* ---------------------------------------------------------------------- */
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const projectItems = document.querySelectorAll('.project-item');
+
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Update active button state
+          filterButtons.forEach(btn => {
+            btn.classList.remove('active', 'bg-[#18181B]', 'text-white', 'dark:bg-white', 'dark:text-[#18181B]');
+            btn.classList.add('bg-transparent', 'text-[#18181B]', 'dark:text-neutral-300');
+          });
+
+          button.classList.remove('bg-transparent', 'text-[#18181B]', 'dark:text-neutral-300');
+          button.classList.add('active', 'bg-[#18181B]', 'text-white', 'dark:bg-white', 'dark:text-[#18181B]');
+
+          const selectedFilter = button.getAttribute('data-filter');
+
+          // Filter projects
+          projectItems.forEach(item => {
+            const categories = item.getAttribute('data-category') || '';
+            
+            if (selectedFilter === 'all' || categories.includes(selectedFilter)) {
+              item.style.display = 'flex';
+              setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+              }, 30);
+            } else {
+              item.style.opacity = '0';
+              item.style.transform = 'translateY(12px)';
+              setTimeout(() => {
+                item.style.display = 'none';
+              }, 200);
+            }
+          });
+        });
+      });
+
+
+      /* ---------------------------------------------------------------------- */
+      /* E. COPY EMAIL TO CLIPBOARD                                             */
+      /* ---------------------------------------------------------------------- */
+      const copyEmailBtn = document.getElementById('copy-email-btn');
+      const copyBtnText = document.getElementById('copy-btn-text');
+      const emailAddress = document.getElementById('email-address');
+
+      if (copyEmailBtn && emailAddress) {
+        copyEmailBtn.addEventListener('click', async () => {
+          const email = emailAddress.textContent.trim();
+          try {
+            if (navigator.clipboard && window.isSecureContext) {
+              await navigator.clipboard.writeText(email);
+            } else {
+              // Fallback for non-secure contexts
+              const textArea = document.createElement('textarea');
+              textArea.value = email;
+              textArea.style.position = 'fixed';
+              textArea.style.opacity = '0';
+              document.body.appendChild(textArea);
+              textArea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
             }
 
-            type();
+            copyBtnText.textContent = 'COPIED!';
+            copyEmailBtn.classList.add('bg-neutral-200');
+
+            setTimeout(() => {
+              copyBtnText.textContent = 'COPY EMAIL';
+              copyEmailBtn.classList.remove('bg-neutral-200');
+            }, 2000);
+          } catch (err) {
+            console.error('Failed to copy email:', err);
+          }
+        });
+      }
+
+
+      /* ---------------------------------------------------------------------- */
+      /* F. CONTACT FORM SUBMISSION HANDLER                                     */
+      /* ---------------------------------------------------------------------- */
+      const contactForm = document.getElementById('contact-form');
+      const formFeedback = document.getElementById('form-feedback');
+      const submitBtn = document.getElementById('form-submit-btn');
+
+      if (contactForm && formFeedback && submitBtn) {
+        contactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          // Button feedback state
+          const originalBtnContent = submitBtn.innerHTML;
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `
+            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Sending...
+          `;
+
+          setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnContent;
+            formFeedback.classList.remove('hidden');
+            contactForm.reset();
+
+            setTimeout(() => {
+              formFeedback.classList.add('hidden');
+            }, 4500);
+          }, 600);
+        });
+      }
+
+
+      /* ---------------------------------------------------------------------- */
+      /* G. THEME SWITCHER: LIGHT & HIGH-CONTRAST DARK MODE                     */
+      /* ---------------------------------------------------------------------- */
+      const desktopThemeBtn = document.getElementById('theme-toggle-btn');
+      const mobileTopThemeBtn = document.getElementById('mobile-theme-toggle-top-btn');
+      const mobileMenuThemeBtn = document.getElementById('mobile-menu-theme-btn');
+
+      const desktopMoon = document.getElementById('theme-icon-moon');
+      const desktopSun = document.getElementById('theme-icon-sun');
+      const mobileMoon = document.getElementById('mobile-theme-icon-moon');
+      const mobileSun = document.getElementById('mobile-theme-icon-sun');
+      const mobileThemeLabel = document.getElementById('mobile-menu-theme-label');
+
+      function updateThemeIcons(isDark) {
+        // Desktop navigation icons
+        if (desktopMoon && desktopSun) {
+          if (isDark) {
+            desktopMoon.classList.add('hidden');
+            desktopSun.classList.remove('hidden');
+          } else {
+            desktopMoon.classList.remove('hidden');
+            desktopSun.classList.add('hidden');
+          }
         }
 
-            document.addEventListener("DOMContentLoaded", () => {
-            const semuaKomponenTeks = document.querySelectorAll('.typing-text');
-            
-            semuaKomponenTeks.forEach((elemen) => {
-                jalankanEfekKetik(elemen);
-            });
+        // Mobile header top icons
+        if (mobileMoon && mobileSun) {
+          if (isDark) {
+            mobileMoon.classList.add('hidden');
+            mobileSun.classList.remove('hidden');
+          } else {
+            mobileMoon.classList.remove('hidden');
+            mobileSun.classList.add('hidden');
+          }
+        }
+
+        // Mobile menu dropdown status label
+        if (mobileThemeLabel) {
+          mobileThemeLabel.textContent = isDark ? 'Dark Mode' : 'Light Mode';
+        }
+      }
+
+      function applyTheme(theme) {
+        const isDark = (theme === 'dark');
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+
+        try {
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        } catch (e) {
+          console.warn('Unable to persist theme to localStorage:', e);
+        }
+
+        updateThemeIcons(isDark);
+      }
+
+      function toggleTheme() {
+        const currentIsDark = document.documentElement.classList.contains('dark');
+        applyTheme(currentIsDark ? 'light' : 'dark');
+      }
+
+      if (desktopThemeBtn) {
+        desktopThemeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          toggleTheme();
+        });
+      }
+
+      if (mobileTopThemeBtn) {
+        mobileTopThemeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          toggleTheme();
+        });
+      }
+
+      if (mobileMenuThemeBtn) {
+        mobileMenuThemeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          toggleTheme();
+        });
+      }
+
+      // Initial synchronization of icons and UI state
+      updateThemeIcons(document.documentElement.classList.contains('dark'));
+
+
+      /* ---------------------------------------------------------------------- */
+      /* H. INTERACTIVE CIRCLE GLOW FADE BLACK CURSOR POINTER FOLLOWER           */
+      /* ---------------------------------------------------------------------- */
+      const cursorGlow = document.getElementById('cursor-glow');
+      const cursorDot = document.getElementById('cursor-dot');
+
+      // Check if current device supports hover & fine mouse pointer
+      const supportsFinePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+
+      if (cursorGlow && cursorDot && supportsFinePointer) {
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let glowX = mouseX;
+        let glowY = mouseY;
+        let dotX = mouseX;
+        let dotY = mouseY;
+        let dotScale = 1;
+        let isVisible = false;
+        let isHovering = false;
+
+        // Track cursor coordinates
+        window.addEventListener('mousemove', (e) => {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+
+          if (!isVisible) {
+            isVisible = true;
+            cursorGlow.style.opacity = '1';
+            cursorDot.style.opacity = '1';
+          }
+        }, { passive: true });
+
+        // Fade out when cursor exits the document
+        document.addEventListener('mouseleave', () => {
+          isVisible = false;
+          cursorGlow.style.opacity = '0';
+          cursorDot.style.opacity = '0';
         });
 
-        AOS.init({
-            // Opsional Settings:
-            once: false, // set 'true' jika animasi hanya ingin diputar 1x
-            mirror: false // set 'true' agar animasi muncul lagi saat di-scroll balik ke atas
+        // Fade in when cursor enters the document
+        document.addEventListener('mouseenter', () => {
+          isVisible = true;
+          cursorGlow.style.opacity = '1';
+          cursorDot.style.opacity = '1';
         });
-    </script>
 
+        // Detect hover over interactive elements (buttons, links, inputs, tags)
+        const interactiveSelector = 'a, button, input, textarea, select, label, [role="button"], .project-item, .filter-btn, .group';
+
+        document.addEventListener('mouseover', (e) => {
+          if (e.target && e.target.closest(interactiveSelector)) {
+            if (!isHovering) {
+              isHovering = true;
+              document.body.classList.add('cursor-hover');
+            }
+          }
+        }, { passive: true });
+
+        document.addEventListener('mouseout', (e) => {
+          if (e.target && e.target.closest(interactiveSelector)) {
+            const related = e.relatedTarget;
+            if (!related || !related.closest(interactiveSelector)) {
+              isHovering = false;
+              document.body.classList.remove('cursor-hover');
+            }
+          }
+        }, { passive: true });
+
+        // Smooth physics loop via requestAnimationFrame and linear interpolation
+        function renderCursor() {
+          // Subtle lag for ambient outer glow circle
+          glowX += (mouseX - glowX) * 0.14;
+          glowY += (mouseY - glowY) * 0.14;
+
+          // Responsive tracking for inner precision dot
+          dotX += (mouseX - dotX) * 0.42;
+          dotY += (mouseY - dotY) * 0.42;
+
+          // Smooth scale animation on hover
+          const targetScale = isHovering ? 1.4 : 1;
+          dotScale += (targetScale - dotScale) * 0.2;
+
+          cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0)`;
+          cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) scale(${dotScale})`;
+
+          requestAnimationFrame(renderCursor);
+        }
+
+        requestAnimationFrame(renderCursor);
+      }
+
+      /* ---------------------------------------------------------------------- */
+      /* I. 3D TILT PROFIL HERO CARDs                                           */
+      /* ---------------------------------------------------------------------- */
+
+      const card = document.getElementById('card');
+      let isHovered = false;
+      let targetX = 0;
+      let targetY = 0;
+      let currentX = 0;
+      let currentY = 0;
+      let time = 0;
+
+      
+      window.addEventListener('mousemove', (e) => {
+        isHovered = true;
+        targetX = (e.clientX - window.innerWidth / 2) / 12;
+        targetY = (window.innerHeight / 2 - e.clientY) / 12;
+      });
+
+      
+      window.addEventListener('mouseleave', () => {
+        isHovered = false;
+      });
+
+      
+      function autoAnimate() {
+        time += 0.025;
+
+        if (!isHovered) {
+          
+          targetX = Math.sin(time) * 12;
+          targetY = Math.cos(time * 0.8) * 8;
+        }
+
+        
+        currentX += (targetX - currentX) * 0.08;
+        currentY += (targetY - currentY) * 0.08;
+
+        const floatOffset = Math.sin(time * 1.5) * 8; 
+
+        card.style.transform = `translateY(${floatOffset}px) rotateY(${currentX}deg) rotateX(${currentY}deg)`;
+
+        requestAnimationFrame(autoAnimate);
+      }
+
+      autoAnimate();
+    });
+  </script>
+  <!-- END VANILLA JAVASCRIPT -->
 </body>
 </html>
