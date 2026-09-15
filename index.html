@@ -20,6 +20,11 @@
 
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 
+  <style>
+    details > summary { list-style: none; }
+    details > summary::-webkit-details-marker { display: none; }
+  </style>
+
   <!-- ====================================================================== -->
   <!-- 02. TAILWIND PLAY CDN & CONFIGURATION SCRIPT                           -->
   <!-- ====================================================================== -->
@@ -316,7 +321,7 @@
           </svg>
         </button>
 
-        <a href="#contact" id="desktop-cta-btn" class="inline-flex items-center justify-center px-5 py-2.5 text-xs font-black uppercase tracking-[0.15em] rounded-lg bg-[#18181B] text-white hover:bg-neutral-800 dark:bg-white dark:text-[#18181B] dark:hover:bg-neutral-200 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:ring-offset-2 hover:-translate-y-2">
+        <a href="#contact" id="desktop-cta-btn" class="inline-flex items-center justify-center px-5 py-2.5 text-xs font-black uppercase tracking-[0.15em] rounded-lg bg-[#18181B] text-white hover:bg-neutral-800 dark:bg-white dark:text-[#18181B] dark:hover:bg-neutral-200 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:ring-offset-2 hover:scale-105">
           Contact Me
         </a>
       </div>
@@ -357,171 +362,74 @@
       </div>
     </div>
 
-    <!-- Mobile Dropdown Navigation Menu -->
+    <!-- Mobile Menu Container -->
+    <!-- Perubahan Utama: Ditambahkan 'max-h-screen overflow-y-auto' agar bisa di-scroll vertikal -->
     <div 
       id="mobile-menu" 
-      class="hidden border-b border-[#E5E5E5] dark:border-neutral-800 bg-[#FAFAFA]/98 dark:bg-[#09090B]/98 backdrop-blur-md px-4 pt-3 pb-6 transition-all duration-300 shadow-lg"
+      class="hidden w-full bg-[#FAFAFA] dark:bg-[#1a1a1a] border-b border-[#E5E5E5] dark:border-neutral-800 transition-all duration-300 shadow-lg max-h-[85vh] overflow-y-auto"
       aria-hidden="true"
     >
-      <nav class="flex flex-col space-y-2" aria-label="Mobile Navigation">
-        <div class="md:hidden">
-          <a href="#hero" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-            <span>Home</span>
-            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-          </a>
-          <a href="#projects" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-            <span>Projects</span>
-            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-          </a>
-          <a href="#skills" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-            <span>Skills</span>
-            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-          </a>
-          <a href="#education" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-            <span>Education</span>
-            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-          </a>
-          <a href="#certificates" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-            <span>Certificates</span>
-            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-          </a>
-          <a href="#contact" class="mobile-nav-link flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-            <span>Contact</span>
-            <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-          </a>
-        </div>
-
-        <div class="flex justify-center items-center">
-          <p>School Task</p>
-        </div>
-
-        <div class="flex flex-wrap">
-          <!-- Sejarah Page -->
-          <div class="flex flex-wrap">  
-            <a href="sejarah.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>Sejarah</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- Ipas Page -->
-          <div class="flex flex-wrap">
-            <a href="ipas.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>Ipas</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- Informatika Page -->
-          <div class="flex flex-wrap">
-            <a href="informatika.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>Informatika</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- PAI Page -->
-          <div class="flex flex-wrap">
-            <a href="pai.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>PAI</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- PPKN Page -->
-          <div class="flex flex-wrap">
-            <a href="ppkn.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>PPKN</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- Bahasa Indonesia Page -->
-          <div class="flex flex-wrap">
-            <a href="bahasaindonesia.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>Bahasa Indonesia</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- Bahasa Jawa Page -->
-          <div class="flex flex-wrap">
-            <a href="bahasajawa.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>Bahasa Jawa</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- Bahasa Inggris Page -->
-          <div class="flex flex-wrap">
-            <a href="bahasainggris.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>Bahasa Inggris</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- Seni Rupa Page -->
-          <div class="flex flex-wrap">
-            <a href="senirupa.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>Seni Rupa</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- Kejuruan Page -->
-          <div class="flex flex-wrap">
-            <a href="kejuruan.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>Kejuruan</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- Bimbingan Konseling Page -->
-          <div class="flex flex-wrap">
-            <a href="bimbingankonseling.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>Bimbingan Konseling</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- Koding dan Kecerdasan Artificial Page -->
-          <div class="flex flex-wrap">
-            <a href="kodingkecerdasanartificial.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>KKA</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- Matematika Page -->
-          <div class="flex flex-wrap">
-            <a href="matematika.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>Matematika</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- PJOK Page -->
-          <div class="flex flex-wrap">
-            <a href="pjok.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>PJOK</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-          <!-- Informatika Page -->
-          <div class="flex flex-wrap">
-            <a href="informatika.html" class="mobile-nav-link inline-flex w-fit items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-[0.2em] text-neutral-700 dark:text-neutral-300 hover:text-[#18181B] dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">
-              <span>Informatika</span>
-              <svg class="w-4 h-4 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </a>
-          </div>
-        </div>
+      <nav class="flex flex-col py-2" aria-label="Mobile Navigation">
         
+        <!-- Menu Aktif (Contoh: Beranda bergaya Google Sites dengan background biru/cyan) -->
+        <a href="#hero" class="block px-6 py-3 bg-black text-white text-sm font-bold uppercase tracking-wider transition-colors">
+          Beranda
+        </a>
 
-        <div class="pt-3 flex flex-col gap-2.5">
-          <!-- Mobile Menu Theme Toggle Row -->
-          <button 
-            type="button" 
-            id="mobile-menu-theme-btn" 
-            class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] dark:border-neutral-800 bg-[#F4F4F5] dark:bg-neutral-900 text-xs font-bold uppercase tracking-[0.15em] text-neutral-800 dark:text-neutral-200 hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors cursor-pointer"
-          >
-            <span class="flex items-center gap-2">
-              <svg class="w-4 h-4 text-neutral-500 dark:text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-              <span>Theme</span>
-            </span>
-            <span id="mobile-menu-theme-label" class="px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-widest bg-[#18181B] text-white dark:bg-white dark:text-[#18181B]">Light Mode</span>
-          </button>
+        <!-- Dropdown KELAS X (Menggunakan tag details & summary) -->
+        <details class="group">
+          <!-- Header Dropdown -->
+          <summary class="flex items-center justify-between px-6 py-3 cursor-pointer text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm font-bold uppercase tracking-wider">
+            <span>Kelas X</span>
+            <!-- Ikon Panah (Otomatis berputar 180 derajat saat dropdown terbuka karena class 'group-open:rotate-180') -->
+            <svg class="w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </summary>
+          
+          <!-- Isi Submenu KELAS X (Semua mapel kamu dimasukkan ke sini) -->
+          <div class="flex flex-col bg-neutral-50 dark:bg-[#141414] pb-2 text-sm font-medium">
+            <a href="sejarahX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Sejarah</a>
+            <a href="ipasX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">IPAS</a>
+            <a href="informatikaX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Informatika</a>
+            <a href="paiX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">PAI</a>
+            <a href="ppknX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">PPKN</a>
+            <a href="bahasaindonesiaX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Bahasa Indonesia</a>
+            <a href="bahasajawaX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Bahasa Jawa</a>
+            <a href="bahasainggrisX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Bahasa Inggris</a>
+            <a href="senirupaX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Seni Rupa</a>
+            <a href="kejuruanX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Kejuruan</a>
+            <a href="bimbingankonselingX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Bimbingan Konseling</a>
+            <a href="kodingkecerdasanartificialX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">KKA</a>
+            <a href="matematikaX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Matematika</a>
+            <a href="pjokX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">PJOK</a>
+          </div>
+        </details>
 
-          <a href="#contact" class="mobile-nav-link w-full inline-flex items-center justify-center px-4 py-3 rounded-lg bg-[#18181B] text-white dark:bg-white dark:text-[#18181B] font-black text-xs uppercase tracking-[0.2em] hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors">
-            Contact Me
-          </a>
-        </div>
+        <!-- Dropdown KELAS XI -->
+        <details class="group">
+          <summary class="flex items-center justify-between px-6 py-3 cursor-pointer text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm font-bold uppercase tracking-wider">
+            <span>Kelas XI</span>
+            <svg class="w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </summary>
+          <div class="flex flex-col bg-neutral-50 dark:bg-[#141414] pb-2 text-sm font-medium">
+            <a href="#" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Materi Kelas XI...</a>
+          </div>
+        </details>
+
+        <!-- Dropdown KELAS XII -->
+        <details class="group">
+          <summary class="flex items-center justify-between px-6 py-3 cursor-pointer text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm font-bold uppercase tracking-wider">
+            <span>Kelas XII</span>
+            <svg class="w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </summary>
+          <div class="flex flex-col bg-neutral-50 dark:bg-[#141414] pb-2 text-sm font-medium">
+            <a href="#" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Materi Kelas XII...</a>
+          </div>
+        </details>
+
+        <!-- Menu Biasa (Tanpa Dropdown & Placeholder) -->
+        <a href="#prestasi" class="hidden px-6 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm font-bold uppercase tracking-wider">
+          Prestasi
+        </a>
       </nav>
     </div>
   </header>
@@ -561,7 +469,7 @@
             <a 
               href="#projects" 
               id="hero-cta-projects"
-              class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-[#18181B] text-white hover:bg-neutral-800 dark:bg-white dark:text-[#18181B] dark:hover:bg-neutral-200 font-black text-xs uppercase tracking-[0.2em] transition-all duration-200 shadow-sm hover:shadow focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:ring-offset-2 hover:-translate-y-2"
+              class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-[#18181B] text-white hover:bg-neutral-800 dark:bg-white dark:text-[#18181B] dark:hover:bg-neutral-200 font-black text-xs uppercase tracking-[0.2em] transition-all duration-200 shadow-sm hover:shadow focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:ring-offset-2 hover:hover:scale-105"
             >
               <span>View My Projects</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
@@ -570,7 +478,7 @@
             <a 
               href="#contact" 
               id="hero-cta-contact"
-              class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-white dark:bg-neutral-900 text-[#18181B] dark:text-white font-black text-xs uppercase tracking-[0.2em] border-2 border-[#18181B] dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-200 focus:ring-2 focus:ring-neutral-400 hover:-translate-y-2"
+              class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-white dark:bg-neutral-900 text-[#18181B] dark:text-white font-black text-xs uppercase tracking-[0.2em] border-2 border-[#18181B] dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-200 focus:ring-2 focus:ring-neutral-400 hover:hover:scale-105"
             >
               <span>Contact Me</span>
             </a>

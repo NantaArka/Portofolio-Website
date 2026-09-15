@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sejarah Page</title>
+
+    <!-- Google Fonts: Bold, high-contrast typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Custom Tailwind CSS Theme Configuration: Bold Typography Theme
+        tailwind.config = {
+        darkMode: 'class',
+        theme: {
+            extend: {
+            fontFamily: {
+                sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+                mono: ['"JetBrains Mono"', 'monospace'],
+            },
+            colors: {
+                brand: {
+                50: '#fafafa',
+                100: '#f4f4f5',
+                200: '#e4e4e7',
+                500: '#27272a',
+                600: '#18181b',
+                700: '#09090b',
+                900: '#000000',
+                },
+                accent: {
+                DEFAULT: '#18181b',
+                hover: '#000000',
+                light: '#f4f4f5',
+                }
+            }
+            }
+        }
+        };
+        // Ensure alias fallback compatibility
+        window.tailwid = window.tailwind;
+    </script>
+
+    <!-- Immediate Theme Initialization Script (prevents theme flicker) -->
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                } else if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+                } else {
+                // Default to light mode so the site starts in clean white mode
+                document.documentElement.classList.remove('dark');
+                }
+            } catch (e) {}
+        })();
+    </script>
+
+
+    <!-- ====================================================================== -->
+    <!-- 1. CUSTOM EMBEDDED CSS & ANIMATIONS                                    -->
+    <!-- ====================================================================== -->
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAFAFA;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #09090B;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4D4D8;
+            border-radius: 2px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #3F3F46;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #71717A;
+        }
+
+        /* Scroll Reveal Initial & Active States */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(100px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hamburger Animation to 'X' */
+        .hamburger-line {
+            transition: transform 0.3s ease, opacity 0.2s ease, width 0.3s ease;
+            transform-origin: center;
+        }
+        .menu-open #line-top {
+            transform: translateY(7px) rotate(45deg);
+        }
+        .menu-open #line-middle {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .menu-open #line-bottom {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Active Link Accent - Bold Typography High Contrast */
+        .nav-link.active {
+            color: #18181B;
+            font-weight: 800;
+        }
+        .dark .nav-link.active {
+            color: #FFFFFF;
+            font-weight: 800;
+        }
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #18181B;
+        }
+        .dark .nav-link.active::after {
+            background-color: #FFFFFF;
+        }
+
+        /* Override active state for project filter buttons */
+        .filter-btn.active {
+            background-color: #18181B !important;
+            color: #FFFFFF !important;
+            border-color: #18181B !important;
+        }
+        .dark .filter-btn.active {
+            background-color: #FAFAFA !important;
+            color: #09090B !important;
+            border-color: #FAFAFA !important;
+        }
+
+        /* Timeline vertical track */
+        .timeline-track::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            bottom: 12px;
+            left: 19px;
+            width: 2px;
+            background: #E5E5E5;
+        }
+        .dark .timeline-track::before {
+            background: #27272A;
+        }
+        @media (min-width: 768px) {
+            .timeline-track-centered::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ====================================================================== -->
+    <!-- SECTION 1: GLOBAL NAVIGATION (HEADER)                                  -->
+    <!-- ====================================================================== -->
+    <header id="site-header" class="sticky top-0 z-50 w-full bg-[#FAFAFA]/95 dark:bg-[#09090B]/95 backdrop-blur-md border-b border-[#E5E5E5] dark:border-neutral-800 transition-colors duration-200">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        
+        <!-- Brand Logo / Name -->
+        <a href="index.html#hero" id="brand-logo" class="flex items-center gap-3.5 group" aria-label="Go to homepage">
+          <div class="w-10 h-10 rounded-lg bg-transparent text-white dark:bg-black dark:text-[#18181B] flex items-center justify-center font-black text-lg tracking-tight group-hover:bg-neutral-800 dark:group-hover:bg-neutral-200 transition-colors shadow-sm">
+            <img class="border rounded-full border-gray-950" src="Images/MyPP.png">
+          </div>
+          <div class="flex flex-col">
+            <span class="font-black text-[#18181B] dark:text-white text-base uppercase tracking-tight leading-none group-hover:text-neutral-600 dark:group-hover:text-neutral-300 transition-colors">ATHA ARKANANTA S</span>
+            <span class="text-[10px] text-neutral-500 dark:text-neutral-400 font-bold uppercase tracking-[0.2em] mt-1">INFORMATICS STUDENT</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Menu -->
+        <nav id="desktop-nav" class="hidden md:flex items-center gap-7" aria-label="Main Navigation">
+          <a href="index.html" class="nav-link relative text-xs font-bold uppercase tracking-[0.15em] text-neutral-600 dark:text-neutral-400 hover:text-[#18181B] dark:hover:text-white transition-colors py-1">Home</a>
+          <a href="index.html#projects" class="nav-link relative text-xs font-bold uppercase tracking-[0.15em] text-neutral-600 dark:text-neutral-400 hover:text-[#18181B] dark:hover:text-white transition-colors py-1">Projects</a>
+          <a href="index.html#skills" class="nav-link relative text-xs font-bold uppercase tracking-[0.15em] text-neutral-600 dark:text-neutral-400 hover:text-[#18181B] dark:hover:text-white transition-colors py-1">Skills</a>
+          <a href="index.html#education" class="nav-link relative text-xs font-bold uppercase tracking-[0.15em] text-neutral-600 dark:text-neutral-400 hover:text-[#18181B] dark:hover:text-white transition-colors py-1">Education</a>
+          <a href="index.html#certificates" class="nav-link relative text-xs font-bold uppercase tracking-[0.15em] text-neutral-600 dark:text-neutral-400 hover:text-[#18181B] dark:hover:text-white transition-colors py-1">Certificates</a>
+          <a href="index.html#contact" class="nav-link relative text-xs font-bold uppercase tracking-[0.15em] text-neutral-600 dark:text-neutral-400 hover:text-[#18181B] dark:hover:text-white transition-colors py-1">Contact</a>
+        </nav>
+
+        <!-- Desktop Action CTA & Theme Toggle Button -->
+        <div class="hidden md:flex items-center gap-3">
+          <a href="#" id="desktop-cta-btn" class="inline-flex items-center justify-center px-5 py-2.5 text-xs font-black uppercase tracking-[0.15em] rounded-lg bg-[#18181B] text-white hover:bg-neutral-800 dark:bg-white dark:text-[#18181B] dark:hover:bg-neutral-200 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:ring-offset-2 hover:-translate-y-2">
+            Sejarah
+          </a>
+        </div>
+
+        <!-- Mobile Right Action Controls -->
+        <div class="flex items-center gap-2">
+          <!-- Mobile Hamburger Button -->
+          <button 
+            type="button"
+            id="hamburger-btn" 
+            class="p-2.5 rounded-lg text-neutral-800 dark:text-neutral-200 hover:text-black dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-800 dark:focus:ring-white" 
+            aria-label="Toggle Navigation Menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <div class="w-6 h-5 flex flex-col justify-between items-center relative">
+              <span id="line-top" class="hamburger-line w-6 h-0.5 bg-[#18181B] dark:bg-white rounded-full"></span>
+              <span id="line-middle" class="hamburger-line w-6 h-0.5 bg-[#18181B] dark:bg-white rounded-full"></span>
+              <span id="line-bottom" class="hamburger-line w-6 h-0.5 bg-[#18181B] dark:bg-white rounded-full"></span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Container -->
+      <!-- Perubahan Utama: Ditambahkan 'max-h-screen overflow-y-auto' agar bisa di-scroll vertikal -->
+      <div 
+        id="mobile-menu" 
+        class="hidden w-full bg-[#FAFAFA] dark:bg-[#1a1a1a] border-b border-[#E5E5E5] dark:border-neutral-800 transition-all duration-300 shadow-lg max-h-[85vh] overflow-y-auto"
+        aria-hidden="true"
+      >
+        <nav class="flex flex-col py-2" aria-label="Mobile Navigation">
+          
+          <!-- Menu Aktif (Contoh: Beranda bergaya Google Sites dengan background biru/cyan) -->
+          <a href="#hero" class="block px-6 py-3 bg-black text-white text-sm font-bold uppercase tracking-wider transition-colors">
+            Beranda
+          </a>
+
+          <!-- Dropdown KELAS X (Menggunakan tag details & summary) -->
+          <details class="group">
+            <!-- Header Dropdown -->
+            <summary class="flex items-center justify-between px-6 py-3 cursor-pointer text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm font-bold uppercase tracking-wider">
+              <span>Kelas X</span>
+              <!-- Ikon Panah (Otomatis berputar 180 derajat saat dropdown terbuka karena class 'group-open:rotate-180') -->
+              <svg class="w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </summary>
+            
+            <!-- Isi Submenu KELAS X (Semua mapel kamu dimasukkan ke sini) -->
+            <div class="flex flex-col bg-neutral-50 dark:bg-[#141414] pb-2 text-sm font-medium">
+              <a href="sejarahX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Sejarah</a>
+              <a href="ipasX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">IPAS</a>
+              <a href="informatikaX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Informatika</a>
+              <a href="paiX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">PAI</a>
+              <a href="ppknX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">PPKN</a>
+              <a href="bahasaindonesiaX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Bahasa Indonesia</a>
+              <a href="bahasajawaX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Bahasa Jawa</a>
+              <a href="bahasainggrisX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Bahasa Inggris</a>
+              <a href="senirupaX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Seni Rupa</a>
+              <a href="kejuruanX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Kejuruan</a>
+              <a href="bimbingankonselingX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Bimbingan Konseling</a>
+              <a href="kodingkecerdasanartificialX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">KKA</a>
+              <a href="matematikaX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Matematika</a>
+              <a href="pjokX.html" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">PJOK</a>
+            </div>
+          </details>
+
+          <!-- Dropdown KELAS XI -->
+          <details class="group">
+            <summary class="flex items-center justify-between px-6 py-3 cursor-pointer text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm font-bold uppercase tracking-wider">
+              <span>Kelas XI</span>
+              <svg class="w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </summary>
+            <div class="flex flex-col bg-neutral-50 dark:bg-[#141414] pb-2 text-sm font-medium">
+              <a href="#" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Materi Kelas XI...</a>
+            </div>
+          </details>
+
+          <!-- Dropdown KELAS XII -->
+          <details class="group">
+            <summary class="flex items-center justify-between px-6 py-3 cursor-pointer text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm font-bold uppercase tracking-wider">
+              <span>Kelas XII</span>
+              <svg class="w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </summary>
+            <div class="flex flex-col bg-neutral-50 dark:bg-[#141414] pb-2 text-sm font-medium">
+              <a href="#" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">Materi Kelas XII...</a>
+            </div>
+          </details>
+
+          <!-- Menu Biasa (Tanpa Dropdown & Placeholder) -->
+          <a href="#prestasi" class="hidden px-6 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm font-bold uppercase tracking-wider">
+            Prestasi
+          </a>
+        </nav>
+      </div>      
+    </header>
+    <!-- END SECTION 1: GLOBAL NAVIGATION -->
+
+  <!-- ====================================================================== --> 
+  <!-- SECTION 2: TUGAS SECTION                                               -->
+  <!-- ====================================================================== -->  
+  <section class="relative py-16 md:py-24 overflow-hidden bg-[#FAFAFA] dark:bg-[#09090B] border-b border-[#E5E5E5] dark:border-neutral-800 transition-colors">
+  
+    <!-- KONTANER UTAMA -->
+    <div class="max-w-7xl mx-auto px-6">
+      
+      <!-- JUDUL HALAMAN -->
+      <div class="text-center mb-16 md:mb-24">
+        <h2 class="text-3xl sm:text-5xl font-black text-[#18181B] dark:text-white tracking-tighter uppercase">
+          Sejarah Page
+        </h2>
+        <p class="text-neutral-500 mt-4 max-w-2xl mx-auto">
+          Kumpulan tugas mata pelajaran sejarah.
+        </p>
+      </div>
+
+      <!-- WRAPPER DAFTAR TUGAS (space-y-24 memberi jarak jauh antar tugas) -->
+      <div class="space-y-24">
+
+        <!-- ========================================== -->
+        <!-- TUGAS 1: LAYOUT TEKS KIRI, GAMBAR KANAN    -->
+        <!-- ========================================== -->
+        <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+          
+          <!-- SISI KIRI (Teks & Deskripsi - Lebar 1/3 di Desktop) -->
+          <div class="w-full lg:w-1/3 space-y-4">
+            <h3 class="text-3xl font-bold text-[#18181B] dark:text-white">
+              Tugas 1
+            </h3>
+            <h4 class="text-lg font-semibold text-neutral-700 dark:text-neutral-300">
+              LKPD Pertemuan 1-2
+            </h4>
+            <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed text-sm md:text-base">
+              Tugas menyelesaikan LKPD Sejarah (Unsur-unsur sejarah dan Insersi Adiwiyata) Berkelompok.
+            </p>
+            
+            <!-- Tombol Opsional (Bisa dihapus jika tidak perlu) -->
+            <div class="pt-2">
+              <a href="https://drive.google.com/file/d/1dA6lZGPgTs2-hgiLN542UeGh_VEUKC3V/view?usp=drive_link" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-[#18181B] dark:text-white hover:text-blue-500 transition-colors">
+                Lihat <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- SISI KANAN (Media / Infografis / Embed - Lebar 2/3 di Desktop) -->
+          <div class="w-full lg:w-2/3">
+            <!-- Frame Pembungkus Gambar -->
+            <div class="bg-white dark:bg-neutral-900 p-2 border border-[#E5E5E5] dark:border-neutral-800 rounded-2xl shadow-xl">
+              <!-- Dokumen Tugas -->
+              <iframe 
+                title="Preview Tugas Sejarah"
+                src="https://drive.google.com/file/d/1dA6lZGPgTs2-hgiLN542UeGh_VEUKC3V/preview" 
+                class="w-full h-96 md:h-[30rem] rounded-xl"
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+
+        </div>
+        <!-- END TUGAS 1 -->
+
+        <!-- ========================================== -->
+        <!-- TUGAS 2: LAYOUT TEKS KIRI, GAMBAR KANAN    -->
+        <!-- ========================================== -->
+        <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+          
+          <!-- SISI KIRI (Teks & Deskripsi - Lebar 1/3 di Desktop) -->
+          <div class="w-full lg:w-1/3 space-y-4">
+            <h3 class="text-3xl font-bold text-[#18181B] dark:text-white">
+              Tugas 2
+            </h3>
+            <h4 class="text-lg font-semibold text-neutral-700 dark:text-neutral-300">
+              Infografis Observasi Lab
+            </h4>
+            <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed text-sm md:text-base">
+              Tugas infografis mengenai identifikasi masalah dan solusi perbaikan di Laboratorium TKJ. Berisi rancangan manajemen kabel, standar kebersihan, dan pembaruan fasilitas.
+            </p>
+            
+            <!-- Tombol Opsional (Bisa dihapus jika tidak perlu) -->
+            <div class="pt-2">
+              <a href="https://drive.google.com/file/d/1dA6lZGPgTs2-hgiLN542UeGh_VEUKC3V/view?usp=drive_link" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-[#18181B] dark:text-white hover:text-blue-500 transition-colors">
+                Lihat <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- SISI KANAN (Media / Infografis / Embed - Lebar 2/3 di Desktop) -->
+          <div class="w-full lg:w-2/3">
+            <!-- Frame Pembungkus Gambar -->
+            <div class="bg-white dark:bg-neutral-900 p-2 border border-[#E5E5E5] dark:border-neutral-800 rounded-2xl shadow-xl">
+              <!-- Dokumen Tugas -->
+              <iframe 
+                title="Preview Tugas Sejarah"
+                src="https://drive.google.com/file/d/1dAAonB-gFcOohqHqyhHHudkopw7xs6Xj/preview" 
+                class="w-full h-96 md:h-[30rem] rounded-xl"
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+
+        </div>
+        <!-- END TUGAS 1 -->
+
+      </div>
+    </div>
+  </section>
+  <!-- END SECTION 2: TUGAS SECTION -->
+    
+  <!-- ====================================================================== -->
+  <!-- VANILLA JAVASCRIPT: INTERACTION & FUNCTIONALITY                        -->
+  <!-- ====================================================================== -->
+  <script>
+    // Execute all script operations once DOM is fully parsed
+    document.addEventListener('DOMContentLoaded', () => {
+        /* ---------------------------------------------------------------------- */
+        /* A. MOBILE NAVIGATION MENU TOGGLE & HAMBURGER MORPH                     */
+        /* ---------------------------------------------------------------------- */
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        function toggleMobileMenu() {
+            const isExpanded = hamburgerBtn.getAttribute('aria-expanded') === 'true';
+            hamburgerBtn.setAttribute('aria-expanded', !isExpanded);
+            hamburgerBtn.classList.toggle('menu-open');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.setAttribute('aria-hidden', 'false');
+            } else {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.setAttribute('aria-hidden', 'true');
+            }
+        }
+
+        if (hamburgerBtn && mobileMenu) {
+            hamburgerBtn.addEventListener('click', toggleMobileMenu);
+
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerBtn.setAttribute('aria-expanded', 'false');
+                    hamburgerBtn.classList.remove('menu-open');
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.setAttribute('aria-hidden', 'true');
+                });
+            });
+        } 
+    });
+  </script>
+</body>
+</html>
