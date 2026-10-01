@@ -1,0 +1,6 @@
+{
+  "name": "School Portfolio",
+  "description": "A modern, minimalist, and responsive school portfolio website built with semantic HTML5, vanilla JavaScript, and Tailwind CSS.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
