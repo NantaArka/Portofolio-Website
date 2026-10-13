@@ -17,39 +17,7 @@
       details > summary::-webkit-details-marker { display: none; }
     </style>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        // Custom Tailwind CSS Theme Configuration: Bold Typography Theme
-        tailwind.config = {
-        darkMode: 'class',
-        theme: {
-            extend: {
-            fontFamily: {
-                sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
-                mono: ['"JetBrains Mono"', 'monospace'],
-            },
-            colors: {
-                brand: {
-                50: '#fafafa',
-                100: '#f4f4f5',
-                200: '#e4e4e7',
-                500: '#27272a',
-                600: '#18181b',
-                700: '#09090b',
-                900: '#000000',
-                },
-                accent: {
-                DEFAULT: '#18181b',
-                hover: '#000000',
-                light: '#f4f4f5',
-                }
-            }
-            }
-        }
-        };
-        // Ensure alias fallback compatibility
-        window.tailwid = window.tailwind;
-    </script>
+    <link href="./src/output.css" rel="stylesheet">
 
     <!-- Immediate Theme Initialization Script (prevents theme flicker) -->
     <script>
