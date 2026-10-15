@@ -9,24 +9,32 @@
 <body class="bg-[#FAFAFA] text-[#18181B] font-sans p-6 md:p-12 selection:bg-[#18181B] selection:text-white">
 
   <!-- Container Login -->
-  <div id="login-section" class="max-w-md mx-auto bg-white p-8 border-2 border-[#18181B] shadow-[8px_8px_0px_0px_#18181B] rounded-xl mt-20">
-    <h2 class="text-3xl font-black uppercase tracking-tight mb-6">Admin Login</h2>
+  <div id="login-section" class="max-w-md mx-auto bg-white p-6 md:p-8 border-2 border-[#18181B] shadow-[8px_8px_0px_0px_#18181B] rounded-xl mt-12 md:mt-20 mx-4 md:mx-auto">
+    <h2 class="text-2xl md:text-3xl font-black uppercase tracking-tight mb-6">Admin Login</h2>
     <input type="email" id="email" placeholder="Email" class="w-full mb-4 p-3 border-2 border-[#18181B] rounded focus:outline-none focus:ring-2 focus:ring-neutral-400">
     <input type="password" id="password" placeholder="Password" class="w-full mb-6 p-3 border-2 border-[#18181B] rounded focus:outline-none focus:ring-2 focus:ring-neutral-400">
     <button onclick="login()" class="w-full bg-[#18181B] text-white font-bold uppercase tracking-wider py-3 border-2 border-[#18181B] rounded hover:bg-neutral-800 transition-colors">Login</button>
   </div>
 
   <!-- Container Dashboard Admin (Awalnya disembunyikan) -->
-  <div id="dashboard-section" class="max-w-5xl mx-auto hidden">
-    <div class="flex justify-between items-center mb-8 border-b-2 border-[#18181B] pb-4">
+  <div id="dashboard-section" class="max-w-5xl mx-auto hidden px-4 md:px-0">
+    
+    <!-- HEADER: Di HP numpuk ke bawah, di Desktop sejajar ke samping -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 border-b-2 border-[#18181B] pb-4">
       <div>
-        <h1 class="text-4xl font-black uppercase tracking-tighter">Projects Dashboard</h1>
-        <p class="text-neutral-600 font-medium mt-1">Manage your portfolio projects here.</p>
+        <h1 class="text-3xl md:text-4xl font-black uppercase tracking-tighter">Projects Dashboard</h1>
+        <p class="text-neutral-600 font-medium mt-1 text-sm md:text-base">Manage your portfolio projects here.</p>
       </div>
-      <button onclick="logout()" class="bg-red-500 text-white px-5 py-2 font-bold uppercase tracking-wider border-2 border-[#18181B] rounded hover:bg-red-600 shadow-[4px_4px_0px_0px_#18181B] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#18181B] transition-all">Logout</button>
+      
+      <!-- Wrapper khusus untuk menyatukan tombol Home dan Logout -->
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="bg-black text-white px-5 py-2 font-bold uppercase tracking-wider border-2 border-[#18181B] rounded hover:text-black hover:bg-white shadow-[4px_4px_0px_0px_#18181B] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#18181B] transition-all">Home</a>
+        <button onclick="logout()" class="bg-red-500 text-white px-5 py-2 font-bold uppercase tracking-wider border-2 border-[#18181B] rounded cursor-pointer hover:bg-red-600 shadow-[4px_4px_0px_0px_#18181B] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#18181B] transition-all">Logout</button>
+      </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
       <!-- Form Tambah Project -->
       <div class="lg:col-span-1 bg-white p-6 border-2 border-[#18181B] shadow-[6px_6px_0px_0px_#18181B] rounded-xl h-fit">
         <h3 class="text-xl font-black uppercase tracking-tight mb-4">Add New Project</h3>
@@ -48,7 +56,9 @@
             <label class="text-xs font-bold uppercase tracking-wider">Description</label>
             <textarea id="description" required rows="3" class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="A web profile that showing..."></textarea>
           </div>
-          <div class="grid grid-cols-2 gap-4">
+          
+          <!-- INPUT GRID: Di HP numpuk, di Desktop bersebelahan -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="text-xs font-bold uppercase tracking-wider">Year</label>
               <input type="text" id="year" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="2026">
@@ -58,9 +68,10 @@
               <input type="text" id="techStack" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="HTML5, CSS, JS">
             </div>
           </div>
+          
           <div>
             <label class="text-xs font-bold uppercase tracking-wider">Image URL</label>
-            <input type="text" id="imageUrl" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="Images/X TJKT 1.png">
+            <input type="text" id="imageUrl" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="Image URL/Image Path">
           </div>
           <div>
             <label class="text-xs font-bold uppercase tracking-wider">Visit URL</label>
@@ -73,21 +84,27 @@
       <!-- Tabel List Project -->
       <div class="lg:col-span-2">
         <div class="bg-white border-2 border-[#18181B] shadow-[6px_6px_0px_0px_#18181B] rounded-xl overflow-hidden">
-          <table class="w-full text-left border-collapse">
-            <thead class="bg-[#18181B] text-white text-xs uppercase tracking-wider">
-              <tr>
-                <th class="p-4">Title</th>
-                <th class="p-4">Category</th>
-                <th class="p-4">Year</th>
-                <th class="p-4 text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody id="projects-table-body" class="divide-y-2 divide-[#18181B]">
-              <!-- Data dari Firebase akan muncul disini -->
-            </tbody>
-          </table>
+          
+          <!-- TABLE WRAPPER: Bisa di-scroll ke samping di HP agar layout tidak hancur -->
+          <div class="overflow-x-auto w-full">
+            <table class="w-full min-w-[600px] text-left border-collapse">
+              <thead class="bg-[#18181B] text-white text-xs uppercase tracking-wider">
+                <tr>
+                  <th class="p-4">Title</th>
+                  <th class="p-4">Category</th>
+                  <th class="p-4">Year</th>
+                  <th class="p-4 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody id="projects-table-body" class="divide-y-2 divide-[#18181B]">
+                <!-- Data dari Firebase akan muncul disini -->
+              </tbody>
+            </table>
+          </div>
+          
         </div>
       </div>
+      
     </div>
   </div>
 
@@ -99,13 +116,13 @@
 
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     const firebaseConfig = {
-    apiKey: "AIzaSyC8L6lzxdiXbUQtztGseRoRh1PW7xg1oZc",
-    authDomain: "portofolio-admin-16a36.firebaseapp.com",
-    projectId: "portofolio-admin-16a36",
-    storageBucket: "portofolio-admin-16a36.firebasestorage.app",
-    messagingSenderId: "635906631863",
-    appId: "1:635906631863:web:f04a8a4d6d65bc232a0532",
-    measurementId: "G-67LJHVEXTW"
+      apiKey: "AIzaSyC8L6lzxdiXbUQtztGseRoRh1PW7xg1oZc",
+      authDomain: "portofolio-admin-16a36.firebaseapp.com",
+      projectId: "portofolio-admin-16a36",
+      storageBucket: "portofolio-admin-16a36.firebasestorage.app",
+      messagingSenderId: "635906631863",
+      appId: "1:635906631863:web:f04a8a4d6d65bc232a0532",
+      measurementId: "G-67LJHVEXTW"
     };
 
     const app = initializeApp(firebaseConfig);
