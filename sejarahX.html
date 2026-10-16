@@ -304,11 +304,9 @@
   <!-- ====================================================================== -->  
   <section class="relative py-16 md:py-24 overflow-hidden bg-[#FAFAFA] dark:bg-[#09090B] border-b border-[#E5E5E5] dark:border-neutral-800 transition-colors">
   
-    <!-- KONTANER UTAMA -->
+    <!-- KONTANER ATAS (Judul Halaman) -->
     <div class="max-w-7xl mx-auto px-6">
-      
-      <!-- JUDUL HALAMAN -->
-      <div class="text-center mb-16 md:mb-24">
+      <div class="text-center mb-12 md:mb-16">
         <h2 class="text-3xl sm:text-5xl font-black text-[#18181B] dark:text-white tracking-tighter uppercase">
           Sejarah Kelas X
         </h2>
@@ -316,16 +314,22 @@
           Kumpulan tugas mata pelajaran sejarah.
         </p>
       </div>
+    </div>
 
-      <!-- WRAPPER DAFTAR TUGAS (space-y-24 memberi jarak jauh antar tugas) -->
+    <!-- KOMPONEN PEMISAH (Section Divider) - Dikeluarkan dari container max-w-7xl agar full width -->
+    <div class="w-full bg-gray-200 px-3 py-8 md:py-10 text-center mb-16 md:mb-24 shadow-sm border-y border-gray-200">
+      <h2 class="font-mono text-2xl md:text-3xl font-bold text-gray-900 tracking-wide">
+        1. Kronologi Sejarah dan Periodesisasi
+      </h2>
+    </div>
+
+    <!-- TUGAS 1 - Dibuat container baru setelah divider -->
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- WRAPPER DAFTAR TUGAS -->
       <div class="space-y-24">
-
-        <!-- ========================================== -->
-        <!-- TUGAS 1: LAYOUT TEKS KIRI, GAMBAR KANAN    -->
-        <!-- ========================================== -->
         <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
           
-          <!-- SISI KIRI (Teks & Deskripsi - Lebar 1/3 di Desktop) -->
+          <!-- TUGAS 1 (1) -->
           <div class="w-full lg:w-1/3 space-y-4">
             <h3 class="text-3xl font-bold text-[#18181B] dark:text-white">
               Tugas 1
@@ -337,7 +341,6 @@
               Tugas menyelesaikan LKPD Sejarah (Unsur-unsur sejarah dan Insersi Adiwiyata) Berkelompok.
             </p>
             
-            <!-- Tombol Opsional (Bisa dihapus jika tidak perlu) -->
             <div class="pt-2">
               <a href="https://drive.google.com/file/d/1dA6lZGPgTs2-hgiLN542UeGh_VEUKC3V/view?usp=drive_link" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-[#18181B] dark:text-white hover:text-blue-500 transition-colors">
                 Lihat <span aria-hidden="true">&rarr;</span>
@@ -347,9 +350,7 @@
 
           <!-- SISI KANAN (Media / Infografis / Embed - Lebar 2/3 di Desktop) -->
           <div class="w-full lg:w-2/3">
-            <!-- Frame Pembungkus Gambar -->
             <div class="bg-white dark:bg-neutral-900 p-2 border border-[#E5E5E5] dark:border-neutral-800 rounded-2xl shadow-xl">
-              <!-- Dokumen Tugas -->
               <iframe 
                 title="Preview Tugas Sejarah"
                 src="https://drive.google.com/file/d/1dA6lZGPgTs2-hgiLN542UeGh_VEUKC3V/preview" 
@@ -359,15 +360,7 @@
             </div>
           </div>
 
-        </div>
-        <!-- END TUGAS 1 -->
-
-        <!-- ========================================== -->
-        <!-- TUGAS 2: LAYOUT TEKS KIRI, GAMBAR KANAN    -->
-        <!-- ========================================== -->
-        <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
-          
-          <!-- SISI KIRI (Teks & Deskripsi - Lebar 1/3 di Desktop) -->
+          <!-- Tugas 2 (1) -->
           <div class="w-full lg:w-1/3 space-y-4">
             <h3 class="text-3xl font-bold text-[#18181B] dark:text-white">
               Tugas 2
@@ -379,19 +372,15 @@
               Tugas infografis mengenai identifikasi masalah dan solusi perbaikan di Laboratorium TKJ. Berisi rancangan manajemen kabel, standar kebersihan, dan pembaruan fasilitas.
             </p>
             
-            <!-- Tombol Opsional (Bisa dihapus jika tidak perlu) -->
             <div class="pt-2">
-              <a href="https://drive.google.com/file/d/1dA6lZGPgTs2-hgiLN542UeGh_VEUKC3V/view?usp=drive_link" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-[#18181B] dark:text-white hover:text-blue-500 transition-colors">
+              <a href="https://drive.google.com/file/d/1dAAonB-gFcOohqHqyhHHudkopw7xs6Xj/view?usp=drive_link" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-[#18181B] dark:text-white hover:text-blue-500 transition-colors">
                 Lihat <span aria-hidden="true">&rarr;</span>
               </a>
             </div>
           </div>
 
-          <!-- SISI KANAN (Media / Infografis / Embed - Lebar 2/3 di Desktop) -->
           <div class="w-full lg:w-2/3">
-            <!-- Frame Pembungkus Gambar -->
             <div class="bg-white dark:bg-neutral-900 p-2 border border-[#E5E5E5] dark:border-neutral-800 rounded-2xl shadow-xl">
-              <!-- Dokumen Tugas -->
               <iframe 
                 title="Preview Tugas Sejarah"
                 src="https://drive.google.com/file/d/1dAAonB-gFcOohqHqyhHHudkopw7xs6Xj/preview" 
@@ -400,12 +389,89 @@
               </iframe>
             </div>
           </div>
-
         </div>
-        <!-- END TUGAS 1 -->
 
       </div>
     </div>
+
+    <!-- KOMPONEN PEMISAH (Section Divider) - Dikeluarkan dari container max-w-7xl agar full width -->
+    <div class="w-full bg-gray-200 mt-20 px-3 py-8 md:py-10 text-center mb-16 md:mb-24 shadow-sm border-y border-gray-200">
+      <h2 class="font-mono text-2xl md:text-3xl font-bold text-gray-900 tracking-wide">
+        2. Pengaruh Hindu-Buddha di Indonesia
+      </h2>
+    </div>
+
+    <!-- TUGAS 2 - Dibuat container baru setelah divider -->
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- WRAPPER DAFTAR TUGAS -->
+      <div class="space-y-24">
+        <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+          
+          <!-- TUGAS 1 (2) -->
+          <div class="w-full lg:w-1/3 space-y-4">
+            <h3 class="text-3xl font-bold text-[#18181B] dark:text-white">
+              Tugas 1
+            </h3>
+            <h4 class="text-lg font-semibold text-neutral-700 dark:text-neutral-300">
+              LKPD Pertemuan 1-2
+            </h4>
+            <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed text-sm md:text-base">
+              Tugas menyelesaikan LKPD Sejarah (Unsur-unsur sejarah dan Insersi Adiwiyata) Berkelompok.
+            </p>
+            
+            <div class="pt-2">
+              <a href="https://drive.google.com/file/d/14AI8wHJe2OUqfhZXxYRix5zpgt2QGnx3/view?usp=drive_link" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-[#18181B] dark:text-white hover:text-blue-500 transition-colors">
+                Lihat <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- SISI KANAN (Media / Infografis / Embed - Lebar 2/3 di Desktop) -->
+          <div class="w-full lg:w-2/3">
+            <div class="bg-white dark:bg-neutral-900 p-2 border border-[#E5E5E5] dark:border-neutral-800 rounded-2xl shadow-xl">
+              <iframe 
+                title="Preview Tugas Sejarah"
+                src="https://drive.google.com/file/d/14AI8wHJe2OUqfhZXxYRix5zpgt2QGnx3/preview" 
+                class="w-full h-96 md:h-[30rem] rounded-xl"
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+
+          <!-- Tugas 2 (2) -->
+          <div class="w-full lg:w-1/3 space-y-4">
+            <h3 class="text-3xl font-bold text-[#18181B] dark:text-white">
+              Tugas 2
+            </h3>
+            <h4 class="text-lg font-semibold text-neutral-700 dark:text-neutral-300">
+              Infografis Observasi Lab
+            </h4>
+            <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed text-sm md:text-base">
+              Tugas infografis mengenai identifikasi masalah dan solusi perbaikan di Laboratorium TKJ. Berisi rancangan manajemen kabel, standar kebersihan, dan pembaruan fasilitas.
+            </p>
+            
+            <div class="pt-2">
+              <a href="https://drive.google.com/file/d/1ezILTO3479hkr77u1_NJIeRonkJqRtAv/view?usp=drive_link" target="_blank" class="inline-flex items-center gap-2 text-sm font-medium text-[#18181B] dark:text-white hover:text-blue-500 transition-colors">
+                Lihat <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="w-full lg:w-2/3">
+            <div class="bg-white dark:bg-neutral-900 p-2 border border-[#E5E5E5] dark:border-neutral-800 rounded-2xl shadow-xl">
+              <iframe 
+                title="Preview Tugas Sejarah"
+                src="https://drive.google.com/file/d/1ezILTO3479hkr77u1_NJIeRonkJqRtAv/preview" 
+                class="w-full h-96 md:h-[30rem] rounded-xl"
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </section>
   <!-- END SECTION 2: TUGAS SECTION -->
     
