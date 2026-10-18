@@ -44,6 +44,23 @@
     })();
   </script>
 
+  <!-- ===== [1] SALIN KE <head> (taruh paling atas, sebelum CSS) ===== -->
+  <!-- Menandai halaman sedang loading SEBELUM render pertama, supaya hero tidak sempat berkedip.
+       Failsafe: kalau script utama gagal, setelah 10 detik loader dibuang dan hero tetap tampil. -->
+  <script>
+    document.documentElement.classList.add('is-loading');
+    setTimeout(function () {
+      var r = document.documentElement;
+      if (r.classList.contains('is-loading')) {
+        r.classList.replace('is-loading', 'is-ready');
+        var l = document.getElementById('loader');
+        if (l) l.remove();
+      }
+    }, 10000);
+  </script>
+
+  <noscript><style>#loader { display: none; }</style></noscript>
+
   <!-- ====================================================================== -->
   <!-- 03. CUSTOM EMBEDDED CSS & ANIMATIONS                                   -->
   <!-- ====================================================================== -->
@@ -426,6 +443,33 @@
   </header>
   <!-- END SECTION 1: GLOBAL NAVIGATION -->
 
+  <!-- LOADER -->
+   <div
+    id="loader"
+    role="status"
+    aria-live="polite"
+    aria-label="Loading portfolio"
+    class="fixed inset-0 z-[100] flex flex-col justify-between p-6 sm:p-10
+           bg-[#18181B] text-[#FAFAFA] dark:bg-[#FAFAFA] dark:text-[#18181B]
+           will-change-transform transition-transform duration-[1000ms] ease-[cubic-bezier(0.76,0,0.24,1)]"
+  >
+    <div class="pointer-events-none absolute inset-x-0 bottom-full h-[10vh] bg-inherit"></div>
+ 
+    <div class="flex items-start justify-between text-xs font-black uppercase tracking-[0.3em]">
+      <span>Atha Arkananta</span>
+      <span>Portfolio</span>
+    </div>
+ 
+    <div>
+      <div class="flex items-end justify-between gap-4">
+        <span id="loader-count" class="font-mono font-black tabular-nums leading-none tracking-tighter text-[28vw] sm:text-[20vw] lg:text-[14rem]">000</span>
+        <span class="pb-[2vw] text-xs font-bold uppercase tracking-[0.25em]">Loading</span>
+      </div>
+      <div class="mt-4 h-1 w-full bg-current/15">
+        <div id="loader-bar" class="h-full w-full origin-left bg-current" style="transform: scaleX(0)"></div>
+      </div>
+    </div>
+  </div>
 
   <!-- ====================================================================== -->
   <!-- 05. SECTION 2: HERO SECTION                                            -->
@@ -435,70 +479,78 @@
       
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         
-        <!-- Hero Text Content -->
-        <div class="lg:col-span-7 space-y-7 text-left reveal-on-scroll">
+        <!-- Hero Text Content (reveal-on-scroll dilepas: hero punya koreografi sendiri) -->
+        <div class="lg:col-span-7 space-y-7 text-left">
           
           <!-- Status Tag -->
-          <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-md bg-white dark:bg-neutral-900 border border-[#E5E5E5] dark:border-neutral-800 text-[#18181B] dark:text-neutral-200 text-xs font-black uppercase tracking-[0.25em]">
+          <div class="hero-anim hero-tag [--d:0s] inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-md bg-white dark:bg-neutral-900 border border-[#E5E5E5] dark:border-neutral-800 text-[#18181B] dark:text-neutral-200 text-xs font-black uppercase tracking-[0.25em]">
             <span class="w-2 h-2 rounded-full bg-[#18181B] dark:bg-white"></span>
             Informatics Student • SMK Negeri 3 Jepara
           </div>
-
-          <!-- Main Typography Headline -->
+ 
+          <!-- Main Typography Headline: tiap baris naik dari balik "masker" overflow-hidden -->
           <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black text-[#18181B] dark:text-white tracking-tighter uppercase leading-[1.02]">
-            Atha <br class="hidden sm:inline" />
-            <span class="underline decoration-4 underline-offset-8 decoration-[#18181B] dark:decoration-white">Arkananta</span> <br class="hidden sm:inline" />
+            <span class="block overflow-hidden">
+              <span class="hero-anim hero-line [--d:0.1s] block">Atha</span>
+            </span>
+            <span class="block overflow-hidden pb-4 -mb-4">
+              <span class="hero-anim hero-line [--d:0.2s] relative block w-fit">
+                Arkananta
+                <!-- Garis bawah yang "digambar" setelah teks muncul -->
+                <span class="hero-anim hero-underline [--d:0.85s] absolute left-0 -bottom-2 h-1 w-full origin-left bg-[#18181B] dark:bg-white"></span>
+              </span>
+            </span>
           </h1>
-
+ 
           <!-- Impactful Subheadline -->
-          <p class="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 font-medium leading-relaxed max-w-xl">
+          <p class="hero-anim hero-fade [--d:0.5s] text-base sm:text-lg text-neutral-600 dark:text-neutral-400 font-medium leading-relaxed max-w-xl">
             Vocational school student. Vibecoder & computer enthusiast. Great at coding, vibecoding, code analysis and database management.
           </p>
-
+ 
           <!-- CTAs and Key Badges -->
           <div class="flex flex-wrap items-center gap-4 pt-2">
             <a 
               href="#projects" 
               id="hero-cta-projects"
-              class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-[#18181B] text-white hover:bg-neutral-800 dark:bg-white dark:text-[#18181B] dark:hover:bg-neutral-200 font-black text-xs uppercase tracking-[0.2em] transition-all duration-200 shadow-sm hover:shadow focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:ring-offset-2 hover:hover:scale-105"
+              class="hero-anim hero-pop [--d:0.65s] inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-[#18181B] text-white hover:bg-neutral-800 dark:bg-white dark:text-[#18181B] dark:hover:bg-neutral-200 font-black text-xs uppercase tracking-[0.2em] transition-all duration-200 shadow-sm hover:shadow focus:ring-2 focus:ring-neutral-900 dark:focus:ring-white focus:ring-offset-2 hover:hover:scale-105"
             >
               <span>View My Projects</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
             </a>
-
+ 
             <a 
               href="#contact" 
               id="hero-cta-contact"
-              class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-white dark:bg-neutral-900 text-[#18181B] dark:text-white font-black text-xs uppercase tracking-[0.2em] border-2 border-[#18181B] dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-200 focus:ring-2 focus:ring-neutral-400 hover:hover:scale-105"
+              class="hero-anim hero-pop [--d:0.75s] inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-lg bg-white dark:bg-neutral-900 text-[#18181B] dark:text-white font-black text-xs uppercase tracking-[0.2em] border-2 border-[#18181B] dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-all duration-200 focus:ring-2 focus:ring-neutral-400 hover:hover:scale-105"
             >
               <span>Contact Me</span>
             </a>
           </div>
-
-          <!-- Academic Quick Highlights -->
-          <div class="grid grid-cols-3 gap-6 pt-8 border-t-2 border-[#18181B] dark:border-neutral-800 max-w-lg">
+ 
+          <!-- Academic Quick Highlights: angka dihitung naik dari 0 lewat JS (data-count) -->
+          <div class="hero-anim hero-fade [--d:0.85s] grid grid-cols-3 gap-6 pt-8 border-t-2 border-[#18181B] dark:border-neutral-800 max-w-lg">
             <div>
-              <div class="text-3xl sm:text-4xl font-black text-[#18181B] dark:text-white font-mono tracking-tight">6+</div>
+              <div data-count="6" data-suffix="+" class="text-3xl sm:text-4xl font-black text-[#18181B] dark:text-white font-mono tracking-tight">6+</div>
               <div class="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400 mt-1">Code and Stack Learned</div>
             </div>
             <div>
-              <div class="text-3xl sm:text-4xl font-black text-[#18181B] dark:text-white font-mono tracking-tight">1</div>
+              <div data-count="1" class="text-3xl sm:text-4xl font-black text-[#18181B] dark:text-white font-mono tracking-tight">1</div>
               <div class="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400 mt-1">Projects Done</div>
             </div>
           </div>
         </div>
-
+ 
         <!-- Hero Visual / Profile Placeholder Graphic -->
-        <div class="lg:col-span-5 flex justify-center lg:justify-end reveal-on-scroll">
+        <div class="lg:col-span-5 flex justify-center lg:justify-end">
           <div class="relative w-full max-w-sm">
             
-            <!-- Profile Card Container: Bold Graphic Frame -->
-            <div id="card" class="relative bg-white dark:bg-neutral-900 rounded-xl border-2 border-[#18181B] dark:border-neutral-700 shadow-[6px_6px_0px_0px_#18181B] dark:shadow-[6px_6px_0px_0px_#FAFAFA] p-6 space-y-6">
+            <!-- Profile Card Container: jatuh dari atas, miring, lalu mendarat dengan bayangan keras -->
+            <div id="card" class="hero-anim hero-card [--d:0.25s] relative bg-white dark:bg-neutral-900 rounded-xl border-2 border-[#18181B] dark:border-neutral-700 shadow-[6px_6px_0px_0px_#18181B] dark:shadow-[6px_6px_0px_0px_#FAFAFA] p-6 space-y-6">
               
               <!-- Avatar Placeholder Area -->
               <div class="relative aspect-square w-full rounded-lg bg-[#F4F4F5] dark:bg-neutral-950 border border-[#E5E5E5] dark:border-neutral-800 flex flex-col items-center justify-center overflow-hidden group">
                 <!-- Clean Modern Student Illustration Silhouette -->
-                <img src="Images/AthaArkananta.jpeg">
+                <img src="Images/AthaArkananta.jpeg" alt="Atha Arkananta">
                 <svg class="w-32 h-32 text-neutral-400 transition-transform duration-300 group-hover:scale-105" viewBox="0 0 100 100" fill="none" stroke="currentColor">
                   <circle cx="50" cy="35" r="20" stroke-width="2.5" fill="#FAFAFA" class="dark:fill-neutral-900" />
                   <path d="M18 85c0-18 14-30 32-30s32 12 32 30" stroke-width="2.5" stroke-linecap="round" fill="#FAFAFA" class="dark:fill-neutral-900" />
@@ -510,7 +562,7 @@
                   <span class="text-xs font-black uppercase tracking-[0.15em] text-[#18181B] dark:text-white">Atha Arkananta • 10th grade</span>
                 </div>
               </div>
-
+ 
               <!-- Quick Info / Status Pill -->
               <div class="space-y-3">
                 <div class="flex items-center justify-between text-xs font-bold uppercase tracking-[0.15em]">
@@ -518,11 +570,11 @@
                   <span class="text-[#18181B] dark:text-white font-black">Web & Networking</span>
                 </div>
                 
-                <!-- Progress bar aesthetic item -->
+                <!-- Progress bar: terisi dari kiri sampai 80% -->
                 <div class="w-full bg-[#E5E5E5] dark:bg-neutral-800 rounded-full h-2 overflow-hidden">
-                  <div class="bg-[#18181B] dark:bg-white h-2 rounded-full w-4/5"></div>
+                  <div class="hero-anim hero-bar [--d:1s] origin-left bg-[#18181B] dark:bg-white h-2 rounded-full w-4/5"></div>
                 </div>
-
+ 
                 <!-- Open for Research / Collabs Status -->
                 <div class="flex items-center gap-2.5 text-xs font-bold text-neutral-700 dark:text-neutral-300 bg-[#FAFAFA] dark:bg-neutral-950 p-3 rounded-lg border border-[#E5E5E5] dark:border-neutral-800">
                   <span class="flex h-2 w-2 relative shrink-0">
@@ -532,19 +584,128 @@
                   <span class="uppercase tracking-wider text-[11px]">Available for study togethers & engineering projects</span>
                 </div>
               </div>
-
+ 
             </div>
           </div>
         </div>
-
       </div>
-
+ 
     </div>
   </section>
   <!-- END SECTION 2: HERO SECTION -->
 
   <!-- ====================================================================== -->
-  <!-- 06. SECTION 3: PROJECTS SECTION                                        -->
+  <!-- 06. SECTION 3: ABOUT ME SECTION                                        -->
+  <!-- ====================================================================== -->
+  <section id="about" class="py-24 bg-[#FAFAFA] dark:bg-[#121215] border-b border-[#E5E5E5] dark:border-neutral-800 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-2xl mx-auto mb-16 reveal-on-scroll">
+        <div class="text-xs font-black text-[#18181B] dark:text-neutral-400 tracking-[0.3em] uppercase mb-2">About Me</div>
+        <h2 class="text-3xl sm:text-5xl font-black text-[#18181B] dark:text-white tracking-tighter uppercase">Who I Am</h2>
+        <p class="text-neutral-600 dark:text-neutral-400 mt-3 text-base font-medium">
+          I'am Atha Arkananta Shaquille, a 10th-grade student at SMK Negeri 3 Jepara, is a passionate and dedicated learner in the field of informatics. With a keen interest in web development and networking, Atha has been actively involved in various projects that showcase his technical skills and creativity. His commitment to continuous learning and problem-solving makes him a promising talent in the world of technology.
+        </p>
+      </div>
+
+      <!-- About Me Content -->
+      <!-- Mobile: 1 kolom (carousel di atas, deskripsi di bawah). Desktop (md+): 2 kolom (carousel kiri, deskripsi kanan). -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+        <!-- ============ KIRI / ATAS: PHOTO CARD CAROUSEL ============ -->
+        <div class="reveal-on-scroll min-w-0">
+          <!--
+            group/cards  : nama group khusus, supaya tidak bentrok dengan class "group" lain di halamanmu.
+            overflow-x-auto + snap-x : bisa digeser saat card terbuka lebih lebar dari kolomnya.
+            py-12 md:py-16 : ruang untuk card miring dan bayangannya agar tidak terpotong.
+          -->
+          <div
+            role="group"
+            aria-label="Galeri foto Atha"
+            class="group/cards w-full overflow-x-auto snap-x snap-proximity py-12 md:py-16 px-2
+                   [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            <div class="mx-auto flex w-max items-center">
+
+              <!-- CARD 2 -->
+              <article
+                tabindex="0"
+                class="relative flex-none snap-center overflow-hidden rounded-xl bg-neutral-800
+                       w-36 h-48 -mx-10 sm:w-44 sm:h-60 sm:-mx-[45px] md:w-36 md:h-48 md:-mx-10 lg:w-44 lg:h-60 lg:-mx-[45px]
+                       border border-black/10 dark:border-white/10 shadow-[0_25px_25px_rgba(0,0,0,0.25)]
+                       rotate-[-10deg] translate-y-1
+                       transition-all duration-500 ease-out motion-reduce:transition-none
+                       group-hover/cards:mx-2.5 group-hover/cards:rotate-0 group-hover/cards:translate-y-0
+                       group-focus-within/cards:mx-2.5 group-focus-within/cards:rotate-0 group-focus-within/cards:translate-y-0
+                       outline-none focus-visible:ring-2 focus-visible:ring-neutral-400"
+              >
+                <img src="https://picsum.photos/seed/atha2/400/540" alt="Foto Atha 2" loading="lazy" class="absolute inset-0 size-full object-cover" />
+                <div class="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/15 to-transparent"></div>
+                <span class="absolute inset-x-0 bottom-0 flex h-10 items-center justify-center bg-black/40 text-sm text-white backdrop-blur-md">
+                  Networking
+                </span>
+              </article>
+
+              <!-- CARD 3 (tengah, lurus) -->
+              <article
+                tabindex="0"
+                class="relative flex-none snap-center overflow-hidden rounded-xl bg-neutral-800
+                       w-36 h-48 -mx-10 sm:w-44 sm:h-60 sm:-mx-[45px] md:w-36 md:h-48 md:-mx-10 lg:w-44 lg:h-60 lg:-mx-[45px]
+                       border border-black/10 dark:border-white/10 shadow-[0_25px_25px_rgba(0,0,0,0.25)]
+                       rotate-0 -translate-y-2
+                       transition-all duration-500 ease-out motion-reduce:transition-none
+                       group-hover/cards:mx-2.5 group-hover/cards:translate-y-0
+                       group-focus-within/cards:mx-2.5 group-focus-within/cards:translate-y-0
+                       outline-none focus-visible:ring-2 focus-visible:ring-neutral-400"
+              >
+                <img src="https://picsum.photos/seed/atha3/400/540" alt="Foto Atha 3" loading="lazy" class="absolute inset-0 size-full object-cover" />
+                <div class="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/15 to-transparent"></div>
+                <span class="absolute inset-x-0 bottom-0 flex h-10 items-center justify-center bg-black/40 text-sm text-white backdrop-blur-md">
+                  SMKN 3 Jepara
+                </span>
+              </article>
+
+              <!-- CARD 4 -->
+              <article
+                tabindex="0"
+                class="relative flex-none snap-center overflow-hidden rounded-xl bg-neutral-800
+                       w-36 h-48 -mx-10 sm:w-44 sm:h-60 sm:-mx-[45px] md:w-36 md:h-48 md:-mx-10 lg:w-44 lg:h-60 lg:-mx-[45px]
+                       border border-black/10 dark:border-white/10 shadow-[0_25px_25px_rgba(0,0,0,0.25)]
+                       rotate-[10deg] translate-y-1
+                       transition-all duration-500 ease-out motion-reduce:transition-none
+                       group-hover/cards:mx-2.5 group-hover/cards:rotate-0 group-hover/cards:translate-y-0
+                       group-focus-within/cards:mx-2.5 group-focus-within/cards:rotate-0 group-focus-within/cards:translate-y-0
+                       outline-none focus-visible:ring-2 focus-visible:ring-neutral-400"
+              >
+                <img src="https://picsum.photos/seed/atha4/400/540" alt="Foto Atha 4" loading="lazy" class="absolute inset-0 size-full object-cover" />
+                <div class="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/15 to-transparent"></div>
+                <span class="absolute inset-x-0 bottom-0 flex h-10 items-center justify-center bg-black/40 text-sm text-white backdrop-blur-md">
+                  Komunitas
+                </span>
+              </article>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- ============ KANAN / BAWAH: DESKRIPSI ============ -->
+        <div class="space-y-6 reveal-on-scroll">
+          <p class="text-neutral-600 dark:text-neutral-400 text-base font-medium leading-relaxed">
+            From a young age, Atha has been fascinated by the world of technology. His journey into informatics began with simple coding exercises, which quickly evolved into more complex projects involving web applications and network configurations. Atha's ability to grasp new concepts and apply them effectively has earned him recognition among his peers and mentors.
+          </p>
+          <p class="text-neutral-600 dark:text-neutral-400 text-base font-medium leading-relaxed">
+            Beyond academics, Atha is also an active participant in school clubs and community initiatives, where he shares his knowledge and collaborates with others to create innovative solutions. His dedication to his craft and his eagerness to learn make him a standout student in the field of informatics, and he looks forward to contributing to the tech community in meaningful ways.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <!-- END SECTION 3: ABOUT ME SECTION -->
+   
+  <!-- ====================================================================== -->
+  <!-- 07. SECTION 4: PROJECTS SECTION                                        -->
   <!-- ====================================================================== -->
   <section id="projects" class="py-24 bg-white dark:bg-[#09090B] border-b border-[#E5E5E5] dark:border-neutral-800 transition-colors">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -579,7 +740,7 @@
   <!-- END SECTION 3: PROJECTS SECTION -->
 
   <!-- ====================================================================== -->
-  <!-- 07. SECTION 4: MY SKILLS SECTION                                       -->
+  <!-- 07.5. SECTION 4: MY SKILLS SECTION                                       -->
   <!-- ====================================================================== -->
   <section id="skills" class="py-24 bg-[#FAFAFA] dark:bg-[#121215] border-b border-[#E5E5E5] dark:border-neutral-800 transition-colors">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1565,6 +1726,91 @@
 
       autoAnimate();
     });
+  </script>
+
+  <!-- LOADER LOGIC -->
+  <script>
+    (() => {
+      const root    = document.documentElement;
+      const loader  = document.getElementById('loader');
+      const countEl = document.getElementById('loader-count');
+      const barEl   = document.getElementById('loader-bar');
+      const reduce  = matchMedia('(prefers-reduced-motion: reduce)').matches;
+ 
+      const MIN_MS  = 1500;   // lama minimal loader tampil
+      const MAX_MS  = 8000;   // paksa selesai kalau halaman terlalu lama dimuat
+      const HOLD_MS = 250;    // jeda di 100% sebelum swipe
+ 
+      // Angka statistik di hero: mulai dari 0, dihitung naik setelah hero tampil
+      const counters = [...document.querySelectorAll('[data-count]')];
+      const finalText = (el) => el.dataset.count + (el.dataset.suffix || '');
+      counters.forEach((el) => { el.textContent = '0' + (el.dataset.suffix || ''); });
+ 
+      function runCounters() {
+        counters.forEach((el) => {
+          const to = parseFloat(el.dataset.count);
+          const suffix = el.dataset.suffix || '';
+          const dur = 1400;
+          const t0 = performance.now();
+          (function step(now) {
+            const p = Math.min((now - t0) / dur, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = Math.round(to * eased) + suffix;
+            if (p < 1) requestAnimationFrame(step);
+          })(t0);
+        });
+      }
+ 
+      // Mulai animasi hero. Dipanggil bersamaan dengan swipe, jadi hero langsung muncul.
+      function reveal(instant) {
+        root.classList.remove('is-loading');
+        root.classList.add('is-ready');
+        if (instant) counters.forEach((el) => { el.textContent = finalText(el); });
+        else setTimeout(runCounters, 1200);   // --hero-base (0.35s) + delay blok statistik (0.85s)
+      }
+ 
+      function exit() {
+        if (!loader || reduce) {
+          if (loader) loader.remove();
+          reveal(true);
+          return;
+        }
+        loader.style.translate = '0 calc(100% + 12vh)';   // swipe down
+        reveal(false);
+        const remove = () => loader.remove();
+        loader.addEventListener('transitionend', (e) => { if (e.target === loader) remove(); });
+        setTimeout(remove, 1600);                   // cadangan kalau transitionend tidak terpanggil
+      }
+ 
+      if (!loader || reduce) { exit(); return; }
+ 
+      let loaded = document.readyState === 'complete';
+      if (!loaded) window.addEventListener('load', () => { loaded = true; }, { once: true });
+ 
+      const start = performance.now();
+      let last = start;
+      let shown = 0;
+ 
+      function tick(now) {
+        const dt = Math.min(now - last, 50);
+        last = now;
+        const elapsed = now - start;
+ 
+        // Naik pelan sampai 90%, lalu tuntas ke 100% setelah halaman selesai dimuat
+        let target = Math.min(90, (elapsed / MIN_MS) * 90);
+        if ((loaded && elapsed >= MIN_MS) || elapsed >= MAX_MS) target = 100;
+ 
+        shown += (target - shown) * (1 - Math.exp(-dt / 140));
+        if (target === 100 && shown > 99.6) shown = 100;
+ 
+        countEl.textContent = String(Math.round(shown)).padStart(3, '0');
+        barEl.style.transform = `scaleX(${shown / 100})`;
+ 
+        if (shown < 100) requestAnimationFrame(tick);
+        else setTimeout(exit, HOLD_MS);
+      }
+      requestAnimationFrame(tick);
+    })();
   </script>
 
   <!-- ====================================================================== -->
