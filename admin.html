@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel - Projects</title>
+  <title>Admin Panel - Portfolio Management</title>
   <link href="./src/output.css" rel="stylesheet">
 </head>
 <body class="bg-[#FAFAFA] text-[#18181B] font-sans p-6 md:p-12 selection:bg-[#18181B] selection:text-white">
@@ -16,96 +16,176 @@
     <button onclick="login()" class="w-full bg-[#18181B] text-white font-bold uppercase tracking-wider py-3 border-2 border-[#18181B] rounded hover:bg-neutral-800 transition-colors">Login</button>
   </div>
 
-  <!-- Container Dashboard Admin (Awalnya disembunyikan) -->
-  <div id="dashboard-section" class="max-w-5xl mx-auto hidden px-4 md:px-0">
+  <!-- Container Dashboard Admin -->
+  <div id="dashboard-section" class="max-w-6xl mx-auto hidden px-4 md:px-0 space-y-12">
     
-    <!-- HEADER: Di HP numpuk ke bawah, di Desktop sejajar ke samping -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 border-b-2 border-[#18181B] pb-4">
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b-2 border-[#18181B] pb-4">
       <div>
-        <h1 class="text-3xl md:text-4xl font-black uppercase tracking-tighter">Projects Dashboard</h1>
-        <p class="text-neutral-600 font-medium mt-1 text-sm md:text-base">Manage your portfolio projects here.</p>
+        <h1 class="text-3xl md:text-4xl font-black uppercase tracking-tighter">Admin Dashboard</h1>
+        <p class="text-neutral-600 font-medium mt-1 text-sm md:text-base">Manage your portfolio projects & certificates.</p>
       </div>
       
-      <!-- Wrapper khusus untuk menyatukan tombol Home dan Logout -->
       <div class="flex items-center gap-3">
         <a href="index.html" class="bg-black text-white px-5 py-2 font-bold uppercase tracking-wider border-2 border-[#18181B] rounded hover:text-black hover:bg-white shadow-[4px_4px_0px_0px_#18181B] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#18181B] transition-all">Home</a>
         <button onclick="logout()" class="bg-red-500 text-white px-5 py-2 font-bold uppercase tracking-wider border-2 border-[#18181B] rounded cursor-pointer hover:bg-red-600 shadow-[4px_4px_0px_0px_#18181B] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#18181B] transition-all">Logout</button>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      
-      <!-- Form Tambah Project -->
-      <div class="lg:col-span-1 bg-white p-6 border-2 border-[#18181B] shadow-[6px_6px_0px_0px_#18181B] rounded-xl h-fit">
-        <h3 class="text-xl font-black uppercase tracking-tight mb-4">Add New Project</h3>
-        <form id="project-form" class="space-y-4">
-          <div>
-            <label class="text-xs font-bold uppercase tracking-wider">Project Title</label>
-            <input type="text" id="title" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="X TJKT 1 Web Profile">
-          </div>
-          <div>
-            <label class="text-xs font-bold uppercase tracking-wider">Subtitle / Type</label>
-            <input type="text" id="subtitle" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="Web Profile">
-          </div>
-          <div>
-            <label class="text-xs font-bold uppercase tracking-wider">Filter Category</label>
-            <input type="text" id="category" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="web">
-            <p class="text-[10px] text-neutral-500 mt-1">Harus sama dengan data-filter (contoh: "web")</p>
-          </div>
-          <div>
-            <label class="text-xs font-bold uppercase tracking-wider">Description</label>
-            <textarea id="description" required rows="3" class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="A web profile that showing..."></textarea>
-          </div>
-          
-          <!-- INPUT GRID: Di HP numpuk, di Desktop bersebelahan -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="text-xs font-bold uppercase tracking-wider">Year</label>
-              <input type="text" id="year" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="2026">
-            </div>
-            <div>
-              <label class="text-xs font-bold uppercase tracking-wider">Tech Stack</label>
-              <input type="text" id="techStack" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="HTML5, CSS, JS">
-            </div>
-          </div>
-          
-          <div>
-            <label class="text-xs font-bold uppercase tracking-wider">Image URL</label>
-            <input type="text" id="imageUrl" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="Image URL/Image Path">
-          </div>
-          <div>
-            <label class="text-xs font-bold uppercase tracking-wider">Visit URL</label>
-            <input type="url" id="visitUrl" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="https://...">
-          </div>
-          <button type="submit" class="w-full bg-[#18181B] text-white font-bold uppercase tracking-wider py-3 border-2 border-[#18181B] rounded hover:bg-neutral-800 shadow-[4px_4px_0px_0px_#18181B] transition-all">Submit Project</button>
-        </form>
-      </div>
+    <!-- =================================================================== -->
+    <!-- SECTION 1: PROJECTS MANAGEMENT                                       -->
+    <!-- =================================================================== -->
+    <section>
+      <h2 class="text-2xl font-black uppercase tracking-tight mb-6 flex items-center gap-2">
+        <span>📂</span> Projects Management
+      </h2>
 
-      <!-- Tabel List Project -->
-      <div class="lg:col-span-2">
-        <div class="bg-white border-2 border-[#18181B] shadow-[6px_6px_0px_0px_#18181B] rounded-xl overflow-hidden">
-          
-          <!-- TABLE WRAPPER: Bisa di-scroll ke samping di HP agar layout tidak hancur -->
-          <div class="overflow-x-auto w-full">
-            <table class="w-full min-w-[600px] text-left border-collapse">
-              <thead class="bg-[#18181B] text-white text-xs uppercase tracking-wider">
-                <tr>
-                  <th class="p-4">Title</th>
-                  <th class="p-4">Category</th>
-                  <th class="p-4">Year</th>
-                  <th class="p-4 text-center">Action</th>
-                </tr>
-              </thead>
-              <tbody id="projects-table-body" class="divide-y-2 divide-[#18181B]">
-                <!-- Data dari Firebase akan muncul disini -->
-              </tbody>
-            </table>
-          </div>
-          
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Form Tambah Project -->
+        <div class="lg:col-span-1 bg-white p-6 border-2 border-[#18181B] shadow-[6px_6px_0px_0px_#18181B] rounded-xl h-fit">
+          <h3 class="text-xl font-black uppercase tracking-tight mb-4">Add New Project</h3>
+          <form id="project-form" class="space-y-4">
+            <div>
+              <label class="text-xs font-bold uppercase tracking-wider">Project Title</label>
+              <input type="text" id="title" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="X TJKT 1 Web Profile">
+            </div>
+            <div>
+              <label class="text-xs font-bold uppercase tracking-wider">Subtitle / Type</label>
+              <input type="text" id="subtitle" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="Web Profile">
+            </div>
+            <div>
+              <label class="text-xs font-bold uppercase tracking-wider">Filter Category</label>
+              <input type="text" id="category" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="web">
+              <p class="text-[10px] text-neutral-500 mt-1">Harus sama dengan data-filter (contoh: "web")</p>
+            </div>
+            <div>
+              <label class="text-xs font-bold uppercase tracking-wider">Description</label>
+              <textarea id="description" required rows="3" class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="A web profile that showing..."></textarea>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="text-xs font-bold uppercase tracking-wider">Year</label>
+                <input type="text" id="year" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="2026">
+              </div>
+              <div>
+                <label class="text-xs font-bold uppercase tracking-wider">Tech Stack</label>
+                <input type="text" id="techStack" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="HTML5, CSS, JS">
+              </div>
+            </div>
+            
+            <div>
+              <label class="text-xs font-bold uppercase tracking-wider">Image URL</label>
+              <input type="text" id="imageUrl" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="Images/Projects/project1.png">
+            </div>
+            <div>
+              <label class="text-xs font-bold uppercase tracking-wider">Visit URL</label>
+              <input type="url" id="visitUrl" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="https://...">
+            </div>
+            <button type="submit" class="w-full bg-[#18181B] text-white font-bold uppercase tracking-wider py-3 border-2 border-[#18181B] rounded hover:bg-neutral-800 shadow-[4px_4px_0px_0px_#18181B] transition-all">Submit Project</button>
+          </form>
         </div>
+
+        <!-- Tabel List Project -->
+        <div class="lg:col-span-2">
+          <div class="bg-white border-2 border-[#18181B] shadow-[6px_6px_0px_0px_#18181B] rounded-xl overflow-hidden">
+            <div class="overflow-x-auto w-full">
+              <table class="w-full min-w-[600px] text-left border-collapse">
+                <thead class="bg-[#18181B] text-white text-xs uppercase tracking-wider">
+                  <tr>
+                    <th class="p-4">Title</th>
+                    <th class="p-4">Category</th>
+                    <th class="p-4">Year</th>
+                    <th class="p-4 text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="projects-table-body" class="divide-y-2 divide-[#18181B]">
+                  <!-- Data Project dari Firebase -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </div>
-      
-    </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 2: CERTIFICATES MANAGEMENT                                   -->
+    <!-- =================================================================== -->
+    <section class="border-t-2 border-[#18181B] pt-8">
+      <h2 class="text-2xl font-black uppercase tracking-tight mb-6 flex items-center gap-2">
+        <span>📜</span> Certificates Management
+      </h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Form Tambah Certificate -->
+        <div class="lg:col-span-1 bg-white p-6 border-2 border-[#18181B] shadow-[6px_6px_0px_0px_#18181B] rounded-xl h-fit">
+          <h3 class="text-xl font-black uppercase tracking-tight mb-4">Add New Certificate</h3>
+          <form id="certificate-form" class="space-y-4">
+            <div>
+              <label class="text-xs font-bold uppercase tracking-wider">Certificate Title</label>
+              <input type="text" id="cert-title" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="#JuaraVibeCoding">
+            </div>
+            <div>
+              <label class="text-xs font-bold uppercase tracking-wider">Issuer / Subtitle</label>
+              <input type="text" id="cert-subtitle" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="Google's Certification">
+            </div>
+            <div>
+              <label class="text-xs font-bold uppercase tracking-wider">Description</label>
+              <textarea id="cert-description" required rows="3" class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="Certification from Google's cloud event..."></textarea>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="text-xs font-bold uppercase tracking-wider">Year</label>
+                <input type="text" id="cert-year" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="2026">
+              </div>
+              <div>
+                <label class="text-xs font-bold uppercase tracking-wider">Tech Badges</label>
+                <input type="text" id="cert-techStack" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="Google AI Studio, React, Application">
+                <p class="text-[10px] text-neutral-500 mt-1">Pisahkan dengan koma (,)</p>
+              </div>
+            </div>
+            
+            <div>
+              <label class="text-xs font-bold uppercase tracking-wider">Image Thumbnail URL</label>
+              <input type="text" id="cert-imageUrl" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="Images/Certificates/JuaraVibeCoding.jpeg">
+            </div>
+            <div>
+              <label class="text-xs font-bold uppercase tracking-wider">Certificate PDF / Link</label>
+              <input type="text" id="cert-certificateUrl" required class="w-full p-2.5 mt-1 border-2 border-[#18181B] rounded" placeholder="PDFfile/JuaraVibeCoding.pdf">
+            </div>
+            <button type="submit" class="w-full bg-[#18181B] text-white font-bold uppercase tracking-wider py-3 border-2 border-[#18181B] rounded hover:bg-neutral-800 shadow-[4px_4px_0px_0px_#18181B] transition-all">Submit Certificate</button>
+          </form>
+        </div>
+
+        <!-- Tabel List Certificate -->
+        <div class="lg:col-span-2">
+          <div class="bg-white border-2 border-[#18181B] shadow-[6px_6px_0px_0px_#18181B] rounded-xl overflow-hidden">
+            <div class="overflow-x-auto w-full">
+              <table class="w-full min-w-[600px] text-left border-collapse">
+                <thead class="bg-[#18181B] text-white text-xs uppercase tracking-wider">
+                  <tr>
+                    <th class="p-4">Title</th>
+                    <th class="p-4">Issuer</th>
+                    <th class="p-4">Year</th>
+                    <th class="p-4 text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="certificates-table-body" class="divide-y-2 divide-[#18181B]">
+                  <!-- Data Sertifikat dari Firebase -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
   </div>
 
   <!-- FIREBASE CONFIG & SCRIPT -->
@@ -114,7 +194,6 @@
     import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     const firebaseConfig = {
       apiKey: "AIzaSyC8L6lzxdiXbUQtztGseRoRh1PW7xg1oZc",
       authDomain: "portofolio-admin-16a36.firebaseapp.com",
@@ -129,7 +208,7 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Otentikasi / Login System
+    // Auth / Login
     window.login = () => {
       const e = document.getElementById('email').value;
       const p = document.getElementById('password').value;
@@ -143,13 +222,16 @@
         document.getElementById('login-section').classList.add('hidden');
         document.getElementById('dashboard-section').classList.remove('hidden');
         loadProjects();
+        loadCertificates();
       } else {
         document.getElementById('login-section').classList.remove('hidden');
         document.getElementById('dashboard-section').classList.add('hidden');
       }
     });
 
-    // Tambah Data (Create)
+    // -------------------------------------------------------------
+    // LOGIKA PROJECTS
+    // -------------------------------------------------------------
     document.getElementById('project-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const newProject = {
@@ -169,7 +251,6 @@
       alert("Project berhasil ditambahkan!");
     });
 
-    // Tampilkan Data (Read)
     function loadProjects() {
       onSnapshot(collection(db, "projects"), (snapshot) => {
         const tbody = document.getElementById('projects-table-body');
@@ -190,10 +271,56 @@
       });
     }
 
-    // Hapus Data (Delete)
     window.deleteProject = async (id) => {
       if(confirm("Yakin ingin menghapus project ini?")) {
         await deleteDoc(doc(db, "projects", id));
+      }
+    }
+
+    // -------------------------------------------------------------
+    // LOGIKA CERTIFICATES (Firestore Collection: "certificates")
+    // -------------------------------------------------------------
+    document.getElementById('certificate-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const newCertificate = {
+        title: document.getElementById('cert-title').value,
+        subtitle: document.getElementById('cert-subtitle').value,
+        description: document.getElementById('cert-description').value,
+        year: document.getElementById('cert-year').value,
+        techStack: document.getElementById('cert-techStack').value,
+        imageUrl: document.getElementById('cert-imageUrl').value,
+        certificateUrl: document.getElementById('cert-certificateUrl').value,
+        createdAt: new Date()
+      };
+      
+      await addDoc(collection(db, "certificates"), newCertificate);
+      e.target.reset();
+      alert("Sertifikat berhasil ditambahkan!");
+    });
+
+    function loadCertificates() {
+      onSnapshot(collection(db, "certificates"), (snapshot) => {
+        const tbody = document.getElementById('certificates-table-body');
+        tbody.innerHTML = '';
+        snapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          tbody.innerHTML += `
+            <tr class="hover:bg-neutral-50 transition-colors">
+              <td class="p-4 font-bold text-sm">${data.title}</td>
+              <td class="p-4 text-sm font-mono text-neutral-600">${data.subtitle}</td>
+              <td class="p-4 text-sm">${data.year}</td>
+              <td class="p-4 text-center">
+                <button onclick="deleteCertificate('${docSnap.id}')" class="text-xs bg-red-100 text-red-600 font-bold px-3 py-1 rounded border border-red-600 hover:bg-red-600 hover:text-white transition-colors">Hapus</button>
+              </td>
+            </tr>
+          `;
+        });
+      });
+    }
+
+    window.deleteCertificate = async (id) => {
+      if(confirm("Yakin ingin menghapus sertifikat ini?")) {
+        await deleteDoc(doc(db, "certificates", id));
       }
     }
   </script>

@@ -1079,49 +1079,9 @@
       </div>
 
       <!-- Certificates Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Certificate 1 -->
-        <article class="project-item group bg-[#FAFAFA] dark:bg-neutral-900/90 rounded-xl border border-[#E5E5E5] dark:border-neutral-800 overflow-hidden flex flex-col hover:border-[#18181B] dark:hover:border-neutral-500 hover:shadow-[4px_4px_0px_0px_#18181B] dark:hover:shadow-[4px_4px_0px_0px_#FAFAFA] transition-all duration-200 reveal-on-scroll" data-category="web">
-          <!-- Placeholder Thumbnail / Graphic -->
-          <div class="aspect-video w-full bg-neutral-950 relative overflow-hidden flex items-center justify-center p-6 border-b border-[#E5E5E5] dark:border-neutral-800">
-            <!-- Tech Diagram SVG Placeholder -->
-            <svg class="relative w-16 h-16 text-neutral-200 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            <div class="absolute inset-0 bg-neutral-900/60">
-              <img src="Images/Certificates/JuaraVibeCoding.jpeg">
-            </div>
-            <span class="absolute top-3 right-3 text-[11px] font-mono font-bold px-2.5 py-0.5 rounded bg-white/10 text-white border border-white/20 uppercase tracking-wider">2026</span>
-          </div>
-
-          <div class="p-6 flex-1 flex flex-col justify-between">
-            <div class="space-y-2.5">
-              <span class="text-[11px] font-black uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">Google's Certification</span>
-              <h3 class="text-xl font-black tracking-tight text-[#18181B] dark:text-white group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">#JuaraVibeCoding</h3>
-              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
-                Certification from the Google's cloud event that we have to make a functional application, web or web game.
-              </p>
-            </div>
-
-            <div class="mt-6 pt-4 border-t border-[#E5E5E5] dark:border-neutral-800">
-              <!-- Tech Badges -->
-              <div class="flex flex-wrap gap-1.5 mb-4">
-                <span class="px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-[#E5E5E5] dark:border-neutral-700">Google AI Studio</span>
-                <span class="px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-[#E5E5E5] dark:border-neutral-700">React</span>
-                <span class="px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-[#E5E5E5] dark:border-neutral-700">Application</span>
-              </div>
-              <div class="flex items-center gap-4 text-xs font-black uppercase tracking-[0.15em]">
-                <a href="PDFfile/JuaraVibeCoding.pdf" target="_blank" class="text-[#18181B] dark:text-white hover:underline inline-flex items-center gap-1">
-                  <span>Certificate</span>
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                </a>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white inline-flex items-center gap-1">
-                  <span></span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </article>
+      <div id="certificates-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Data akan di-render secara otomatis oleh Firebase JavaScript -->
+      </div>
 
     </div>
   </section>
@@ -1821,7 +1781,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    // Configuration Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyC8L6lzxdiXbUQtztGseRoRh1PW7xg1oZc",
       authDomain: "portofolio-admin-16a36.firebaseapp.com",
@@ -1846,15 +1806,18 @@
       'iot': 'IOT',
     };
 
-    // Ambil data secara Real-time dari Firestore
+    // =========================================================================
+    // 1. FETCH & RENDER PROJECTS (Real-time)
+    // =========================================================================
     onSnapshot(collection(db, "projects"), (snapshot) => {
       const grid = document.getElementById('projects-grid');
       const filterContainer = document.getElementById('project-filters');
 
-      grid.innerHTML = ''; // Hapus teks loading
+      if (!grid) return;
+      grid.innerHTML = ''; // Clear loading state
       
       let totalProjects = 0;
-      const categoriesSet = new Set(); // Tempat menyimpan kategori unik
+      const categoriesSet = new Set();
 
       if (snapshot.empty) {
         grid.innerHTML = `<div class="col-span-full text-center text-sm font-mono text-neutral-500 py-10">Belum ada project yang ditambahkan.</div>`;
@@ -1864,18 +1827,15 @@
         return;
       }
 
-      // 1. Loop semua data project
       snapshot.forEach(docSnap => {
         const data = docSnap.data();
         totalProjects++;
         
-        // Ambil & catat kategori ke dalam Set unik
         const cat = (data.category || 'all').trim().toLowerCase();
         if (cat && cat !== 'all') {
           categoriesSet.add(cat);
         }
 
-        // Format Tech Stack Badge
         const techStackString = data.techStack || '';
         const techBadges = techStackString ? techStackString.split(',').map(tech => `
           <span class="px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-[#E5E5E5] dark:border-neutral-700">
@@ -1883,7 +1843,6 @@
           </span>
         `).join('') : '';
 
-        // Template Card Project
         const cardHTML = `
           <article class="project-item group bg-[#FAFAFA] dark:bg-neutral-900/90 rounded-xl border border-[#E5E5E5] dark:border-neutral-800 overflow-hidden flex flex-col hover:border-[#18181B] dark:hover:border-neutral-500 hover:shadow-[4px_4px_0px_0px_#18181B] dark:hover:shadow-[4px_4px_0px_0px_#FAFAFA] transition-all duration-200" data-category="${cat}">
             <div class="aspect-video w-full bg-neutral-950 relative overflow-hidden flex items-center justify-center p-6 border-b border-[#E5E5E5] dark:border-neutral-800">
@@ -1918,16 +1877,13 @@
         grid.innerHTML += cardHTML;
       });
 
-      // 2. Buat Tombol Filter Secara Dinamis berdasarkan Kategori yang Ada
       if (filterContainer) {
-        // Tombol Utama "ALL"
         let filterHTML = `
           <button type="button" data-filter="all" class="filter-btn active px-4 py-2 rounded-lg text-xs font-black uppercase tracking-[0.15em] bg-[#18181B] text-white border border-[#18181B] dark:bg-white dark:text-[#18181B] dark:border-white transition-colors">
             ALL (${totalProjects})
           </button>
         `;
 
-        // Render tombol untuk setiap kategori baru yang ditemukan
         categoriesSet.forEach(cat => {
           const label = categoryNames[cat] || cat.toUpperCase();
           filterHTML += `
@@ -1940,32 +1896,97 @@
         filterContainer.innerHTML = filterHTML;
       }
 
-      // 3. Pasang Event Listener ke Tombol-tombol Baru
       initFilters();
     }, (error) => {
-      console.error("Error reading Firestore:", error);
+      console.error("Error reading Projects from Firestore:", error);
     });
 
-    // Fungsi Logika Klik Filter
+    // =========================================================================
+    // 2. FETCH & RENDER CERTIFICATES (Real-time)
+    // =========================================================================
+    onSnapshot(collection(db, "certificates"), (snapshot) => {
+      const certGrid = document.getElementById('certificates-grid');
+      
+      if (!certGrid) return;
+      certGrid.innerHTML = ''; // Clear container
+
+      if (snapshot.empty) {
+        certGrid.innerHTML = `<div class="col-span-full text-center text-sm font-mono text-neutral-500 py-10">Belum ada sertifikat yang ditambahkan.</div>`;
+        return;
+      }
+
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+
+        // Separate tech badges comma-separated string
+        const techStackString = data.techStack || '';
+        const techBadges = techStackString ? techStackString.split(',').map(tech => `
+          <span class="px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider bg-white dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-[#E5E5E5] dark:border-neutral-700">
+            ${tech.trim()}
+          </span>
+        `).join('') : '';
+
+        const certHTML = `
+          <article class="project-item group bg-[#FAFAFA] dark:bg-neutral-900/90 rounded-xl border border-[#E5E5E5] dark:border-neutral-800 overflow-hidden flex flex-col hover:border-[#18181B] dark:hover:border-neutral-500 hover:shadow-[4px_4px_0px_0px_#18181B] dark:hover:shadow-[4px_4px_0px_0px_#FAFAFA] transition-all duration-200">
+            <div class="aspect-video w-full bg-neutral-950 relative overflow-hidden flex items-center justify-center p-6 border-b border-[#E5E5E5] dark:border-neutral-800">
+              <svg class="relative w-16 h-16 text-neutral-200 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <div class="absolute inset-0 bg-neutral-900/60">
+                <img src="${data.imageUrl || ''}" alt="${data.title || 'Certificate'}" class="w-full h-full object-cover">
+              </div>
+              <span class="absolute top-3 right-3 text-[11px] font-mono font-bold px-2.5 py-0.5 rounded bg-white/10 text-white border border-white/20 uppercase tracking-wider">${data.year || ''}</span>
+            </div>
+
+            <div class="p-6 flex-1 flex flex-col justify-between">
+              <div class="space-y-2.5">
+                <span class="text-[11px] font-black uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">${data.subtitle || ''}</span>
+                <h3 class="text-xl font-black tracking-tight text-[#18181B] dark:text-white group-hover:text-neutral-700 dark:group-hover:text-neutral-300 transition-colors">${data.title || ''}</h3>
+                <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+                  ${data.description || ''}
+                </p>
+              </div>
+
+              <div class="mt-6 pt-4 border-t border-[#E5E5E5] dark:border-neutral-800">
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                  ${techBadges}
+                </div>
+                <div class="flex items-center gap-4 text-xs font-black uppercase tracking-[0.15em]">
+                  <a href="${data.certificateUrl || '#'}" target="_blank" class="text-[#18181B] dark:text-white hover:underline inline-flex items-center gap-1">
+                    <span>Certificate</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </article>
+        `;
+
+        certGrid.innerHTML += certHTML;
+      });
+    }, (error) => {
+      console.error("Error reading Certificates from Firestore:", error);
+    });
+
+    // =========================================================================
+    // 3. LOGIKA FILTER BUTTONS (Project Only)
+    // =========================================================================
     function initFilters() {
       const filterButtons = document.querySelectorAll('.filter-btn');
 
       filterButtons.forEach(button => {
         button.addEventListener('click', () => {
-          // Reset Style Semua Tombol
           document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.classList.remove('active', 'bg-[#18181B]', 'text-white', 'dark:bg-white', 'dark:text-[#18181B]');
             btn.classList.add('bg-transparent', 'text-[#18181B]', 'dark:text-neutral-300');
           });
 
-          // Set Style Tombol Aktif
           button.classList.remove('bg-transparent', 'text-[#18181B]', 'dark:text-neutral-300');
           button.classList.add('active', 'bg-[#18181B]', 'text-white', 'dark:bg-white', 'dark:text-[#18181B]');
 
           const selectedFilter = button.getAttribute('data-filter');
 
-          // Filter Card Project
-          document.querySelectorAll('.project-item').forEach(item => {
+          document.querySelectorAll('#projects-grid .project-item').forEach(item => {
             const category = item.getAttribute('data-category') || '';
             if (selectedFilter === 'all' || category === selectedFilter) {
               item.style.display = 'flex';
