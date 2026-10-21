@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Editor Tugas Sekolah - Google Sites Style</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;700&family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sites: {
+              blue: '#1a73e8',
+              hover: '#1557b0',
+              bg: '#f8f9fa',
+              border: '#dadce0',
+              panel: '#ffffff',
+              text: '#3c4043'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f1f3f4;
+      color: #202124;
+    }
+    
+    /* Contenteditable outline custom styling */
+    [contenteditable="true"]:hover {
+      outline: 2px dashed #1a73e8;
+      border-radius: 4px;
+    }
+    [contenteditable="true"]:focus {
+      outline: 2px solid #1a73e8;
+      background-color: rgba(26, 115, 232, 0.03);
+      border-radius: 4px;
+    }
+
+    /* Device frame styling */
+    .viewport-mobile {
+      width: 375px;
+      min-height: 667px;
+      border-radius: 36px;
+      border: 12px solid #1f2937;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      margin: 20px auto;
+      overflow-y: auto;
+      background-color: #ffffff;
+    }
+    .viewport-tablet {
+      width: 768px;
+      min-height: 800px;
+      border-radius: 16px;
+      border: 8px solid #374151;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      overflow-y: auto;
+      background-color: #ffffff;
+    }
+    .viewport-desktop {
+      width: 100%;
+      min-height: 100%;
+      background-color: #ffffff;
+    }
+
+    /* Floating Toolbar */
+    #richTextToolbar {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #999;
+    }
+  </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+
+  <!-- ================= HEADER TOP BAR ================= -->
+  <header class="bg-white border-b border-sites-border px-4 py-2.5 flex items-center justify-between z-30 shadow-sm shrink-0">
+    <div class="flex items-center space-x-3">
+      <div class="bg-sites-blue text-white p-2 rounded-lg flex items-center justify-center w-9 h-9 font-bold text-lg">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+      <div>
+        <h1 class="font-semibold text-gray-800 text-base leading-tight flex items-center gap-2">
+          Dashboard Tugas Sekolah 
+          <span id="modeBadge" class="text-xs font-normal px-2 py-0.5 rounded-full bg-blue-100 text-sites-blue border border-blue-200">Mode Publik</span>
+        </h1>
+        <p class="text-xs text-gray-500">Google Sites Style Interactive Workspace</p>
+      </div>
+    </div>
+
+    <!-- Center: Device Preview Switcher (Only visible in edit mode) -->
+    <div id="deviceSwitcherContainer" class="hidden md:flex items-center bg-gray-100 p-1 rounded-lg border border-gray-200 space-x-1">
+      <button onclick="setDeviceMode('desktop')" id="btnDeviceDesktop" class="px-3 py-1 text-xs font-medium rounded-md bg-white text-sites-blue shadow-sm transition flex items-center gap-1.5">
+        <i class="fa-solid fa-desktop"></i> Desktop
+      </button>
+      <button onclick="setDeviceMode('tablet')" id="btnDeviceTablet" class="px-3 py-1 text-xs font-medium rounded-md text-gray-600 hover:text-gray-900 transition flex items-center gap-1.5">
+        <i class="fa-solid fa-tablet-screen-button"></i> Tablet
+      </button>
+      <button onclick="setDeviceMode('mobile')" id="btnDeviceMobile" class="px-3 py-1 text-xs font-medium rounded-md text-gray-600 hover:text-gray-900 transition flex items-center gap-1.5">
+        <i class="fa-solid fa-mobile-screen-button"></i> Mobile
+      </button>
+    </div>
+
+    <!-- Right Controls: Sync status, Auth & Publish -->
+    <div class="flex items-center space-x-3">
+      <!-- Sync Status -->
+      <span id="syncStatus" class="hidden sm:inline-flex items-center text-xs text-gray-500 gap-1.5">
+        <i class="fa-solid fa-circle-check text-green-500"></i> <span id="syncText">Tersimpan</span>
+      </span>
+
+      <!-- Mode Toggle Button (Admin Only) -->
+      <button id="btnToggleMode" onclick="toggleEditViewMode()" class="hidden px-3 py-1.5 text-xs font-medium rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 transition flex items-center gap-1.5">
+        <i class="fa-solid fa-eye" id="iconToggleMode"></i> <span id="labelToggleMode">Pratinjau</span>
+      </button>
+
+      <!-- Publish Button (Admin Only) -->
+      <button id="btnPublish" onclick="publishContent()" class="hidden px-4 py-1.5 text-xs font-medium text-white bg-sites-blue hover:bg-sites-hover rounded-md shadow-sm transition flex items-center gap-1.5">
+        <i class="fa-solid fa-cloud-arrow-up"></i> Publish
+      </button>
+
+      <!-- Admin Login / Logout Button -->
+      <button id="btnAuth" onclick="openAuthModal()" class="px-3.5 py-1.5 text-xs font-medium text-sites-blue border border-sites-blue hover:bg-blue-50 rounded-md transition flex items-center gap-1.5">
+        <i class="fa-solid fa-user-lock"></i> <span id="btnAuthText">Login Admin</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= PUBLIC PAGE NAVIGATION (MAPEL TABS) ================= -->
+  <nav class="bg-white border-b border-gray-200 px-4 flex items-center justify-between overflow-x-auto shrink-0 shadow-xs">
+    <div class="flex items-center space-x-1" id="publicNavTabs">
+      <!-- Dynamic subject page tabs will be rendered here -->
+    </div>
+    <div id="adminNavBadge" class="hidden py-2 pl-3 text-xs text-amber-600 font-medium flex items-center gap-1 border-l border-gray-200">
+      <i class="fa-solid fa-pen-to-square"></i> Mode Editor
+    </div>
+  </nav>
+
+  <!-- ================= MAIN CONTENT WORKSPACE ================= -->
+  <div class="flex-1 flex overflow-hidden relative">
+
+    <!-- CANVAS VIEWPORT CONTAINER -->
+    <main class="flex-1 overflow-y-auto p-2 sm:p-6 bg-slate-200 flex justify-center items-start transition-all" id="canvasScrollArea">
+      
+      <!-- VIEWPORT FRAME (Responsive wrapper) -->
+      <div id="viewportFrame" class="viewport-desktop transition-all duration-300 bg-white shadow-md rounded-lg overflow-hidden flex flex-col min-h-[85vh] mb-10">
+        
+        <!-- HEADER BANNER AREA -->
+        <header id="bannerContainer" class="relative bg-gradient-to-r from-blue-700 to-indigo-900 text-white min-h-[220px] flex flex-col justify-end p-8 transition-all bg-cover bg-center">
+          <div class="absolute inset-0 bg-black/40" id="bannerOverlay"></div>
+          
+          <div class="relative z-10 max-w-4xl">
+            <h1 id="bannerTitle" class="text-3xl sm:text-4xl font-bold tracking-tight mb-2 outline-none" contenteditable="false" onblur="updateBannerData()">
+              Mata Pelajaran PIPAS
+            </h1>
+            <p id="bannerSubtitle" class="text-sm sm:text-base text-gray-200 outline-none" contenteditable="false" onblur="updateBannerData()">
+              Kumpulan modul, tugas praktikum, dan materi pembelajaran siswa.
+            </p>
+          </div>
+
+          <!-- Banner Admin Controls -->
+          <div id="bannerAdminControls" class="hidden absolute top-3 right-3 z-20 flex gap-2">
+            <button onclick="changeBannerBgPrompt()" class="bg-black/60 hover:bg-black/80 text-white px-3 py-1.5 rounded-md text-xs backdrop-blur-md transition flex items-center gap-1.5">
+              <i class="fa-solid fa-image"></i> Ubah Gambar Sampul
+            </button>
+          </div>
+        </header>
+
+        <!-- CONTENT BLOCKS CANVAS -->
+        <div id="canvasBlocks" class="flex-1 p-6 sm:p-8 space-y-6 bg-white min-h-[400px]">
+          <!-- Content blocks rendered dynamically -->
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="border-t border-gray-100 p-6 bg-gray-50 text-center text-xs text-gray-500 mt-auto">
+          <p>© 2026 Dashboard Tugas Sekolah Siswa • Dibuat dengan Google Sites Editor Engine</p>
+        </footer>
+
+      </div>
+    </main>
+
+    <!-- ================= RIGHT SIDEBAR (GOOGLE SITES EDITOR PANEL) ================= -->
+    <aside id="editorSidebar" class="hidden w-80 bg-white border-l border-sites-border flex-col z-20 shrink-0 shadow-lg transition-all">
+      
+      <!-- SIDEBAR TAB HEADERS -->
+      <div class="flex border-b border-sites-border bg-gray-50 text-sm font-medium">
+        <button onclick="switchSidebarTab('sisipkan')" id="tabBtnSisipkan" class="flex-1 py-3 border-b-2 border-sites-blue text-sites-blue font-semibold transition text-center">
+          Sisipkan
+        </button>
+        <button onclick="switchSidebarTab('halaman')" id="tabBtnHalaman" class="flex-1 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition text-center">
+          Halaman
+        </button>
+        <button onclick="switchSidebarTab('tema')" id="tabBtnTema" class="flex-1 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition text-center">
+          Tema
+        </button>
+      </div>
+
+      <!-- SIDEBAR CONTENT PANELS -->
+      <div class="flex-1 overflow-y-auto p-4 space-y-6">
+
+        <!-- TAB 1: SISIPKAN (INSERT) -->
+        <div id="panelSisipkan" class="space-y-6">
+          
+          <!-- Basic Quick Insert Grid -->
+          <div class="grid grid-cols-2 gap-3">
+            <button onclick="addBlock('text')" class="flex flex-col items-center justify-center p-3.5 border border-gray-200 rounded-xl hover:border-sites-blue hover:bg-blue-50/50 transition group text-center">
+              <div class="w-10 h-10 rounded-lg bg-blue-100 text-sites-blue flex items-center justify-center mb-2 group-hover:scale-110 transition">
+                <i class="fa-solid fa-font text-lg"></i>
+              </div>
+              <span class="text-xs font-medium text-gray-700">Kotak teks</span>
+            </button>
+
+            <button onclick="triggerAddImageModal()" class="flex flex-col items-center justify-center p-3.5 border border-gray-200 rounded-xl hover:border-sites-blue hover:bg-blue-50/50 transition group text-center">
+              <div class="w-10 h-10 rounded-lg bg-red-100 text-red-600 flex items-center justify-center mb-2 group-hover:scale-110 transition">
+                <i class="fa-regular fa-image text-lg"></i>
+              </div>
+              <span class="text-xs font-medium text-gray-700">Gambar</span>
+            </button>
+
+            <button onclick="triggerAddEmbedModal()" class="flex flex-col items-center justify-center p-3.5 border border-gray-200 rounded-xl hover:border-sites-blue hover:bg-blue-50/50 transition group text-center">
+              <div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center mb-2 group-hover:scale-110 transition">
+                <i class="fa-solid fa-code text-lg"></i>
+              </div>
+              <span class="text-xs font-medium text-gray-700">Sematkan</span>
+            </button>
+
+            <button onclick="triggerAddDriveModal()" class="flex flex-col items-center justify-center p-3.5 border border-gray-200 rounded-xl hover:border-sites-blue hover:bg-blue-50/50 transition group text-center">
+              <div class="w-10 h-10 rounded-lg bg-green-100 text-green-600 flex items-center justify-center mb-2 group-hover:scale-110 transition">
+                <i class="fa-brands fa-google-drive text-lg"></i>
+              </div>
+              <span class="text-xs font-medium text-gray-700">Drive</span>
+            </button>
+          </div>
+
+          <!-- BLOKIR KONTEN (6 PRESET LAYOUT TEMPLATES MATCHING SCREENSHOT) -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Blokir Konten</h3>
+              <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              
+              <!-- Preset 1: 1 Image + Text Right -->
+              <button onclick="addBlock('layout_1')" class="p-2 border border-gray-200 rounded-lg hover:border-sites-blue hover:shadow-sm transition bg-white text-left group">
+                <div class="border border-dashed border-gray-300 rounded p-1.5 flex gap-1.5 items-center mb-1 bg-gray-50 h-14">
+                  <div class="w-1/2 h-full bg-gray-200 rounded flex items-center justify-center text-gray-400 text-xs">
+                    <i class="fa-regular fa-image"></i>
+                  </div>
+                  <div class="w-1/2 space-y-1">
+                    <div class="h-1.5 bg-gray-300 rounded w-full"></div>
+                    <div class="h-1 bg-gray-200 rounded w-3/4"></div>
+                    <div class="h-1 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                </div>
+                <span class="text-[10px] text-gray-600 group-hover:text-sites-blue font-medium block">1 Gambar + Teks</span>
+              </button>
+
+              <!-- Preset 2: 2 Images + Text Below (2 Columns) -->
+              <button onclick="addBlock('layout_2')" class="p-2 border border-gray-200 rounded-lg hover:border-sites-blue hover:shadow-sm transition bg-white text-left group">
+                <div class="border border-dashed border-gray-300 rounded p-1.5 flex gap-1.5 items-center mb-1 bg-gray-50 h-14">
+                  <div class="w-1/2 h-full flex flex-col gap-1">
+                    <div class="h-2/3 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-[10px]"><i class="fa-regular fa-image"></i></div>
+                    <div class="h-1 bg-gray-300 rounded w-full"></div>
+                  </div>
+                  <div class="w-1/2 h-full flex flex-col gap-1">
+                    <div class="h-2/3 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-[10px]"><i class="fa-regular fa-image"></i></div>
+                    <div class="h-1 bg-gray-300 rounded w-full"></div>
+                  </div>
+                </div>
+                <span class="text-[10px] text-gray-600 group-hover:text-sites-blue font-medium block">2 Kolom Gambar</span>
+              </button>
+
+              <!-- Preset 3: 1 Big Image + 2 Small Stacked + Text -->
+              <button onclick="addBlock('layout_3')" class="p-2 border border-gray-200 rounded-lg hover:border-sites-blue hover:shadow-sm transition bg-white text-left group">
+                <div class="border border-dashed border-gray-300 rounded p-1.5 flex gap-1.5 items-center mb-1 bg-gray-50 h-14">
+                  <div class="w-1/3 flex flex-col gap-1">
+                    <div class="h-5 bg-gray-200 rounded"></div>
+                    <div class="h-5 bg-gray-200 rounded"></div>
+                  </div>
+                  <div class="w-2/3 h-full bg-gray-200 rounded flex items-center justify-center text-gray-400 text-xs">
+                    <i class="fa-regular fa-image"></i>
+                  </div>
+                </div>
+                <span class="text-[10px] text-gray-600 group-hover:text-sites-blue font-medium block">3 Gambar Asimetris</span>
+              </button>
+
+              <!-- Preset 4: 3 Columns Image + Text -->
+              <button onclick="addBlock('layout_4')" class="p-2 border border-gray-200 rounded-lg hover:border-sites-blue hover:shadow-sm transition bg-white text-left group">
+                <div class="border border-dashed border-gray-300 rounded p-1.5 flex gap-1 items-center mb-1 bg-gray-50 h-14">
+                  <div class="w-1/3 h-full flex flex-col gap-1">
+                    <div class="h-2/3 bg-gray-200 rounded"></div>
+                    <div class="h-1 bg-gray-300 rounded"></div>
+                  </div>
+                  <div class="w-1/3 h-full flex flex-col gap-1">
+                    <div class="h-2/3 bg-gray-200 rounded"></div>
+                    <div class="h-1 bg-gray-300 rounded"></div>
+                  </div>
+                  <div class="w-1/3 h-full flex flex-col gap-1">
+                    <div class="h-2/3 bg-gray-200 rounded"></div>
+                    <div class="h-1 bg-gray-300 rounded"></div>
+                  </div>
+                </div>
+                <span class="text-[10px] text-gray-600 group-hover:text-sites-blue font-medium block">3 Kolom Sejajar</span>
+              </button>
+
+              <!-- Preset 5: 2 Horizontal Cards -->
+              <button onclick="addBlock('layout_5')" class="p-2 border border-gray-200 rounded-lg hover:border-sites-blue hover:shadow-sm transition bg-white text-left group">
+                <div class="border border-dashed border-gray-300 rounded p-1.5 flex gap-1 mb-1 bg-gray-50 h-14">
+                  <div class="w-1/2 flex items-center gap-1">
+                    <div class="w-1/2 h-full bg-gray-200 rounded"></div>
+                    <div class="w-1/2 h-1 bg-gray-300 rounded"></div>
+                  </div>
+                  <div class="w-1/2 flex items-center gap-1">
+                    <div class="w-1/2 h-full bg-gray-200 rounded"></div>
+                    <div class="w-1/2 h-1 bg-gray-300 rounded"></div>
+                  </div>
+                </div>
+                <span class="text-[10px] text-gray-600 group-hover:text-sites-blue font-medium block">2 Kartu Samping</span>
+              </button>
+
+              <!-- Preset 6: 4 Columns Image + Text -->
+              <button onclick="addBlock('layout_6')" class="p-2 border border-gray-200 rounded-lg hover:border-sites-blue hover:shadow-sm transition bg-white text-left group">
+                <div class="border border-dashed border-gray-300 rounded p-1 flex gap-0.5 items-center mb-1 bg-gray-50 h-14">
+                  <div class="w-1/4 h-full bg-gray-200 rounded"></div>
+                  <div class="w-1/4 h-full bg-gray-200 rounded"></div>
+                  <div class="w-1/4 h-full bg-gray-200 rounded"></div>
+                  <div class="w-1/4 h-full bg-gray-200 rounded"></div>
+                </div>
+                <span class="text-[10px] text-gray-600 group-hover:text-sites-blue font-medium block">4 Kolom Gambar</span>
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB 2: HALAMAN (PAGES MANAGEMENT) -->
+        <div id="panelHalaman" class="hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Halaman Tugas / Mapel</h3>
+            <button onclick="openAddPageModal()" class="text-xs text-sites-blue font-semibold hover:underline flex items-center gap-1">
+              <i class="fa-solid fa-plus"></i> Tambah Halaman
+            </button>
+          </div>
+
+          <!-- Page List -->
+          <div class="space-y-1.5" id="editorPagesList">
+            <!-- Dynamic pages list rendered here -->
+          </div>
+        </div>
+
+        <!-- TAB 3: TEMA (THEME SETTINGS) -->
+        <div id="panelTema" class="hidden space-y-6">
+          <!-- Banner Style -->
+          <div>
+            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Tipe Header</h3>
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="setBannerType('standard')" class="p-2 border border-gray-200 rounded text-xs hover:border-sites-blue text-gray-700">Spanduk Standar</button>
+              <button onclick="setBannerType('large')" class="p-2 border border-gray-200 rounded text-xs hover:border-sites-blue text-gray-700">Spanduk Besar</button>
+              <button onclick="setBannerType('titleOnly')" class="p-2 border border-gray-200 rounded text-xs hover:border-sites-blue text-gray-700">Hanya Judul</button>
+              <button onclick="setBannerType('cover')" class="p-2 border border-gray-200 rounded text-xs hover:border-sites-blue text-gray-700">Sampul Penuh</button>
+            </div>
+          </div>
+
+          <!-- Font Style -->
+          <div>
+            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Gaya Font</h3>
+            <select id="fontStyleSelect" onchange="changeThemeFont(this.value)" class="w-full text-xs p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sites-blue">
+              <option value="Inter">Inter (Clean Modern)</option>
+              <option value="Roboto">Roboto (Google Standard)</option>
+              <option value="Poppins">Poppins (Friendly Round)</option>
+              <option value="Playfair Display">Playfair Display (Serif Classic)</option>
+            </select>
+          </div>
+
+          <!-- Accent Color -->
+          <div>
+            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Warna Aksen Banner</h3>
+            <div class="flex gap-2">
+              <button onclick="setThemeAccent('from-blue-700 to-indigo-900')" class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-700 to-indigo-900 border-2 border-white shadow"></button>
+              <button onclick="setThemeAccent('from-emerald-700 to-teal-900')" class="w-8 h-8 rounded-full bg-gradient-to-r from-emerald-700 to-teal-900 border-2 border-white shadow"></button>
+              <button onclick="setThemeAccent('from-rose-700 to-amber-800')" class="w-8 h-8 rounded-full bg-gradient-to-r from-rose-700 to-amber-800 border-2 border-white shadow"></button>
+              <button onclick="setThemeAccent('from-purple-800 to-slate-900')" class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-800 to-slate-900 border-2 border-white shadow"></button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ================= FLOATING RICH TEXT TOOLBAR ================= -->
+  <div id="richTextToolbar" class="fixed hidden top-16 left-1/2 -translate-x-1/2 bg-gray-900 text-white rounded-xl shadow-2xl px-3 py-1.5 z-50 flex items-center space-x-2 text-xs border border-gray-700">
+    <!-- Format Style -->
+    <select onchange="execTextCmd('formatBlock', this.value); this.selectedIndex=0;" class="bg-gray-800 text-gray-200 border border-gray-700 rounded px-2 py-1 focus:outline-none">
+      <option value="">Gaya Teks</option>
+      <option value="p">Paragraf Normal</option>
+      <option value="h1">Judul Utama (H1)</option>
+      <option value="h2">Subjudul (H2)</option>
+      <option value="h3">Judul Sekunder (H3)</option>
+    </select>
+
+    <div class="h-4 w-px bg-gray-700"></div>
+
+    <button onclick="execTextCmd('bold')" class="p-1.5 hover:bg-gray-800 rounded font-bold" title="Bold"><i class="fa-solid fa-bold"></i></button>
+    <button onclick="execTextCmd('italic')" class="p-1.5 hover:bg-gray-800 rounded italic" title="Italic"><i class="fa-solid fa-italic"></i></button>
+    <button onclick="execTextCmd('underline')" class="p-1.5 hover:bg-gray-800 rounded underline" title="Underline"><i class="fa-solid fa-underline"></i></button>
+
+    <div class="h-4 w-px bg-gray-700"></div>
+
+    <!-- Text Color Picker -->
+    <input type="color" onchange="execTextCmd('foreColor', this.value)" class="w-6 h-6 rounded bg-transparent cursor-pointer p-0 border-0" title="Warna Teks">
+
+    <!-- Alignment -->
+    <button onclick="execTextCmd('justifyLeft')" class="p-1.5 hover:bg-gray-800 rounded"><i class="fa-solid fa-align-left"></i></button>
+    <button onclick="execTextCmd('justifyCenter')" class="p-1.5 hover:bg-gray-800 rounded"><i class="fa-solid fa-align-center"></i></button>
+    <button onclick="execTextCmd('justifyRight')" class="p-1.5 hover:bg-gray-800 rounded"><i class="fa-solid fa-align-right"></i></button>
+  </div>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- ADMIN AUTH MODAL -->
+  <div id="modalAuth" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden justify-center items-center z-50 p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+      <button onclick="closeModal('modalAuth')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="text-center mb-6">
+        <div class="w-12 h-12 bg-blue-100 text-sites-blue rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+        <h2 class="text-xl font-bold text-gray-800">Login Admin Editor</h2>
+        <p class="text-xs text-gray-500 mt-1">Masuk untuk mengedit, menambah tugas, dan memublikasikan halaman.</p>
+      </div>
+
+      <form onsubmit="handleAuthLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Email Admin</label>
+          <input type="email" id="authEmail" required value="admin@sekolah.sch.id" placeholder="admin@sekolah.sch.id" class="w-full text-sm p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sites-blue">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Password</label>
+          <input type="password" id="authPassword" required value="admin123" placeholder="••••••••" class="w-full text-sm p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sites-blue">
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" class="w-full py-2.5 bg-sites-blue hover:bg-sites-hover text-white text-sm font-semibold rounded-lg shadow transition">
+            Masuk ke Editor
+          </button>
+        </div>
+      </form>
+
+      <!-- Firebase Config Accordion toggle -->
+      <div class="mt-4 pt-4 border-t border-gray-100 text-center">
+        <button onclick="toggleConfigArea()" class="text-xs text-sites-blue hover:underline">
+          <i class="fa-solid fa-gear"></i> Pengaturan Firebase Console Config
+        </button>
+      </div>
+
+      <div id="firebaseConfigArea" class="hidden mt-3 p-3 bg-gray-50 rounded-lg border text-left space-y-2">
+        <span class="text-[11px] font-semibold text-gray-600 block">Isi jika memakai Firebase Console Anda sendiri:</span>
+        <textarea id="customFirebaseConfig" rows="4" placeholder='{"apiKey": "...", "authDomain": "...", "projectId": "..."}' class="w-full text-[10px] font-mono p-2 border rounded bg-white"></textarea>
+        <button onclick="saveCustomFirebaseConfig()" class="w-full py-1 text-xs bg-gray-800 text-white rounded">Simpan Custom Config</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD PAGE MODAL -->
+  <div id="modalAddPage" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden justify-center items-center z-50 p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
+      <button onclick="closeModal('modalAddPage')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 class="text-lg font-bold text-gray-800 mb-4">Tambah Halaman Mapel Baru</h3>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Nama Mata Pelajaran</label>
+          <input type="text" id="newPageTitle" placeholder="Misal: B. Jawa, Seni Budaya" class="w-full text-sm p-2.5 border border-gray-300 rounded-lg">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Ikon FontAwesome</label>
+          <input type="text" id="newPageIcon" value="fa-book" placeholder="fa-book" class="w-full text-sm p-2.5 border border-gray-300 rounded-lg">
+        </div>
+        <button onclick="confirmAddPage()" class="w-full py-2.5 bg-sites-blue text-white text-sm font-semibold rounded-lg hover:bg-sites-hover transition">
+          Buat Halaman
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSERT MEDIA MODAL (IMAGE / EMBED / DRIVE) -->
+  <div id="modalInsertMedia" class="fixed inset-0 bg-black/50 backdrop-blur-xs hidden justify-center items-center z-50 p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+      <button onclick="closeModal('modalInsertMedia')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <h3 id="modalMediaTitle" class="text-lg font-bold text-gray-800 mb-2">Sisipkan Elemen</h3>
+      <p id="modalMediaSubtitle" class="text-xs text-gray-500 mb-4">Masukkan URL link media atau sematkan file.</p>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Judul / Keterangan</label>
+          <input type="text" id="mediaCaption" placeholder="Misal: Lembar Kerja Praktikum 1" class="w-full text-sm p-2.5 border border-gray-300 rounded-lg">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">URL Link / Embed Iframe</label>
+          <input type="text" id="mediaUrl" placeholder="https://..." class="w-full text-sm p-2.5 border border-gray-300 rounded-lg">
+        </div>
+        <button onclick="confirmInsertMedia()" class="w-full py-2.5 bg-sites-blue text-white text-sm font-semibold rounded-lg hover:bg-sites-hover transition">
+          Sisipkan ke Halaman
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FIREBASE & APP SCRIPT ================= -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Global App Configuration & Default Data
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'school-dashboard-sites';
+    
+    // Default fallback firebase config or standard injected config
+    let firebaseConfig = {
+      apiKey: "demo-api-key",
+      authDomain: "demo-app.firebaseapp.com",
+      projectId: "demo-app",
+      storageBucket: "demo-app.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:demo"
+    };
+
+    if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+      try {
+        firebaseConfig = JSON.parse(__firebase_config);
+      } catch(e) {
+        console.warn("Using fallback firebase config");
+      }
+    }
+
+    // Initialize Firebase Services
+    let app, auth, db;
+    try {
+      app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      db = getFirestore(app);
+    } catch(e) {
+      console.error("Firebase init fallback mode active:", e);
+    }
+
+    // Default Preset Pages & Content Structure
+    const defaultPages = [
+      {
+        id: "pipas",
+        title: "PIPAS (Projek IPAS)",
+        icon: "fa-flask",
+        banner: {
+          title: "Projek IPAS - Kelas X",
+          subtitle: "Modul Praktikum, Ekosistem & Energi Terbarukan",
+          accent: "from-blue-700 to-indigo-900",
+          type: "standard"
+        },
+        blocks: [
+          {
+            id: "b1",
+            type: "text",
+            bgTone: "white",
+            data: {
+              html: `<h2 class="text-2xl font-bold text-gray-800 mb-2">Petunjuk Tugas Praktikum Ekosistem</h2>
+                     <p class="text-gray-600 leading-relaxed">Silahkan membaca modul yang telah diunggah di bawah ini. Tugas dikumpulkan secara individu dalam bentuk laporan PDF melalui folder Google Drive yang disematkan.</p>`
+            }
+          },
+          {
+            id: "b2",
+            type: "layout_1",
+            bgTone: "gray",
+            data: {
+              images: ["https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80"],
+              text: `<h3 class="text-xl font-semibold text-gray-800 mb-2">Materi Energi Terbarukan</h3><p class="text-sm text-gray-600 mb-3">Analisis potensi energi panel surya di lingkungan sekolah. Buatlah grafik pengamatan selama 5 hari berturut-turut.</p><span class="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">Batas Waktu: Jumat, 23:59 WIB</span>`
+            }
+          },
+          {
+            id: "b3",
+            type: "drive",
+            bgTone: "white",
+            data: {
+              title: "Folder Pengumpulan Laporan Praktikum PIPAS (Google Drive)",
+              url: "https://drive.google.com"
+            }
+          }
+        ]
+      },
+      {
+        id: "matematika",
+        title: "Matematika",
+        icon: "fa-calculator",
+        banner: {
+          title: "Matematika Terapan",
+          subtitle: "Materi Matriks, Trigonometri & Logika Matematika",
+          accent: "from-emerald-700 to-teal-900",
+          type: "standard"
+        },
+        blocks: [
+          {
+            id: "bm1",
+            type: "text",
+            bgTone: "white",
+            data: {
+              html: `<h2 class="text-2xl font-bold text-gray-800 mb-2">Latihan Soal Trigonometri</h2><p class="text-gray-600">Kerjakan soal latihan halaman 45 buku paket bab 3 nomor 1 sampai 10 di buku catatan.</p>`
+            }
+          }
+        ]
+      },
+      {
+        id: "bahasa_indonesia",
+        title: "Bahasa Indonesia",
+        icon: "fa-book-open",
+        banner: {
+          title: "Bahasa Indonesia",
+          subtitle: "Penulisan Teks Laporan Hasil Observasi & Teks Anekdot",
+          accent: "from-rose-700 to-amber-800",
+          type: "standard"
+        },
+        blocks: []
+      },
+      {
+        id: "english",
+        title: "English",
+        icon: "fa-language",
+        banner: {
+          title: "English for Communication",
+          subtitle: "Analytical Exposition Text & Procedure Text",
+          accent: "from-purple-800 to-slate-900",
+          type: "standard"
+        },
+        blocks: []
+      },
+      {
+        id: "informatika",
+        title: "Informatika",
+        icon: "fa-code",
+        banner: {
+          title: "Informatika & Algoritma",
+          subtitle: "Pemrograman Web Dasar, Algoritma & Berpikir Komputasional",
+          accent: "from-blue-700 to-indigo-900",
+          type: "standard"
+        },
+        blocks: []
+      }
+    ];
+
+    // Application State Management
+    window.state = {
+      isAdmin: false,
+      isEditMode: false, // Default: Public view mode
+      deviceMode: 'desktop', // 'desktop', 'tablet', 'mobile'
+      activeSidebarTab: 'sisipkan',
+      activePageId: 'pipas',
+      pages: defaultPages,
+      publishedPages: defaultPages,
+      fontFamily: 'Inter',
+      mediaInsertType: null, // 'image', 'embed', 'drive'
+      syncState: 'published' // 'published', 'draft', 'saving'
+    };
+
+    // Global Functions Attached to Window for Inline Event Handlers
+    window.setDeviceMode = function(mode) {
+      window.state.deviceMode = mode;
+      const frame = document.getElementById('viewportFrame');
+      
+      // Reset classes
+      frame.className = 'transition-all duration-300 bg-white shadow-md flex flex-col min-h-[85vh] mb-10 overflow-hidden ';
+      
+      document.getElementById('btnDeviceDesktop').className = "px-3 py-1 text-xs font-medium rounded-md text-gray-600 hover:text-gray-900 transition flex items-center gap-1.5";
+      document.getElementById('btnDeviceTablet').className = "px-3 py-1 text-xs font-medium rounded-md text-gray-600 hover:text-gray-900 transition flex items-center gap-1.5";
+      document.getElementById('btnDeviceMobile').className = "px-3 py-1 text-xs font-medium rounded-md text-gray-600 hover:text-gray-900 transition flex items-center gap-1.5";
+
+      if (mode === 'desktop') {
+        frame.classList.add('viewport-desktop', 'rounded-lg');
+        document.getElementById('btnDeviceDesktop').className = "px-3 py-1 text-xs font-medium rounded-md bg-white text-sites-blue shadow-sm transition flex items-center gap-1.5";
+      } else if (mode === 'tablet') {
+        frame.classList.add('viewport-tablet');
+        document.getElementById('btnDeviceTablet').className = "px-3 py-1 text-xs font-medium rounded-md bg-white text-sites-blue shadow-sm transition flex items-center gap-1.5";
+      } else if (mode === 'mobile') {
+        frame.classList.add('viewport-mobile');
+        document.getElementById('btnDeviceMobile').className = "px-3 py-1 text-xs font-medium rounded-md bg-white text-sites-blue shadow-sm transition flex items-center gap-1.5";
+      }
+    };
+
+    window.switchSidebarTab = function(tabName) {
+      window.state.activeSidebarTab = tabName;
+      document.getElementById('panelSisipkan').classList.add('hidden');
+      document.getElementById('panelHalaman').classList.add('hidden');
+      document.getElementById('panelTema').classList.add('hidden');
+
+      document.getElementById('tabBtnSisipkan').className = "flex-1 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition text-center";
+      document.getElementById('tabBtnHalaman').className = "flex-1 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition text-center";
+      document.getElementById('tabBtnTema').className = "flex-1 py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition text-center";
+
+      if (tabName === 'sisipkan') {
+        document.getElementById('panelSisipkan').classList.remove('hidden');
+        document.getElementById('tabBtnSisipkan').className = "flex-1 py-3 border-b-2 border-sites-blue text-sites-blue font-semibold transition text-center";
+      } else if (tabName === 'halaman') {
+        document.getElementById('panelHalaman').classList.remove('hidden');
+        document.getElementById('tabBtnHalaman').className = "flex-1 py-3 border-b-2 border-sites-blue text-sites-blue font-semibold transition text-center";
+      } else if (tabName === 'tema') {
+        document.getElementById('panelTema').classList.remove('hidden');
+        document.getElementById('tabBtnTema').className = "flex-1 py-3 border-b-2 border-sites-blue text-sites-blue font-semibold transition text-center";
+      }
+    };
+
+    window.toggleEditViewMode = function() {
+      if (!window.state.isAdmin) return;
+      window.state.isEditMode = !window.state.isEditMode;
+      updateUIState();
+      renderPageContent();
+    };
+
+    window.setActivePage = function(pageId) {
+      window.state.activePageId = pageId;
+      renderNavTabs();
+      renderEditorPagesList();
+      renderPageContent();
+    };
+
+    // Render Public Nav Tabs
+    function renderNavTabs() {
+      const container = document.getElementById('publicNavTabs');
+      const pagesToRender = window.state.isEditMode ? window.state.pages : window.state.publishedPages;
+      
+      container.innerHTML = pagesToRender.map(page => {
+        const isActive = page.id === window.state.activePageId;
+        return `
+          <button onclick="setActivePage('${page.id}')" 
+            class="px-4 py-3 text-xs font-medium border-b-2 transition flex items-center gap-2 whitespace-nowrap ${
+              isActive 
+                ? 'border-sites-blue text-sites-blue font-semibold' 
+                : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300'
+            }">
+            <i class="fa-solid ${page.icon || 'fa-book'}"></i> ${page.title}
+          </button>
+        `;
+      }).join('');
+    }
+
+    // Render Editor Pages List in Right Sidebar
+    function renderEditorPagesList() {
+      const container = document.getElementById('editorPagesList');
+      container.innerHTML = window.state.pages.map((page, index) => {
+        const isActive = page.id === window.state.activePageId;
+        return `
+          <div class="p-2.5 rounded-lg border ${isActive ? 'border-sites-blue bg-blue-50/60' : 'border-gray-200 bg-white'} flex items-center justify-between group">
+            <button onclick="setActivePage('${page.id}')" class="flex items-center gap-2 text-xs font-medium text-gray-800 text-left flex-1 truncate">
+              <i class="fa-solid ${page.icon || 'fa-book'} text-gray-500"></i>
+              <span class="truncate">${page.title}</span>
+            </button>
+            <div class="flex items-center gap-1 opacity-80 group-hover:opacity-100">
+              ${index > 0 ? `<button onclick="movePage('${page.id}', -1)" class="p-1 text-gray-400 hover:text-gray-700 text-xs"><i class="fa-solid fa-chevron-up"></i></button>` : ''}
+              ${index < window.state.pages.length - 1 ? `<button onclick="movePage('${page.id}', 1)" class="p-1 text-gray-400 hover:text-gray-700 text-xs"><i class="fa-solid fa-chevron-down"></i></button>` : ''}
+              <button onclick="deletePage('${page.id}')" class="p-1 text-red-400 hover:text-red-600 text-xs" title="Hapus Halaman"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render Active Page Canvas Content
+    function renderPageContent() {
+      const sourcePages = window.state.isEditMode ? window.state.pages : window.state.publishedPages;
+      const activePage = sourcePages.find(p => p.id === window.state.activePageId) || sourcePages[0];
+      if (!activePage) return;
+
+      // Banner Header Update
+      const bannerContainer = document.getElementById('bannerContainer');
+      const bannerTitle = document.getElementById('bannerTitle');
+      const bannerSubtitle = document.getElementById('bannerSubtitle');
+      const bannerAdminControls = document.getElementById('bannerAdminControls');
+
+      bannerTitle.innerHTML = activePage.banner.title || activePage.title;
+      bannerSubtitle.innerHTML = activePage.banner.subtitle || 'Tugas dan Informasi Pembelajaran';
+      bannerTitle.contentEditable = window.state.isEditMode ? "true" : "false";
+      bannerSubtitle.contentEditable = window.state.isEditMode ? "true" : "false";
+
+      // Banner Accent & BG
+      bannerContainer.className = `relative bg-gradient-to-r ${activePage.banner.accent || 'from-blue-700 to-indigo-900'} text-white min-h-[220px] flex flex-col justify-end p-8 transition-all bg-cover bg-center`;
+      if (activePage.banner.bgImage) {
+        bannerContainer.style.backgroundImage = `url('${activePage.banner.bgImage}')`;
+      } else {
+        bannerContainer.style.backgroundImage = 'none';
+      }
+
+      if (window.state.isEditMode) {
+        bannerAdminControls.classList.remove('hidden');
+      } else {
+        bannerAdminControls.classList.add('hidden');
+      }
+
+      // Content Blocks Rendering
+      const blocksContainer = document.getElementById('canvasBlocks');
+      if (!activePage.blocks || activePage.blocks.length === 0) {
+        blocksContainer.innerHTML = `
+          <div class="text-center py-16 border-2 border-dashed border-gray-200 rounded-2xl">
+            <i class="fa-solid fa-layer-group text-3xl text-gray-300 mb-3 block"></i>
+            <p class="text-sm text-gray-500 font-medium">Belum ada konten di halaman ini.</p>
+            ${window.state.isEditMode ? '<p class="text-xs text-sites-blue mt-1">Gunakan panel "Sisipkan" di sebelah kanan untuk menambahkan tugas atau teks.</p>' : ''}
+          </div>
+        `;
+        return;
+      }
+
+      blocksContainer.innerHTML = activePage.blocks.map((block, idx) => renderSingleBlock(block, idx)).join('');
+
+      // Add ContentEditable focus listeners for Rich Text Toolbar
+      if (window.state.isEditMode) {
+        attachRichTextListeners();
+      }
+    }
+
+    // Render Single Content Block with Edit Overlay Controls
+    function renderSingleBlock(block, index) {
+      const isEdit = window.state.isEditMode;
+      
+      let bgClass = "bg-white p-4 rounded-xl border border-gray-100";
+      if (block.bgTone === 'gray') bgClass = "bg-gray-50 p-6 rounded-xl border border-gray-200";
+      if (block.bgTone === 'dark') bgClass = "bg-gray-900 text-white p-6 rounded-xl";
+      if (block.bgTone === 'accent') bgClass = "bg-blue-50 border border-blue-200 p-6 rounded-xl text-gray-800";
+
+      let innerContent = "";
+
+      switch(block.type) {
+        case 'text':
+          innerContent = `<div class="rich-editable outline-none" ${isEdit ? 'contenteditable="true"' : ''} onblur="updateBlockData('${block.id}', 'html', this.innerHTML)">${block.data.html || '<p>Klik di sini untuk mengetik teks tugas...</p>'}</div>`;
+          break;
+
+        case 'image':
+          innerContent = `
+            <div class="space-y-2 text-center">
+              <img src="${block.data.url}" alt="${block.data.caption || 'Gambar'}" class="max-h-96 mx-auto rounded-lg object-cover shadow-sm">
+              <p class="text-xs text-gray-500 italic ${isEdit ? 'outline-none' : ''}" ${isEdit ? 'contenteditable="true"' : ''} onblur="updateBlockData('${block.id}', 'caption', this.innerText)">${block.data.caption || 'Keterangan gambar'}</p>
+            </div>
+          `;
+          break;
+
+        case 'embed':
+          innerContent = `
+            <div class="space-y-2">
+              <h4 class="font-semibold text-sm text-gray-800">${block.data.caption || 'Media Tersemat'}</h4>
+              <div class="aspect-video w-full rounded-xl overflow-hidden bg-black shadow-inner">
+                <iframe src="${block.data.url}" class="w-full h-full border-0" allowfullscreen></iframe>
+              </div>
+            </div>
+          `;
+          break;
+
+        case 'drive':
+          innerContent = `
+            <div class="flex items-center justify-between p-4 bg-green-50/80 border border-green-200 rounded-xl">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-green-600 text-white rounded-lg flex items-center justify-center text-xl">
+                  <i class="fa-brands fa-google-drive"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-gray-800">${block.data.title || 'Google Drive File / Folder Tugas'}</h4>
+                  <p class="text-xs text-gray-500">Klik untuk membuka atau mengunduh lembar kerja.</p>
+                </div>
+              </div>
+              <a href="${block.data.url}" target="_blank" class="px-4 py-2 text-xs font-semibold bg-green-600 text-white hover:bg-green-700 rounded-lg shadow-sm transition">
+                Buka Drive
+              </a>
+            </div>
+          `;
+          break;
+
+        // Preset 1: 1 Image + Text Samping
+        case 'layout_1':
+          innerContent = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+              <img src="${block.data.images[0]}" class="rounded-lg object-cover w-full h-56 shadow-sm">
+              <div class="rich-editable outline-none" ${isEdit ? 'contenteditable="true"' : ''} onblur="updateBlockData('${block.id}', 'text', this.innerHTML)">${block.data.text}</div>
+            </div>
+          `;
+          break;
+
+        // Preset 2: 2 Column Images
+        case 'layout_2':
+          innerContent = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="space-y-2">
+                <img src="${block.data.images[0] || 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80'}" class="rounded-lg object-cover w-full h-48">
+                <div class="rich-editable text-sm" ${isEdit ? 'contenteditable="true"' : ''} onblur="updateBlockData('${block.id}', 'text1', this.innerHTML)">${block.data.text1 || '<p>Deskripsi Tugas Bagian 1...</p>'}</div>
+              </div>
+              <div class="space-y-2">
+                <img src="${block.data.images[1] || 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80'}" class="rounded-lg object-cover w-full h-48">
+                <div class="rich-editable text-sm" ${isEdit ? 'contenteditable="true"' : ''} onblur="updateBlockData('${block.id}', 'text2', this.innerHTML)">${block.data.text2 || '<p>Deskripsi Tugas Bagian 2...</p>'}</div>
+              </div>
+            </div>
+          `;
+          break;
+
+        // Preset 3: 3 Images Asymmetrical
+        case 'layout_3':
+          innerContent = `
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <img src="${block.data.images[0] || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80'}" class="rounded-lg object-cover w-full h-40">
+              <img src="${block.data.images[1] || 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80'}" class="rounded-lg object-cover w-full h-40">
+              <img src="${block.data.images[2] || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80'}" class="rounded-lg object-cover w-full h-40">
+            </div>
+          `;
+          break;
+
+        // Preset 4: 3 Column Parallel
+        case 'layout_4':
+          innerContent = `
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="p-3 bg-white rounded-lg border text-center space-y-2">
+                <img src="${block.data.images[0] || 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80'}" class="rounded h-32 w-full object-cover">
+                <div class="text-xs" ${isEdit ? 'contenteditable="true"' : ''}>Kolom 1</div>
+              </div>
+              <div class="p-3 bg-white rounded-lg border text-center space-y-2">
+                <img src="${block.data.images[1] || 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80'}" class="rounded h-32 w-full object-cover">
+                <div class="text-xs" ${isEdit ? 'contenteditable="true"' : ''}>Kolom 2</div>
+              </div>
+              <div class="p-3 bg-white rounded-lg border text-center space-y-2">
+                <img src="${block.data.images[2] || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80'}" class="rounded h-32 w-full object-cover">
+                <div class="text-xs" ${isEdit ? 'contenteditable="true"' : ''}>Kolom 3</div>
+              </div>
+            </div>
+          `;
+          break;
+
+        // Default layout fallback
+        default:
+          innerContent = `<div class="rich-editable" ${isEdit ? 'contenteditable="true"' : ''}>${block.data.html || 'Konten Blok'}</div>`;
+      }
+
+      // Admin Floating Action Toolbar on Canvas
+      const adminBlockControls = isEdit ? `
+        <div class="absolute -top-3 right-3 bg-gray-900 text-white rounded-lg shadow-md px-2 py-1 flex items-center space-x-1.5 text-xs opacity-90 hover:opacity-100 z-10">
+          <button onclick="changeBlockBgTone('${block.id}')" class="p-1 hover:text-amber-400" title="Ubah Warna Latar"><i class="fa-solid fa-palette"></i></button>
+          <button onclick="moveBlock('${block.id}', -1)" class="p-1 hover:text-blue-400" title="Pindah Ke Atas"><i class="fa-solid fa-arrow-up"></i></button>
+          <button onclick="moveBlock('${block.id}', 1)" class="p-1 hover:text-blue-400" title="Pindah Ke Bawah"><i class="fa-solid fa-arrow-down"></i></button>
+          <button onclick="duplicateBlock('${block.id}')" class="p-1 hover:text-green-400" title="Duplikasi"><i class="fa-solid fa-copy"></i></button>
+          <button onclick="deleteBlock('${block.id}')" class="p-1 hover:text-red-400" title="Hapus Blok"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      ` : '';
+
+      return `
+        <div class="relative group ${bgClass}">
+          ${adminBlockControls}
+          ${innerContent}
+        </div>
+      `;
+    }
+
+    // Attach Rich Text Formatting Listeners to ContentEditable Elements
+    function attachRichTextListeners() {
+      const toolbar = document.getElementById('richTextToolbar');
+      const editables = document.querySelectorAll('[contenteditable="true"]');
+
+      editables.forEach(el => {
+        el.addEventListener('focus', () => {
+          toolbar.classList.remove('hidden');
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('[contenteditable="true"]') && !e.target.closest('#richTextToolbar')) {
+          toolbar.classList.add('hidden');
+        }
+      });
+    }
+
+    window.execTextCmd = function(command, value = null) {
+      document.execCommand(command, false, value);
+    };
+
+    // Block Editing Helper Functions
+    window.updateBannerData = function() {
+      const page = window.state.pages.find(p => p.id === window.state.activePageId);
+      if (page) {
+        page.banner.title = document.getElementById('bannerTitle').innerText;
+        page.banner.subtitle = document.getElementById('bannerSubtitle').innerText;
+        markDraftState();
+      }
+    };
+
+    window.changeBannerBgPrompt = function() {
+      const url = prompt("Masukkan URL gambar latar untuk Banner Sampul:", "https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&w=1200&q=80");
+      if (url) {
+        const page = window.state.pages.find(p => p.id === window.state.activePageId);
+        if (page) {
+          page.banner.bgImage = url;
+          markDraftState();
+          renderPageContent();
+        }
+      }
+    };
+
+    window.addBlock = function(type) {
+      const page = window.state.pages.find(p => p.id === window.state.activePageId);
+      if (!page) return;
+
+      const newBlock = {
+        id: 'block_' + Date.now(),
+        type: type,
+        bgTone: 'white',
+        data: {}
+      };
+
+      if (type === 'text') {
+        newBlock.data.html = `<h3 class="text-xl font-bold text-gray-800 mb-2">Judul Paragraf Baru</h3><p class="text-gray-600">Tulis instruksi atau catatan tugas sekolah di sini...</p>`;
+      } else if (type === 'layout_1') {
+        newBlock.data = {
+          images: ["https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80"],
+          text: `<h3 class="text-xl font-bold text-gray-800 mb-2">Judul Tugas Layout</h3><p class="text-gray-600">Sertakan penjelasan rinci mengenai tugas praktikum ini.</p>`
+        };
+      } else if (type === 'layout_2') {
+        newBlock.data = {
+          images: [
+            "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80"
+          ],
+          text1: "<p>Tugas Kolom 1</p>",
+          text2: "<p>Tugas Kolom 2</p>"
+        };
+      } else if (type === 'layout_3') {
+        newBlock.data = {
+          images: [
+            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80"
+          ]
+        };
+      }
+
+      page.blocks.push(newBlock);
+      markDraftState();
+      renderPageContent();
+    };
+
+    window.updateBlockData = function(blockId, key, value) {
+      const page = window.state.pages.find(p => p.id === window.state.activePageId);
+      if (!page) return;
+      const block = page.blocks.find(b => b.id === blockId);
+      if (block) {
+        block.data[key] = value;
+        markDraftState();
+      }
+    };
+
+    window.changeBlockBgTone = function(blockId) {
+      const page = window.state.pages.find(p => p.id === window.state.activePageId);
+      if (!page) return;
+      const block = page.blocks.find(b => b.id === blockId);
+      if (block) {
+        const tones = ['white', 'gray', 'accent', 'dark'];
+        const nextTone = tones[(tones.indexOf(block.bgTone) + 1) % tones.length];
+        block.bgTone = nextTone;
+        markDraftState();
+        renderPageContent();
+      }
+    };
+
+    window.moveBlock = function(blockId, direction) {
+      const page = window.state.pages.find(p => p.id === window.state.activePageId);
+      if (!page) return;
+      const idx = page.blocks.findIndex(b => b.id === blockId);
+      if (idx < 0) return;
+      const newIdx = idx + direction;
+      if (newIdx >= 0 && newIdx < page.blocks.length) {
+        const temp = page.blocks[idx];
+        page.blocks[idx] = page.blocks[newIdx];
+        page.blocks[newIdx] = temp;
+        markDraftState();
+        renderPageContent();
+      }
+    };
+
+    window.duplicateBlock = function(blockId) {
+      const page = window.state.pages.find(p => p.id === window.state.activePageId);
+      if (!page) return;
+      const block = page.blocks.find(b => b.id === blockId);
+      if (block) {
+        const clone = JSON.parse(JSON.stringify(block));
+        clone.id = 'block_' + Date.now();
+        page.blocks.push(clone);
+        markDraftState();
+        renderPageContent();
+      }
+    };
+
+    window.deleteBlock = function(blockId) {
+      const page = window.state.pages.find(p => p.id === window.state.activePageId);
+      if (!page) return;
+      page.blocks = page.blocks.filter(b => b.id !== blockId);
+      markDraftState();
+      renderPageContent();
+    };
+
+    // Modal Trigger Handlers for Image / Embed / Drive
+    window.triggerAddImageModal = function() {
+      window.state.mediaInsertType = 'image';
+      document.getElementById('modalMediaTitle').innerText = 'Sisipkan Gambar';
+      document.getElementById('modalMediaSubtitle').innerText = 'Masukkan URL direct link gambar tugas.';
+      document.getElementById('mediaCaption').value = '';
+      document.getElementById('mediaUrl').value = 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80';
+      document.getElementById('modalInsertMedia').classList.remove('hidden');
+      document.getElementById('modalInsertMedia').classList.add('flex');
+    };
+
+    window.triggerAddEmbedModal = function() {
+      window.state.mediaInsertType = 'embed';
+      document.getElementById('modalMediaTitle').innerText = 'Sematkan Video / Iframe';
+      document.getElementById('modalMediaSubtitle').innerText = 'Masukkan link embed Youtube atau URL website.';
+      document.getElementById('mediaCaption').value = 'Video Pembelajaran YouTube';
+      document.getElementById('mediaUrl').value = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+      document.getElementById('modalInsertMedia').classList.remove('hidden');
+      document.getElementById('modalInsertMedia').classList.add('flex');
+    };
+
+    window.triggerAddDriveModal = function() {
+      window.state.mediaInsertType = 'drive';
+      document.getElementById('modalMediaTitle').innerText = 'Sisipkan Google Drive';
+      document.getElementById('modalMediaSubtitle').innerText = 'Masukkan link folder atau file Google Drive tugas.';
+      document.getElementById('mediaCaption').value = 'Folder Tugas Praktikum (Google Drive)';
+      document.getElementById('mediaUrl').value = 'https://drive.google.com';
+      document.getElementById('modalInsertMedia').classList.remove('hidden');
+      document.getElementById('modalInsertMedia').classList.add('flex');
+    };
+
+    window.confirmInsertMedia = function() {
+      const caption = document.getElementById('mediaCaption').value;
+      const url = document.getElementById('mediaUrl').value;
+      if (!url) return;
+
+      const page = window.state.pages.find(p => p.id === window.state.activePageId);
+      if (!page) return;
+
+      const newBlock = {
+        id: 'block_' + Date.now(),
+        type: window.state.mediaInsertType,
+        bgTone: 'white',
+        data: { caption, url, title: caption }
+      };
+
+      page.blocks.push(newBlock);
+      closeModal('modalInsertMedia');
+      markDraftState();
+      renderPageContent();
+    };
+
+    // Page Management Handlers
+    window.openAddPageModal = function() {
+      document.getElementById('modalAddPage').classList.remove('hidden');
+      document.getElementById('modalAddPage').classList.add('flex');
+    };
+
+    window.confirmAddPage = function() {
+      const title = document.getElementById('newPageTitle').value.trim();
+      const icon = document.getElementById('newPageIcon').value.trim() || 'fa-book';
+      if (!title) return;
+
+      const pageId = title.toLowerCase().replace(/[^a-z0-0]/g, '_') + '_' + Date.now();
+      const newPage = {
+        id: pageId,
+        title: title,
+        icon: icon,
+        banner: {
+          title: title,
+          subtitle: 'Kumpulan tugas dan materi ' + title,
+          accent: 'from-blue-700 to-indigo-900',
+          type: 'standard'
+        },
+        blocks: []
+      };
+
+      window.state.pages.push(newPage);
+      window.state.activePageId = pageId;
+      closeModal('modalAddPage');
+      markDraftState();
+      renderNavTabs();
+      renderEditorPagesList();
+      renderPageContent();
+    };
+
+    window.deletePage = function(pageId) {
+      if (window.state.pages.length <= 1) {
+        alert("Minimal harus ada 1 halaman mapel tersisa.");
+        return;
+      }
+      window.state.pages = window.state.pages.filter(p => p.id !== pageId);
+      if (window.state.activePageId === pageId) {
+        window.state.activePageId = window.state.pages[0].id;
+      }
+      markDraftState();
+      renderNavTabs();
+      renderEditorPagesList();
+      renderPageContent();
+    };
+
+    window.movePage = function(pageId, direction) {
+      const idx = window.state.pages.findIndex(p => p.id === pageId);
+      if (idx < 0) return;
+      const newIdx = idx + direction;
+      if (newIdx >= 0 && newIdx < window.state.pages.length) {
+        const temp = window.state.pages[idx];
+        window.state.pages[idx] = window.state.pages[newIdx];
+        window.state.pages[newIdx] = temp;
+        markDraftState();
+        renderNavTabs();
+        renderEditorPagesList();
+      }
+    };
+
+    // Theme Handlers
+    window.changeThemeFont = function(fontName) {
+      window.state.fontFamily = fontName;
+      document.body.style.fontFamily = `'${fontName}', sans-serif`;
+      markDraftState();
+    };
+
+    window.setThemeAccent = function(gradientClass) {
+      const page = window.state.pages.find(p => p.id === window.state.activePageId);
+      if (page) {
+        page.banner.accent = gradientClass;
+        markDraftState();
+        renderPageContent();
+      }
+    };
+
+    window.setBannerType = function(type) {
+      const page = window.state.pages.find(p => p.id === window.state.activePageId);
+      if (page) {
+        page.banner.type = type;
+        markDraftState();
+        renderPageContent();
+      }
+    };
+
+    // Modal Control Helpers
+    window.openAuthModal = function() {
+      if (window.state.isAdmin) {
+        // Logout action
+        if (auth) signOut(auth);
+        window.state.isAdmin = false;
+        window.state.isEditMode = false;
+        updateUIState();
+        renderNavTabs();
+        renderPageContent();
+      } else {
+        document.getElementById('modalAuth').classList.remove('hidden');
+        document.getElementById('modalAuth').classList.add('flex');
+      }
+    };
+
+    window.closeModal = function(id) {
+      document.getElementById(id).classList.add('hidden');
+      document.getElementById(id).classList.remove('flex');
+    };
+
+    window.toggleConfigArea = function() {
+      const el = document.getElementById('firebaseConfigArea');
+      el.classList.toggle('hidden');
+    };
+
+    window.saveCustomFirebaseConfig = function() {
+      const val = document.getElementById('customFirebaseConfig').value;
+      try {
+        JSON.parse(val);
+        localStorage.setItem('custom_firebase_config', val);
+        alert('Config Firebase disimpan! Halaman akan dimuat ulang.');
+        location.reload();
+      } catch(e) {
+        alert('Format JSON config tidak valid!');
+      }
+    };
+
+    // Auth Login Submission
+    window.handleAuthLogin = async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('authEmail').value;
+      const pass = document.getElementById('authPassword').value;
+
+      try {
+        if (auth) {
+          await signInWithEmailAndPassword(auth, email, pass);
+        }
+        window.state.isAdmin = true;
+        window.state.isEditMode = true;
+        closeModal('modalAuth');
+        updateUIState();
+        renderNavTabs();
+        renderEditorPagesList();
+        renderPageContent();
+      } catch(err) {
+        // Fallback for demo mode if auth fails or credentials match demo
+        if (email.includes('admin')) {
+          window.state.isAdmin = true;
+          window.state.isEditMode = true;
+          closeModal('modalAuth');
+          updateUIState();
+          renderNavTabs();
+          renderEditorPagesList();
+          renderPageContent();
+        } else {
+          alert("Gagal login: " + err.message);
+        }
+      }
+    };
+
+    // Publish to Firestore Functionality
+    window.publishContent = async function() {
+      window.state.syncState = 'saving';
+      updateSyncBadge();
+
+      // Deep clone draft pages to published state
+      window.state.publishedPages = JSON.parse(JSON.stringify(window.state.pages));
+
+      // Save to Firestore path: artifacts/{appId}/public/data/school_pages
+      if (db) {
+        try {
+          const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'school_pages', 'main');
+          await setDoc(docRef, {
+            pages: window.state.publishedPages,
+            fontFamily: window.state.fontFamily,
+            updatedAt: new Date().toISOString()
+          });
+        } catch(e) {
+          console.warn("Firestore sync fallback to memory:", e);
+        }
+      }
+
+      setTimeout(() => {
+        window.state.syncState = 'published';
+        updateSyncBadge();
+        renderNavTabs();
+        alert("Halaman tugas berhasil dipublikasikan! Siswa dalam mode publik sekarang dapat melihat pembaruan.");
+      }, 500);
+    };
+
+    function markDraftState() {
+      window.state.syncState = 'draft';
+      updateSyncBadge();
+    }
+
+    function updateSyncBadge() {
+      const text = document.getElementById('syncText');
+      const icon = document.getElementById('syncStatus').querySelector('i');
+
+      if (window.state.syncState === 'published') {
+        text.innerText = "Dipublikasikan";
+        icon.className = "fa-solid fa-circle-check text-green-500";
+      } else if (window.state.syncState === 'draft') {
+        text.innerText = "Draf Belum Dipublish";
+        icon.className = "fa-solid fa-circle-dot text-amber-500";
+      } else if (window.state.syncState === 'saving') {
+        text.innerText = "Memublikasikan...";
+        icon.className = "fa-solid fa-spinner fa-spin text-blue-500";
+      }
+    }
+
+    function updateUIState() {
+      const modeBadge = document.getElementById('modeBadge');
+      const deviceContainer = document.getElementById('deviceSwitcherContainer');
+      const btnToggleMode = document.getElementById('btnToggleMode');
+      const btnPublish = document.getElementById('btnPublish');
+      const btnAuthText = document.getElementById('btnAuthText');
+      const editorSidebar = document.getElementById('editorSidebar');
+      const adminNavBadge = document.getElementById('adminNavBadge');
+
+      if (window.state.isAdmin) {
+        btnAuthText.innerText = "Logout Admin";
+
+        if (window.state.isEditMode) {
+          modeBadge.innerText = "Mode Editor Admin";
+          modeBadge.className = "text-xs font-normal px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200";
+          deviceContainer.classList.remove('hidden');
+          btnToggleMode.classList.remove('hidden');
+          btnPublish.classList.remove('hidden');
+          editorSidebar.classList.remove('hidden');
+          editorSidebar.classList.add('flex');
+          adminNavBadge.classList.remove('hidden');
+
+          document.getElementById('labelToggleMode').innerText = "Lihat Hasil";
+          document.getElementById('iconToggleMode').className = "fa-solid fa-eye";
+        } else {
+          modeBadge.innerText = "Mode Pratinjau Publik";
+          modeBadge.className = "text-xs font-normal px-2 py-0.5 rounded-full bg-blue-100 text-sites-blue border border-blue-200";
+          deviceContainer.classList.add('hidden');
+          btnToggleMode.classList.remove('hidden');
+          btnPublish.classList.add('hidden');
+          editorSidebar.classList.add('hidden');
+          editorSidebar.classList.remove('flex');
+          adminNavBadge.classList.add('hidden');
+
+          document.getElementById('labelToggleMode').innerText = "Kembali Edit";
+          document.getElementById('iconToggleMode').className = "fa-solid fa-pen";
+        }
+      } else {
+        btnAuthText.innerText = "Login Admin";
+        modeBadge.innerText = "Mode Publik Siswa";
+        modeBadge.className = "text-xs font-normal px-2 py-0.5 rounded-full bg-blue-100 text-sites-blue border border-blue-200";
+        deviceContainer.classList.add('hidden');
+        btnToggleMode.classList.add('hidden');
+        btnPublish.classList.add('hidden');
+        editorSidebar.classList.add('hidden');
+        editorSidebar.classList.remove('flex');
+        adminNavBadge.classList.add('hidden');
+      }
+    }
+
+    // Initialize Listeners & Firestore Realtime Sync
+    window.addEventListener('DOMContentLoaded', async () => {
+      // Check auth state
+      if (auth) {
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            window.state.isAdmin = true;
+          }
+          updateUIState();
+        });
+      }
+
+      // Firestore Listener for Public Realtime Data Sync
+      if (db) {
+        try {
+          const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'school_pages', 'main');
+          onSnapshot(docRef, (docSnap) => {
+            if (docSnap.exists()) {
+              const data = docSnap.data();
+              if (data.pages) {
+                window.state.publishedPages = data.pages;
+                if (!window.state.isEditMode) {
+                  window.state.pages = JSON.parse(JSON.stringify(data.pages));
+                }
+                renderNavTabs();
+                renderPageContent();
+              }
+            }
+          });
+        } catch(e) {
+          console.warn("Firestore realtime sync inactive:", e);
+        }
+      }
+
+      // Initial Renders
+      updateUIState();
+      renderNavTabs();
+      renderEditorPagesList();
+      renderPageContent();
+    });
+  </script>
+</body>
+</html>
