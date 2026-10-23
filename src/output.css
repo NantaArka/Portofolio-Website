@@ -69,7 +69,6 @@
     --container-2xl: 42rem;
     --container-3xl: 48rem;
     --container-4xl: 56rem;
-    --container-5xl: 64rem;
     --container-6xl: 72rem;
     --container-7xl: 80rem;
     --text-xs: 0.75rem;
@@ -1195,12 +1194,6 @@
   .bg-neutral-200 {
     background-color: var(--color-neutral-200);
   }
-  .bg-neutral-200\/50 {
-    background-color: color-mix(in srgb, oklch(92.2% 0 none) 50%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-neutral-200) 50%, transparent);
-    }
-  }
   .bg-neutral-400 {
     background-color: var(--color-neutral-400);
   }
@@ -1455,9 +1448,6 @@
   }
   .pl-14 {
     padding-left: calc(var(--spacing) * 14);
-  }
-  .pl-16 {
-    padding-left: calc(var(--spacing) * 16);
   }
   .text-center {
     text-align: center;
@@ -2409,9 +2399,6 @@
   }
   .dark\:bg-\[\#141414\]:where(.dark, .dark *) {
     background-color: #141414;
-  }
-  .dark\:bg-\[\#222222\]:where(.dark, .dark *) {
-    background-color: #222222;
   }
   .dark\:bg-\[\#FAFAFA\]:where(.dark, .dark *) {
     background-color: #FAFAFA;

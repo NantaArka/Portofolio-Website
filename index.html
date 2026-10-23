@@ -367,7 +367,7 @@
             <svg class="w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
           </summary>
           
-          <!-- Isi Submenu KELAS X (Semua mapel kamu dimasukkan ke sini) -->
+          <!-- Isi Submenu KELAS X (Semua mapel) -->
           <!-- Container Utama Submenu KELAS X -->
           <div class="flex flex-col bg-neutral-50 dark:bg-[#141414] pb-2 text-sm font-medium">
 
@@ -435,10 +435,26 @@
           </div>
         </details>
 
-        <!-- Menu Biasa (Tanpa Dropdown & Placeholder) -->
-        <a href="#prestasi" class="hidden px-6 py-3 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm font-bold uppercase tracking-wider">
-          Contoh Menu Biasa
-        </a>
+        <!-- Dropdown PENCAPAIAN (Menggunakan tag details & summary) -->
+        <details class="group">
+          <!-- Header Dropdown -->
+          <summary class="flex items-center justify-between px-6 py-3 cursor-pointer text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm font-bold uppercase tracking-wider">
+            <span>PENCAPAIAN</span>
+            <!-- Ikon Panah (Otomatis berputar 180 derajat saat dropdown terbuka karena class 'group-open:rotate-180') -->
+            <svg class="w-4 h-4 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </summary>
+          
+          <!-- Isi Submenu PENCAPAIAN (Projects & Achievements) -->
+          <!-- Container Utama Submenu PENCAPAIAN -->
+          <div class="flex flex-col bg-neutral-50 dark:bg-[#141414] pb-2 text-sm font-medium">
+
+            <!-- Prestasi -->
+            <a href="https://sites.google.com/view/atha-portfolio-website/pencapaian/prestasi" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">PRESTASI</a>
+            <!-- Proyek -->
+            <a href="https://sites.google.com/view/atha-portfolio-website/pencapaian/proyek" class="block pl-10 pr-6 py-2.5 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors">PROYEK</a>
+
+          </div>
+        </details>
       </nav>
     </div>
   </header>
